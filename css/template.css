@@ -38,9 +38,6 @@ hr {
 	margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
-	
-    min-height: 600px; 
-	height: auto !important;
 }
 
 #interpreter {
@@ -66,30 +63,10 @@ hr {
 
 #crontab {
     width: 100%;
-	min-height: 3em;
+	min-height: 7em;
 	resize: vertical;
 	font-family: "Courier New";
-}
-
-table {
-	border: 1px solid #000000;
-    background-color: #C0C0C0;
-	border-collapse:collapse;
-	width: 100%;
-}
-
-th {
-	border: 1px solid #000000;
-	background-color: #A0A0A0;
-}
-
-td {
-	border: 1px solid #000000;
-}
-
-select {
-	margin-left: 0px;
-	margin-right: 0px;
+	font-size: 18pt;
 }
 
 #footer {
