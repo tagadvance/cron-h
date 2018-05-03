@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>cron -h</title>
+    
+    <meta name="description" content="Human Readable Cron Enterpreter" />
+    <meta name="keywords" content="cron, crontab, anacron, dcron, fcron, human readable" />
+ 
+    <link rel="stylesheet" type="text/css" href="css/template.css" />
+    
+    <script language="javascript" type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery.caret.1.02.min.js"></script>
+    <!-- <script language="javascript" type="text/javascript" src="js/later.min.js"></script> -->
+    <!-- <script language="javascript" type="text/javascript" src="js/moment.min.js"></script> -->
+    <!-- <script language="javascript" type="text/javascript" src="js/prettycron.js"></script> -->
+    <script language="javascript" type="text/javascript">
+	$(document).ready(function(){
+		// prepare cp
+		function prepareMHD(name, start, end) {
+			for (var i = start; i <= end; i++) {
+				$(name).append('<option value="' + i + '">' + i + '</option>');
+			}
+		}
+		function initOptions() {
+			prepareMHD('select[name=minutes_i]', 0, 11);
+			prepareMHD('select[name=minutes_ii]', 12, 23);
+			prepareMHD('select[name=minutes_iii]', 24, 35);
+			prepareMHD('select[name=minutes_iv]', 36, 47);
+			prepareMHD('select[name=minutes_v]', 48, 59);
+			
+			prepareMHD('select[name=hours_i]', 0, 11);
+			prepareMHD('select[name=hours_ii]', 12, 23);
+			
+			prepareMHD('select[name=days_i]', 1, 12);
+			prepareMHD('select[name=days_ii]', 13, 24);
+			prepareMHD('select[name=days_iii]', 25, 31);
+			
+			var monthNames = [ "January", "February", "March", "April", "May", "June",
+			"July", "August", "September", "October", "November", "December" ];
+			for (var i in monthNames) {
+				var monthName = monthNames[i];
+				$('select[name=months]').append('<option value="' + (i + 1) + '">' + monthName + '</option>');
+			}
+			
+			var dayNames = ['Sunday','Monday','Tuesday','Wednesday',
+			'Thursday','Friday','Saturday'];
+			for (var i in dayNames) {
+				var dayName = dayNames[i];
+				$('select[name=weekdays]').append('<option value="' + i + '">' + dayName + '</option>');
+			}
+		}
+		initOptions();
+		
+		function prepareAllSelect(input, checked, selects) {
+			$(input).change(function() {
+				if ($(checked).val() == '*') {
+					$(selects).attr('disabled', 'disabled');
+				} else {
+					$(selects).removeAttr('disabled');
+				}
+			});
+		}
+		prepareAllSelect('input[name=minute]', 'input[name=minute]:checked', 'select[name^=minutes]');
+		prepareAllSelect('input[name=hour]', 'input[name=hour]:checked', 'select[name^=hours]');
+		prepareAllSelect('input[name=day]', 'input[name=day]:checked', 'select[name^=days]');
+		prepareAllSelect('input[name=month]', 'input[name=month]:checked', 'select[name^=months]');
+		prepareAllSelect('input[name=weekday]', 'input[name=weekday]:checked', 'select[name^=weekdays]');
+		
+		// intitialize All
+		var all = ['input[name=minute]', 'input[name=hour]', 'input[name=day]', 'input[name=month]', 'input[name=weekday]'];
+		for (var i in all) {
+			$(all[i])[0].checked = true;
+			$(all[i]).change();
+		}
+		
+		// TODO: parse selected row on keyup -> update model -> update cp
+		// TODO: on cp change -> update model -> uptable crontab
+		// TODO: display parse error on invalid row
+		
+		function getRowIndex(text, caret) {
+			var lineIndex = 0;
+			var lines = text.split(/\r\n|\r|\n/);
+			for (var i in lines) {
+				var line = lines[i];
+				// caret is on current line
+				if (caret <= line.length) {
+					return lineIndex;
+				}
+				caret -= line.length + 1;
+				lineIndex++;
+			}
+			return -1;
+		}
+		function getSelectedRow(text, caret) {
+			var row = getRowIndex(text, caret);
+			var lines = text.split(/\r\n|\r|\n/);
+			return row == -1 ? false : lines[row];
+		}
+		
+		function clearOptions(name) {
+			$(name).find('option').each(function(index) {
+				$(this).removeAttr('selected');
+			});
+		}
+		
+		function removeOptions(name) {
+			$(name).find('option').remove();
+		}
+		
+		function selectOption(name, value) {
+			$(name).find('option').each(function(index) {
+				if (value == $(this).val()) {
+					$(this).attr('selected', true);
+				}
+			});
+		}
+		
+		function resetCP() {
+			var selects = ['select[name=minutes_i]', 'select[name=minutes_ii]', 'select[name=minutes_iii]', 'select[name=minutes_iv]', 'select[name=minutes_v]',
+					'select[name=hours_i]', 'select[name=hours_ii]',
+					'select[name=days_i]', 'select[name=days_ii]', 'select[name=days_iii]',
+					'select[name=months]', 
+					'select[name=weekdays]'];
+			for (var i in selects) {
+				// encountered a weird bug where some selects weren't clearing
+				// to confirm enter 15 in minute field and the 1 stays highlighted
+				// clearOptions(selects[i]); 
+				removeOptions(selects[i]);
+			}
+			initOptions(); // stupid bug! -_-
+		}
+		
+		function updateCP(minute, hour, day, month, weekday) {
+			resetCP();
+			
+			function selectRadio(units, name) {
+				if (units.length == 1 && units[0] == '*') {
+					$(name)[0].checked = true;
+				} else {
+					$(name)[1].checked = true;
+				}
+				$(name).change();
+			}
+			
+			var units = minute.split(/,/);
+			selectRadio(units, 'input[name=minute]');
+			for (var i = 0; i < units.length; i++) {
+				var unit = units[i];
+				selectOption('select[name=minutes_i]', unit);
+				selectOption('select[name=minutes_ii]', unit);
+				selectOption('select[name=minutes_iii]', unit);
+				selectOption('select[name=minutes_iv]', unit);
+				selectOption('select[name=minutes_v]', unit);
+			}
+			
+			var units = hour.split(/,/);
+			selectRadio(units, 'input[name=hour]');
+			for (var i = 0; i < units.length; i++) {
+				var unit = units[i];
+				selectOption('select[name=hours_i]', unit);
+				selectOption('select[name=hours_ii]', unit);
+			}
+			
+			var units = day.split(/,/);
+			selectRadio(units, 'input[name=day]');
+			for (var i = 0; i < units.length; i++) {
+				var unit = units[i];
+				selectOption('select[name=days_i]', unit);
+				selectOption('select[name=days_ii]', unit);
+				selectOption('select[name=days_iii]', unit);
+			}
+			
+			var units = month.split(/,/);
+			selectRadio(units, 'input[name=month]');
+			for (var i = 0; i < units.length; i++) {
+				var unit = units[i];
+				$('select[name=months]').find('option').each(function(index) {
+					if (unit == index + 1) {
+						$(this).attr('selected', true);
+					}
+				});
+			}
+			
+			var units = weekday.split(/,/);
+			selectRadio(units, 'input[name=weekday]');
+			for (var i = 0; i < units.length; i++) {
+				var unit = units[i];
+				selectOption('select[name=weekdays]', unit);
+			}
+		}
+		
+		var onUpdate = function() {
+		    var text = $(this).val();
+		    var range = $(this).caret();
+			var caret = range.start;
+			var row = getSelectedRow(text, caret);
+			
+			var matches = row.match(/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/);
+			if (matches) {
+//				var cron = matches[0];
+//				var s1 = cronParser().parse(cron, false);
+//				
+//				var beauty = getPrettyCron(s1['schedules'][0]);
+//				$('#human-readable').text(beauty);
+//				
+//				var next = moment(later(60,true).getNext(s1)).calendar();
+//				$('#next').text('Next run is ' + next);
+
+                                $.get("cron.php", { 'cron': row, 'format': "F d, Y h:i A" },
+                                function(data){
+                                    $('#human-readable').text(data['human_readable']);
+                                    $('#next').text('Next Run Date: ' + data['next_run_date']);
+                                });
+				
+				updateCP(matches[1], matches[2], matches[3], matches[4], matches[5]);
+			} else {
+				$('#human-readable').text('parse error');
+				$('#next').text('Next run at ???');
+			}
+			
+		};
+        $('#crontab').mouseup(onUpdate).keyup(onUpdate);
+    });
+	</script>
+	<script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-35007682-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+</head>
+<body>
+<body>
+    <div id="container">
+    <div id="content">
+        <h1>cron -h</h1>
+        <h3>The human readable cron interpreter.</h3>
+        <hr>
+        <div id="interpreter">
+			<h5>Instructions:</h5>
+			<ol id="instructions">
+				<li>Copy and paste the contents on your cron file into the textarea below.</li>
+				<li>Move the cursor to the line you wish to edit.</li>
+			</ol>
+			<div id="human-readable">Once per minute...</div>
+			<div id="next">Next run is ???</div>
+            <form name="mrof" method="post">
+                <textarea name="crontab" id="crontab">* * * * *</textarea>
+				<br />
+            </form>
+            <pre id="reference">
+|||||
+||||+-------- day of week (0 - 7) (Sunday=0 or 7)  OR sun,mon,tue,wed,thu,fri,sat
+|||+---------- month (1 - 12)
+||+------------ day of month (1 - 31)
+|+-------------- hour (0 - 23)
++---------------- minute (0 - 59)</pre>
+			<table id="when">
+				<tr>
+					<th>Minutes</th>
+					<th>Hours</th>
+					<th>Days</th>
+					<th>Months</th>
+					<th>Weekdays</th>
+				</tr>
+				<tr>
+					<!-- Minutes -->
+					<td>
+						<input type="radio" name="minute" value="*">All<br/>
+						<input type="radio" name="minute" value="0">Select:<br/>
+						<select name="minutes_i" multiple="multiple" size="12">
+							<!-- (0-11) -->
+						</select>
+						<select name="minutes_ii" multiple="multiple" size="12">
+							<!-- (12-23) -->
+						</select>
+						<select name="minutes_iii" multiple="multiple" size="12">
+							<!-- (24-35) -->
+						</select>
+						<select name="minutes_iv" multiple="multiple" size="12">
+							<!-- (36-47) -->
+						</select>
+						<select name="minutes_v" multiple="multiple" size="12">
+							<!-- (48-59) -->
+						</select>
+					</td>
+					<!-- Hours -->
+					<td>
+						<input type="radio" name="hour" value="*">All<br/>
+						<input type="radio" name="hour" value="0">Select:<br/>
+						<select name="hours_i" multiple="multiple" size="12">
+							<!-- (0-11) -->
+						</select>
+						<select name="hours_ii" multiple="multiple" size="12">
+							<!-- (12-23) -->
+						</select>
+					</td>
+					<!-- Days -->
+					<td>
+						<input type="radio" name="day" value="*">All<br/>
+						<input type="radio" name="day" value="0">Select:<br/>
+						<select name="days_i" multiple="multiple" size="12">
+							<!-- (1-12) -->
+						</select>
+						<select name="days_ii" multiple="multiple" size="12">
+							<!-- (13-24) -->
+						</select>
+						<select name="days_iii" multiple="multiple" size="12">
+							<!-- (25-31) -->
+						</select>
+					</td>
+					<!-- Months -->
+					<td>
+						<input type="radio" name="month" value="*">All<br/>
+						<input type="radio" name="month" value="0">Select:<br/>
+						<select name="months" multiple="multiple" size="12">
+							<!-- (1-12) -->
+						</select>
+					</td>
+					<!-- Weekdays -->
+					<td>
+						<input type="radio" name="weekday" value="*">All<br/>
+						<input type="radio" name="weekday" value="0">Select:<br/>
+						<select name="weekdays" multiple="multiple" size="12">
+							<!-- (0-6) -->
+						</select>
+					</td>
+				</tr>
+			</table>
+                        <i>The control panel table doesn't do anything, yet.</i>
+        </div>
+    </div>
+    <div id="footer">
+        Copyright &copy; 2012 Tag Spilman
+    </div>
+</div>
+</body>
+</html>

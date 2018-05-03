@@ -1,0 +1,99 @@
+body {
+    background-color: #777777;
+	font-family: "Courier New";
+}
+
+h1 {
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+}
+
+h5 {
+	margin-bottom: 0px;
+}
+
+hr {
+    width: 75%;
+}
+
+#instructions {
+    margin-left: 2em;
+}
+
+#container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#content {
+    background-color: #FFFFFF;
+	border: 1px dotted #000000;
+	padding: 2px;
+    max-width: 800px;
+	margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+	
+    min-height: 600px; 
+	height: auto !important;
+}
+
+#interpreter {
+    border-width: 0px;
+    width: 94%;
+	margin-left: auto;
+    margin-right: auto;
+	margin-bottom: 1em;
+}
+
+#human-readable {
+    color: #FF0000;
+	font-family: "Comic Sans MS";
+	font-weight: bold;
+	font-size: 14px;
+}
+
+#reference {
+    margin-top: 0px;
+	padding-left: 4px;
+    width: 100%;
+}
+
+#crontab {
+    width: 100%;
+	min-height: 3em;
+	resize: vertical;
+	font-family: "Courier New";
+}
+
+table {
+	border: 1px solid #000000;
+    background-color: #C0C0C0;
+	border-collapse:collapse;
+	width: 100%;
+}
+
+th {
+	border: 1px solid #000000;
+	background-color: #A0A0A0;
+}
+
+td {
+	border: 1px solid #000000;
+}
+
+select {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+#footer {
+	text-align: center;
+	font-size: 11px;
+	color: #FFFFFF;
+}
