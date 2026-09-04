@@ -1,9 +1,11 @@
-import cronstrue from '../vendor/cronstrue.js';
 import en from './locales/en.js';
+import es from './locales/es.js';
+import zh from './locales/zh.js';
 import { createFormat } from './format.js';
+import { translate } from './fallback.js';
 import { recognize } from './patterns.js';
 
-const LOCALES = { en };
+const LOCALES = { en, es, zh };
 const DEFAULT_LOCALE = 'en';
 
 const formats = new Map();
@@ -35,8 +37,9 @@ export function render(descriptor, tag = DEFAULT_LOCALE) {
 
 /**
  * Describes an expression in the requested language. Anything the recognizers
- * do not claim falls back to cronstrue, which always has an answer; the
- * fallback is English only until more patterns are recognized.
+ * do not claim falls back to cronstrue, which always has an answer. Until
+ * loadTranslations() has resolved that answer is in English whatever the
+ * requested language.
  *
  * Throws if the expression cannot be parsed at all.
  */
@@ -48,7 +51,16 @@ export function describe(expression, { locale = DEFAULT_LOCALE } = {}) {
 			return described;
 		}
 	}
-	return cronstrue.toString(expression, { verbose: false, throwExceptionOnParseError: true });
+	return translate(expression, resolve(locale).locale.fallback);
 }
+
+/** The page's own strings in the requested language, and the formatter to build them with. */
+export function chrome(tag = DEFAULT_LOCALE) {
+	const { locale, tag: resolved } = resolve(tag);
+	return { ui: locale.ui, format: formatFor(resolved) };
+}
+
+/** The languages the describer speaks, for a picker. */
+export const locales = () => Object.values(LOCALES).map(({ code, name }) => ({ code, name }));
 
 export { recognize };

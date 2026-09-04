@@ -1,9 +1,9 @@
 import { interpretCrontab } from './crontab.js';
+import { chrome, locales } from './describe/index.js';
+import { hasTranslations, loadTranslations } from './describe/fallback.js';
 
 const RUN_COUNT = 5;
-const LOCALE = navigator.language;
-
-const timestamp = new Intl.DateTimeFormat(undefined, { dateStyle: 'full', timeStyle: 'short' });
+const STORED_LOCALE = 'cron-h.locale';
 
 function element(tag, className, text) {
 	const node = document.createElement(tag);
@@ -16,17 +16,17 @@ function element(tag, className, text) {
 	return node;
 }
 
-function runsText(runs) {
+function runsText(runs, ui) {
 	if (runs === null) {
-		return 'Runs at system startup, so there is no next run to calculate.';
+		return ui.atStartup;
 	}
 	if (runs.length === 0) {
-		return 'Never runs. No date satisfies this expression.';
+		return ui.never;
 	}
 	return null;
 }
 
-function renderEntry(entry) {
+function renderEntry(entry, { ui, format }, timestamp) {
 	const item = element('li', 'entry');
 	item.appendChild(element('code', 'expression', entry.expression));
 	item.appendChild(element('p', 'description', entry.description));
@@ -34,13 +34,13 @@ function renderEntry(entry) {
 		item.appendChild(element('p', 'command', entry.command));
 	}
 
-	const note = runsText(entry.runs);
+	const note = runsText(entry.runs, ui);
 	if (note) {
 		item.appendChild(element('p', 'note', note));
 		return item;
 	}
 
-	item.appendChild(element('h6', null, `Next ${entry.runs.length} runs`));
+	item.appendChild(element('h6', null, ui.nextRuns(entry.runs.length, format)));
 	const list = element('ol', 'runs');
 	for (const run of entry.runs) {
 		list.appendChild(element('li', null, timestamp.format(run)));
@@ -56,21 +56,95 @@ function renderError(entry) {
 	return item;
 }
 
-function render(text, target) {
-	const entries = interpretCrontab(text, { count: RUN_COUNT, locale: LOCALE })
+function render(text, target, locale) {
+	const strings = chrome(locale);
+	const timestamp = new Intl.DateTimeFormat(locale, { dateStyle: 'full', timeStyle: 'short' });
+	const entries = interpretCrontab(text, { count: RUN_COUNT, locale })
 		.filter((entry) => entry.kind === 'entry' || entry.kind === 'error');
 
 	target.replaceChildren();
 	if (entries.length === 0) {
-		target.appendChild(element('li', 'entry note', 'Paste a crontab above to see what it does.'));
+		target.appendChild(element('li', 'entry note', strings.ui.empty));
 		return;
 	}
 	for (const entry of entries) {
-		target.appendChild(entry.kind === 'error' ? renderError(entry) : renderEntry(entry));
+		target.appendChild(entry.kind === 'error' ? renderError(entry) : renderEntry(entry, strings, timestamp));
+	}
+}
+
+// The page's own wording is translated from the same locale modules as the
+// schedules, so a Chinese reader does not get Chinese descriptions wrapped in
+// English furniture.
+const CHROME = {
+	tagline: 'tagline',
+	'instructions-heading': 'instructions',
+	step1: 'step1',
+	step2: 'step2',
+	'language-label': 'language',
+	disclaimer: 'privacy',
+	source: 'source'
+};
+
+function renderChrome(locale) {
+	const { ui } = chrome(locale);
+	for (const [id, key] of Object.entries(CHROME)) {
+		document.getElementById(id).textContent = ui[key];
 	}
 }
 
 const crontab = document.getElementById('crontab');
 const results = document.getElementById('results');
-crontab.addEventListener('input', () => render(crontab.value, results));
-render(crontab.value, results);
+const language = document.getElementById('language');
+
+const spoken = new Set(locales().map(({ code }) => code));
+const base = (tag) => String(tag ?? '').toLowerCase().split('-')[0];
+const supported = (tag) => spoken.has(base(tag));
+
+// A remembered choice wins over the browser's, and browser storage is not
+// always readable.
+function remembered() {
+	try {
+		return localStorage.getItem(STORED_LOCALE);
+	} catch {
+		return null;
+	}
+}
+
+function remember(locale) {
+	try {
+		localStorage.setItem(STORED_LOCALE, locale);
+	} catch {
+		// A reader who blocks storage picks their language again next visit.
+	}
+}
+
+let locale = base([remembered(), ...navigator.languages, navigator.language].find(supported) ?? 'en');
+
+for (const { code, name } of locales()) {
+	const option = element('option', null, name);
+	option.value = code;
+	language.appendChild(option);
+}
+language.value = locale;
+
+function update() {
+	document.documentElement.lang = locale;
+	renderChrome(locale);
+	render(crontab.value, results, locale);
+
+	// Schedules no recognizer claims are described by a translation bundle an
+	// order of magnitude larger than the rest of the page, so it is fetched
+	// only once somebody reads in another language, and the page redrawn when
+	// it lands.
+	if (locale !== 'en' && !hasTranslations()) {
+		loadTranslations().then(() => render(crontab.value, results, locale));
+	}
+}
+
+crontab.addEventListener('input', update);
+language.addEventListener('change', () => {
+	locale = language.value;
+	remember(locale);
+	update();
+});
+update();

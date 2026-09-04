@@ -35,6 +35,21 @@ const past = (minute, f) => `:${String(minute).padStart(2, '0')}`;
 
 export default {
 	code: 'en',
+	name: 'English',
+	fallback: 'en',
+	ui: {
+		tagline: 'The human readable cron interpreter.',
+		instructions: 'Instructions:',
+		step1: 'Copy and paste the contents of your cron file into the textarea below.',
+		step2: 'Every schedule it finds is explained underneath, along with its next few run times.',
+		empty: 'Paste a crontab above to see what it does.',
+		language: 'Language',
+		nextRuns: (count, f) => `Next ${f.number(count)} runs`,
+		atStartup: 'Runs at system startup, so there is no next run to calculate.',
+		never: 'Never runs. No date satisfies this expression.',
+		privacy: 'Run times are calculated in your browser, in your local time zone. Your crontab is never uploaded anywhere.',
+		source: 'Source on GitHub'
+	},
 	messages: {
 		reboot: () => 'Once at system startup',
 

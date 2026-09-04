@@ -15,13 +15,17 @@
 <div id="container">
 	<div id="content">
 		<h1>cron -h</h1>
-		<h3>The human readable cron interpreter.</h3>
+		<h3 id="tagline">The human readable cron interpreter.</h3>
 		<hr>
 		<div id="interpreter">
-			<h5>Instructions:</h5>
+			<div id="toolbar">
+				<label id="language-label" for="language">Language</label>
+				<select id="language"></select>
+			</div>
+			<h5 id="instructions-heading">Instructions:</h5>
 			<ol id="instructions">
-				<li>Copy and paste the contents of your cron file into the textarea below.</li>
-				<li>Every schedule it finds is explained underneath, along with its next few run times.</li>
+				<li id="step1">Copy and paste the contents of your cron file into the textarea below.</li>
+				<li id="step2">Every schedule it finds is explained underneath, along with its next few run times.</li>
 			</ol>
 			<label class="visually-hidden" for="crontab">crontab</label>
 			<textarea name="crontab" id="crontab" spellcheck="false"># m h dom mon dow  command
@@ -30,12 +34,11 @@
 @daily            /usr/local/bin/rotate-logs
 @reboot           /usr/local/bin/warm-cache</textarea>
 			<ul id="results"></ul>
-			<p id="disclaimer">Run times are calculated in your browser, in your local time zone. Your crontab is
-				never uploaded anywhere.</p>
+			<p id="disclaimer">Run times are calculated in your browser, in your local time zone.</p>
 		</div>
 	</div>
 	<div id="footer">
-		<a href="https://github.com/tagadvance/cron-h">Source on GitHub</a>
+		<a id="source" href="https://github.com/tagadvance/cron-h">Source on GitHub</a>
 		&middot;
 		Copyright &copy; 2026 Tag Spilman
 	</div>

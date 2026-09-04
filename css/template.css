@@ -24,6 +24,17 @@ hr {
 	clip: rect(0, 0, 0, 0);
 }
 
+#toolbar {
+	text-align: right;
+	font-size: 11pt;
+	margin-bottom: 0.5em;
+}
+
+#toolbar select {
+	font-family: inherit;
+	font-size: 11pt;
+}
+
 #instructions {
 	margin-left: 2em;
 	padding-left: 0;
