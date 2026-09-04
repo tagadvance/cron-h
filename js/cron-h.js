@@ -87,7 +87,8 @@ const CHROME = {
 	'language-label': 'language',
 	disclaimer: 'privacy',
 	examples: 'examples',
-	source: 'source'
+	source: 'source',
+	sponsor: 'sponsor'
 };
 
 const description = document.querySelector('meta[name="description"]');

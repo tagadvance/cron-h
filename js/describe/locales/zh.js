@@ -43,6 +43,7 @@ export default {
 		columnExpression: '表达式',
 		columnMeaning: '含义',
 		backToTool: '打开解释器',
+		sponsor: '赞助',
 		source: '在 GitHub 上查看源代码'
 	},
 	messages: {

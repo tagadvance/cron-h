@@ -57,6 +57,7 @@ export default {
 		columnExpression: 'Expressão',
 		columnMeaning: 'Significa',
 		backToTool: 'Abrir o interpretador',
+		sponsor: 'Apoiar',
 		source: 'Código-fonte no GitHub'
 	},
 	messages: {

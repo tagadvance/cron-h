@@ -59,6 +59,7 @@ export default {
 		columnExpression: 'Выражение',
 		columnMeaning: 'Значение',
 		backToTool: 'Открыть интерпретатор',
+		sponsor: 'Поддержать',
 		source: 'Исходный код на GitHub'
 	},
 	messages: {

@@ -44,6 +44,7 @@ export default {
 		columnExpression: '式',
 		columnMeaning: '意味',
 		backToTool: 'インタプリタを開く',
+		sponsor: 'スポンサー',
 		source: 'GitHub のソースコード'
 	},
 	messages: {

@@ -46,6 +46,7 @@ export default {
 		columnExpression: 'Expression',
 		columnMeaning: 'Signifie',
 		backToTool: 'Ouvrir l’interpréteur',
+		sponsor: 'Soutenir',
 		source: 'Code source sur GitHub'
 	},
 	messages: {

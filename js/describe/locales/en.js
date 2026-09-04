@@ -63,6 +63,7 @@ export default {
 		columnExpression: 'Expression',
 		columnMeaning: 'Means',
 		backToTool: 'Open the interpreter',
+		sponsor: 'Sponsor',
 		source: 'Source on GitHub'
 	},
 	messages: {

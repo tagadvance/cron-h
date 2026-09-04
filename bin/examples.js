@@ -15,6 +15,8 @@ import { loadTranslations } from '../js/describe/fallback.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ORIGIN = 'https://cron-h.com';
+// Also hard-coded in index.html, which is static and cannot import it.
+const SPONSOR = 'https://github.com/sponsors/tagadvance';
 
 // Ordered roughly as somebody would search for them: the shortest intervals
 // first, then the times of day, then the calendar, then the awkward ones.
@@ -141,6 +143,8 @@ ${EXAMPLES.map((expression) => row(expression, code)).join('\n')}
 	</div>
 	<div id="footer">
 		<a href="https://github.com/tagadvance/cron-h">${escape(ui.source)}</a>
+		&middot;
+		<a href="${SPONSOR}">${escape(ui.sponsor)}</a>
 		&middot;
 		Copyright &copy; 2026 Tag Spilman
 	</div>
