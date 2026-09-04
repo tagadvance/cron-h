@@ -1,11 +1,15 @@
 import en from './locales/en.js';
 import es from './locales/es.js';
+import fr from './locales/fr.js';
+import ja from './locales/ja.js';
+import pt from './locales/pt.js';
+import ru from './locales/ru.js';
 import zh from './locales/zh.js';
 import { createFormat } from './format.js';
 import { translate } from './fallback.js';
 import { recognize } from './patterns.js';
 
-const LOCALES = { en, es, zh };
+const LOCALES = { en, es, fr, ja, pt, ru, zh };
 const DEFAULT_LOCALE = 'en';
 
 const formats = new Map();
