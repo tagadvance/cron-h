@@ -23,6 +23,15 @@ function group(days) {
 
 // "all day Sunday" for schedules that repeat throughout the day, "Every Sunday"
 // for ones that fire at a point in time.
+// A windowed schedule is not an all-day one, so it takes the plain clause.
+function on(days, f) {
+	if (!days) {
+		return '';
+	}
+	const named = group(days);
+	return `, on ${named ? named.many : f.weekdays(days)}`;
+}
+
 function allDay(days, f) {
 	if (!days) {
 		return '';
@@ -81,8 +90,11 @@ export default {
 			return `Every ${f.number(step)} ${f.plural(step, HOURS)}${from}${allDay(days, f)}`;
 		},
 
+		hourRange: ({ first, last, days }, f) =>
+			`Every hour from ${f.time(first)} to ${f.time(last)}${on(days, f)}`,
+
 		unevenHourInterval: ({ step, first, last, days }, f) =>
-			`Every ${f.number(step)} ${f.plural(step, HOURS)} from ${f.time(first)} to ${f.time(last)} each day, then again the next day${allDay(days, f)}`,
+			`Every ${f.number(step)} ${f.plural(step, HOURS)} from ${f.time(first)} to ${f.time(last)} each day, then again the next day${on(days, f)}`,
 
 		atTime: ({ time, days }, f) => {
 			if (!days) {

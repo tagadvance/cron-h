@@ -23,16 +23,17 @@ const gaps = (dates) => dates.slice(1).map((date, index) => date.getTime() - dat
 // A rhythm claim is scoped by whatever day clause the wording carries: "every
 // 15 minutes, all day Sunday" promises nothing about the six days in between,
 // so gaps are only ever measured within a single day.
-function segment(dates, descriptor) {
-	if (!descriptor.days) {
-		return [dates];
-	}
-	const byDay = new Map();
+function byDay(dates) {
+	const days = new Map();
 	for (const date of dates) {
 		const day = date.toISOString().slice(0, 10);
-		byDay.set(day, [...(byDay.get(day) ?? []), date]);
+		days.set(day, [...(days.get(day) ?? []), date]);
 	}
-	return [...byDay.values()];
+	return [...days.values()];
+}
+
+function segment(dates, descriptor) {
+	return descriptor.days ? byDay(dates) : [dates];
 }
 
 function assertEveryGap(segments, expected, message) {
@@ -88,6 +89,16 @@ const CLAIMS = {
 		}
 	},
 
+	// A window closes overnight whether or not any day clause is present, so
+	// this one always measures within a day.
+	hourRange: (dates, { first, last }) => {
+		assertEveryGap(byDay(dates), HOUR, 'hourly inside the window');
+		for (const date of dates) {
+			assert.ok(date.getUTCHours() >= first.hour && date.getUTCHours() <= last.hour);
+			assert.equal(date.getUTCMinutes(), first.minute);
+		}
+	},
+
 	unevenHourInterval: (dates, { step, first, last }, segments) => {
 		assertSomeGap(segments, step * HOUR, 'not actually an even interval');
 		for (const date of dates) {
@@ -121,6 +132,8 @@ const CORPUS = [
 	'30 */4 * * *',
 	'0 */5 * * *',
 	'0 */7 * * *',
+	'0 9-17 * * *',
+	'30 9-17 * * MON-FRI',
 	'0 3 * * *',
 	'0 3 * * 0',
 	'0 9 * * MON-FRI',

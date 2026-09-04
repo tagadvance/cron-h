@@ -24,6 +24,7 @@ const IDS = [
 	'minuteIntervalInHours',
 	'hourly',
 	'hourInterval',
+	'hourRange',
 	'unevenHourInterval',
 	'atTime'
 ];
@@ -36,6 +37,7 @@ const SAMPLES = [
 	'*/15 */2 * * *',
 	'30 * * * *',
 	'0 */2 * * *',
+	'0 9-17 * * *',
 	'0 */5 * * *',
 	'0 3 * * 0',
 	'*/15 * * * SUN',

@@ -18,6 +18,8 @@ function when(days, f) {
 	return f.weekdays(days, 'short');
 }
 
+const on = (days, f) => (days ? `，${when(days, f)}` : '');
+
 const allDay = (days, f) => (days ? `，${when(days, f)}全天` : '');
 
 export default {
@@ -67,8 +69,11 @@ export default {
 			return `每${f.number(step)}小时${from}${allDay(days, f)}`;
 		},
 
+		hourRange: ({ first, last, days }, f) =>
+			`${f.time(first)}到${f.time(last)}之间每小时${on(days, f)}`,
+
 		unevenHourInterval: ({ step, first, last, days }, f) =>
-			`每天从${f.time(first)}至${f.time(last)}每${f.number(step)}小时一次，然后次日重新开始${allDay(days, f)}`,
+			`每天从${f.time(first)}至${f.time(last)}每${f.number(step)}小时一次，然后次日重新开始${on(days, f)}`,
 
 		atTime: ({ time, days }, f) => (days ? `每${when(days, f)}${f.time(time)}` : `每天${f.time(time)}`)
 	}

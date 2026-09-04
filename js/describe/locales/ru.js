@@ -34,6 +34,8 @@ function when(days, f) {
 	return `по ${f.list(days.map((day) => DATIVE[day]))}`;
 }
 
+const on = (days, f) => (days ? `, ${when(days, f)}` : '');
+
 const allDay = (days, f) => (days ? `, ${when(days, f)} весь день` : '');
 
 export default {
@@ -83,8 +85,11 @@ export default {
 			return `Каждые ${f.number(step)} ${f.plural(step, HOURS)}${from}${allDay(days, f)}`;
 		},
 
+		hourRange: ({ first, last, days }, f) =>
+			`Каждый час с ${f.time(first)} до ${f.time(last)}${on(days, f)}`,
+
 		unevenHourInterval: ({ step, first, last, days }, f) =>
-			`Каждые ${f.number(step)} ${f.plural(step, HOURS)} с ${f.time(first)} до ${f.time(last)} каждый день, затем снова на следующий день${allDay(days, f)}`,
+			`Каждые ${f.number(step)} ${f.plural(step, HOURS)} с ${f.time(first)} до ${f.time(last)} каждый день, затем снова на следующий день${on(days, f)}`,
 
 		atTime: ({ time, days }, f) =>
 			days ? `${capitalize(when(days, f))} в ${f.time(time)}` : `Каждый день в ${f.time(time)}`

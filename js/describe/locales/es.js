@@ -26,6 +26,8 @@ function when(days, f) {
 	return `los ${f.list(names)}`;
 }
 
+const on = (days, f) => (days ? `, ${when(days, f)}` : '');
+
 const allDay = (days, f) => (days ? `, ${when(days, f)} todo el día` : '');
 
 export default {
@@ -75,8 +77,11 @@ export default {
 			return `Cada ${f.number(step)} ${f.plural(step, HOURS)}${from}${allDay(days, f)}`;
 		},
 
+		hourRange: ({ first, last, days }, f) =>
+			`Cada hora de ${hour(first, f)} a ${hour(last, f)}${on(days, f)}`,
+
 		unevenHourInterval: ({ step, first, last, days }, f) =>
-			`Cada ${f.number(step)} ${f.plural(step, HOURS)}, de ${hour(first, f)} a ${hour(last, f)} cada día, y de nuevo al día siguiente${allDay(days, f)}`,
+			`Cada ${f.number(step)} ${f.plural(step, HOURS)}, de ${hour(first, f)} a ${hour(last, f)} cada día, y de nuevo al día siguiente${on(days, f)}`,
 
 		atTime: ({ time, days }, f) =>
 			days ? `${capitalize(when(days, f))} a ${hour(time, f)}` : `Todos los días a ${hour(time, f)}`

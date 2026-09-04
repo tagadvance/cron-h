@@ -78,6 +78,21 @@ const RECOGNIZERS = [
 		};
 	},
 
+	// 0 9-17 * * *, the business hours schedule. A stride of one is a plain
+	// range and reads as one; without this it would be described as an uneven
+	// interval of "every 1 hour".
+	function hourRange({ minute, hour, dayOfWeek }) {
+		if (!minute.isSingleton || hour.stride !== 1 || hour.isFull) {
+			return null;
+		}
+		return {
+			id: 'hourRange',
+			first: { hour: hour.first, minute: minute.first },
+			last: { hour: hour.last, minute: minute.first },
+			days: days(dayOfWeek)
+		};
+	},
+
 	// 0 */5 * * *, which runs out of day before the stride comes round again.
 	function unevenHourInterval({ minute, hour, dayOfWeek }) {
 		if (!minute.isSingleton || hour.stride === null || hour.isEvenCycle) {

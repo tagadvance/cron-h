@@ -17,6 +17,8 @@ function when(days, f) {
 	return f.weekdays(days);
 }
 
+const on = (days, f) => (days ? `、${when(days, f)}` : '');
+
 const allDay = (days, f) => (days ? `、${when(days, f)}終日` : '');
 
 const every = (days, f) => (sameDays(days, WEEKDAYS) || sameDays(days, WEEKEND) ? when(days, f) : `毎週${when(days, f)}`);
@@ -65,8 +67,11 @@ export default {
 			return `${f.number(step)}時間ごと${from}${allDay(days, f)}`;
 		},
 
+		hourRange: ({ first, last, days }, f) =>
+			`${f.time(first)}から${f.time(last)}まで毎時${on(days, f)}`,
+
 		unevenHourInterval: ({ step, first, last, days }, f) =>
-			`毎日${f.time(first)}から${f.time(last)}まで${f.number(step)}時間ごと、その後は翌日に再開${allDay(days, f)}`,
+			`毎日${f.time(first)}から${f.time(last)}まで${f.number(step)}時間ごと、その後は翌日に再開${on(days, f)}`,
 
 		atTime: ({ time, days }, f) => (days ? `${every(days, f)}の${f.time(time)}` : `毎日${f.time(time)}`)
 	}

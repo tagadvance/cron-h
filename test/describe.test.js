@@ -65,3 +65,13 @@ test('an unknown locale falls back to English rather than failing', () => {
 	assert.equal(describe('*/15 * * * *', { locale: 'xx' }), 'Every 15 minutes');
 	assert.equal(describe('*/15 * * * *', { locale: 'en-GB' }), 'Every 15 minutes');
 });
+
+test('a plain hour range is a range, not an uneven interval', () => {
+	assert.equal(described('0 9-17 * * *'), 'Every hour from 9:00 AM to 5:00 PM');
+	assert.equal(described('30 9-17 * * MON-FRI'), 'Every hour from 9:30 AM to 5:30 PM, on weekdays');
+});
+
+test('a windowed schedule is not described as running all day', () => {
+	assert.doesNotMatch(described('0 9-17 * * MON-FRI'), /all day/);
+	assert.match(described('*/15 * * * SUN'), /all day/);
+});

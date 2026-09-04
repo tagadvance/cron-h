@@ -21,6 +21,8 @@ function when(days, f) {
 	return `les ${f.list(f.weekdayNames(days).map((name) => `${name}s`))}`;
 }
 
+const on = (days, f) => (days ? `, ${when(days, f)}` : '');
+
 const allDay = (days, f) => (days ? `, ${when(days, f)} toute la journée` : '');
 
 export default {
@@ -70,8 +72,11 @@ export default {
 			return `Toutes les ${f.number(step)} ${f.plural(step, HOURS)}${from}${allDay(days, f)}`;
 		},
 
+		hourRange: ({ first, last, days }, f) =>
+			`Toutes les heures de ${f.time(first)} à ${f.time(last)}${on(days, f)}`,
+
 		unevenHourInterval: ({ step, first, last, days }, f) =>
-			`Toutes les ${f.number(step)} ${f.plural(step, HOURS)}, de ${f.time(first)} à ${f.time(last)} chaque jour, puis de nouveau le lendemain${allDay(days, f)}`,
+			`Toutes les ${f.number(step)} ${f.plural(step, HOURS)}, de ${f.time(first)} à ${f.time(last)} chaque jour, puis de nouveau le lendemain${on(days, f)}`,
 
 		atTime: ({ time, days }, f) =>
 			days ? `${capitalize(when(days, f))} à ${f.time(time)}` : `Tous les jours à ${f.time(time)}`
