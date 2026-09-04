@@ -1,54 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>cron -h</title>
-    
-    <meta name="description" content="Human Readable Cron Enterpreter" />
-    <meta name="keywords" content="cron, crontab, anacron, dcron, fcron, human readable" />
- 
-    <link rel="stylesheet" type="text/css" href="css/template.css" />
-    
-    <script language="javascript" type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
-    <script language="javascript" type="text/javascript" src="js/jquery.caret.1.02.min.js"></script>
-    <script language="javascript" type="text/javascript" src="js/cron-h.js"></script>
-	<script type="text/javascript">var switchTo5x=true;</script>
-    <script type="text/javascript">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>cron -h</title>
 
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-35007682-1']);
-        _gaq.push(['_trackPageview']);
+	<meta name="description" content="Human readable cron interpreter" />
+	<meta name="keywords" content="cron, crontab, anacron, dcron, fcron, human readable" />
 
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-
-    </script>
+	<link rel="stylesheet" type="text/css" href="css/template.css" />
+	<script type="module" src="js/cron-h.js"></script>
 </head>
 <body>
-<body>
-    <div id="container">
-    <div id="content">
-        <h1>cron -h</h1>
-        <h3>The human readable cron interpreter.</h3>
-        <hr>
-        <div id="interpreter">
+<div id="container">
+	<div id="content">
+		<h1>cron -h</h1>
+		<h3>The human readable cron interpreter.</h3>
+		<hr>
+		<div id="interpreter">
 			<h5>Instructions:</h5>
 			<ol id="instructions">
-				<li>Copy and paste the contents on your cron file into the textarea below.</li>
-				<li>Move the cursor to the line you wish to edit.</li>
+				<li>Copy and paste the contents of your cron file into the textarea below.</li>
+				<li>Every schedule it finds is explained underneath, along with its next few run times.</li>
 			</ol>
-			<div id="human-readable">Once per minute...</div>
-			<div id="next">Next run is ???</div>
-            <form name="mrof" method="post">
-                <textarea name="crontab" id="crontab">* * * * *</textarea>
-            </form>
-        </div>
-    </div>
-    <div id="footer">
-        Copyright &copy; 2018 Tag Spilman
-    </div>
+			<label class="visually-hidden" for="crontab">crontab</label>
+			<textarea name="crontab" id="crontab" spellcheck="false"># m h dom mon dow  command
+*/15 * * * *      /usr/local/bin/sync-photos
+0 3 * * 0         /usr/local/bin/backup --full
+@daily            /usr/local/bin/rotate-logs
+@reboot           /usr/local/bin/warm-cache</textarea>
+			<ul id="results"></ul>
+			<p id="disclaimer">Run times are calculated in your browser, in your local time zone. Your crontab is
+				never uploaded anywhere.</p>
+		</div>
+	</div>
+	<div id="footer">
+		<a href="https://github.com/tagadvance/cron-h">Source on GitHub</a>
+		&middot;
+		Copyright &copy; 2026 Tag Spilman
+	</div>
 </div>
 </body>
 </html>

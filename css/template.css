@@ -1,70 +1,118 @@
 body {
-    background-color: #777777;
-	font-family: "Courier New";
+	background-color: #777777;
+	font-family: "Courier New", monospace;
+	margin: 0;
 }
 
-h1 {
-    text-align: center;
+h1, h3 {
+	text-align: center;
 }
 
-h3 {
-    text-align: center;
-}
-
-h5 {
+h5, h6 {
 	margin-bottom: 0px;
 }
 
 hr {
-    width: 75%;
+	width: 75%;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
 }
 
 #instructions {
-    margin-left: 2em;
+	margin-left: 2em;
+	padding-left: 0;
 }
 
-#container{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+#container {
+	width: 100%;
 }
 
 #content {
-    background-color: #FFFFFF;
+	background-color: #FFFFFF;
 	border: 1px dotted #000000;
 	padding: 2px;
-    max-width: 800px;
-	margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
+	max-width: 800px;
+	margin: 20px auto 0 auto;
 }
 
 #interpreter {
-    border-width: 0px;
-    width: 94%;
-	margin-left: auto;
-    margin-right: auto;
-	margin-bottom: 1em;
-}
-
-#human-readable {
-    color: #FF0000;
-	font-family: "Comic Sans MS";
-	font-weight: bold;
-	font-size: 14px;
+	border-width: 0px;
+	width: 94%;
+	margin: 0 auto 1em auto;
 }
 
 #crontab {
-    width: 100%;
+	box-sizing: border-box;
+	width: 100%;
 	min-height: 7em;
 	resize: vertical;
-	font-family: "Courier New";
-	font-size: 18pt;
+	font-family: "Courier New", monospace;
+	font-size: 14pt;
+	white-space: pre;
+	overflow-wrap: normal;
+	overflow-x: auto;
+}
+
+#results {
+	list-style: none;
+	margin: 1em 0 0 0;
+	padding: 0;
+}
+
+#results .entry {
+	border-top: 1px dotted #999999;
+	padding: 0.75em 0;
+}
+
+#results .expression {
+	font-size: 13pt;
+	font-weight: bold;
+}
+
+#results .description {
+	color: #CC0000;
+	font-weight: bold;
+	margin: 0.25em 0;
+}
+
+#results .command,
+#results .note {
+	color: #555555;
+	font-size: 11pt;
+	margin: 0.25em 0;
+}
+
+#results .error .description {
+	color: #000000;
+	background-color: #FFDDDD;
+	display: inline-block;
+	padding: 0 0.25em;
+}
+
+#results .runs {
+	margin: 0.25em 0 0 0;
+	padding-left: 2em;
+	font-size: 11pt;
+}
+
+#disclaimer {
+	color: #555555;
+	font-size: 10pt;
 }
 
 #footer {
 	text-align: center;
 	font-size: 11px;
+	color: #FFFFFF;
+	padding: 0.5em 0 1em 0;
+}
+
+#footer a {
 	color: #FFFFFF;
 }
