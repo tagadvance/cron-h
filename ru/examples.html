@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Примеры выражений cron · cron -h</title>
+
+	<meta name="description" content="Часто встречающиеся расписания crontab и что они значат на самом деле. Выберите любое, чтобы открыть его в интерпретаторе." />
+	<link rel="canonical" href="https://cron-h.com/ru/examples.html" />
+	<link rel="alternate" hreflang="en" href="https://cron-h.com/examples.html" />
+	<link rel="alternate" hreflang="es" href="https://cron-h.com/es/examples.html" />
+	<link rel="alternate" hreflang="fr" href="https://cron-h.com/fr/examples.html" />
+	<link rel="alternate" hreflang="ja" href="https://cron-h.com/ja/examples.html" />
+	<link rel="alternate" hreflang="pt" href="https://cron-h.com/pt/examples.html" />
+	<link rel="alternate" hreflang="ru" href="https://cron-h.com/ru/examples.html" />
+	<link rel="alternate" hreflang="zh" href="https://cron-h.com/zh/examples.html" />
+	<link rel="alternate" hreflang="x-default" href="https://cron-h.com/examples.html" />
+
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="cron -h" />
+	<meta property="og:url" content="https://cron-h.com/ru/examples.html" />
+	<meta property="og:title" content="Примеры выражений cron" />
+	<meta property="og:description" content="Часто встречающиеся расписания crontab и что они значат на самом деле. Выберите любое, чтобы открыть его в интерпретаторе." />
+	<meta name="twitter:card" content="summary" />
+
+	<link rel="stylesheet" type="text/css" href="../css/template.css" />
+</head>
+<body>
+<div id="container">
+	<div id="content">
+		<h1>cron -h</h1>
+		<h3>Примеры выражений cron</h3>
+		<hr>
+		<div id="interpreter">
+			<p>Часто встречающиеся расписания crontab и что они значат на самом деле. Выберите любое, чтобы открыть его в интерпретаторе.</p>
+			<table id="examples-table">
+				<thead>
+					<tr>
+						<th>Выражение</th>
+						<th>Значение</th>
+					</tr>
+				</thead>
+				<tbody>
+			<tr>
+				<td><a href="../index.html?e=*+*+*+*+*&amp;lang=ru"><code>* * * * *</code></a></td>
+				<td>Каждую минуту</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F5+*+*+*+*&amp;lang=ru"><code>*/5 * * * *</code></a></td>
+				<td>Каждые 5 минут</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F10+*+*+*+*&amp;lang=ru"><code>*/10 * * * *</code></a></td>
+				<td>Каждые 10 минут</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F15+*+*+*+*&amp;lang=ru"><code>*/15 * * * *</code></a></td>
+				<td>Каждые 15 минут</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F20+*+*+*+*&amp;lang=ru"><code>*/20 * * * *</code></a></td>
+				<td>Каждые 20 минут</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F30+*+*+*+*&amp;lang=ru"><code>*/30 * * * *</code></a></td>
+				<td>Каждые 30 минут</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*+*+*+*&amp;lang=ru"><code>0 * * * *</code></a></td>
+				<td>Каждый час, ровно в начале часа</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+*+*+*+*&amp;lang=ru"><code>30 * * * *</code></a></td>
+				<td>Каждый час, на 30-й минуте</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F2+*+*+*&amp;lang=ru"><code>0 */2 * * *</code></a></td>
+				<td>Каждые 2 часа</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F3+*+*+*&amp;lang=ru"><code>0 */3 * * *</code></a></td>
+				<td>Каждые 3 часа</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F4+*+*+*&amp;lang=ru"><code>0 */4 * * *</code></a></td>
+				<td>Каждые 4 часа</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F6+*+*+*&amp;lang=ru"><code>0 */6 * * *</code></a></td>
+				<td>Каждые 6 часов</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F8+*+*+*&amp;lang=ru"><code>0 */8 * * *</code></a></td>
+				<td>Каждые 8 часов</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F12+*+*+*&amp;lang=ru"><code>0 */12 * * *</code></a></td>
+				<td>Каждые 12 часов</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+9-17+*+*+*&amp;lang=ru"><code>0 9-17 * * *</code></a></td>
+				<td>Каждый час с 9:00 до 17:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+9-17+*+*+MON-FRI&amp;lang=ru"><code>30 9-17 * * MON-FRI</code></a></td>
+				<td>Каждый час с 9:30 до 17:30, по будням</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F15+*%2F2+*+*+*&amp;lang=ru"><code>*/15 */2 * * *</code></a></td>
+				<td>Каждые 15 минут, в чётные часы</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+*+*+*&amp;lang=ru"><code>0 0 * * *</code></a></td>
+				<td>Каждый день в 0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+6+*+*+*&amp;lang=ru"><code>0 6 * * *</code></a></td>
+				<td>Каждый день в 6:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+9+*+*+*&amp;lang=ru"><code>0 9 * * *</code></a></td>
+				<td>Каждый день в 9:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+12+*+*+*&amp;lang=ru"><code>0 12 * * *</code></a></td>
+				<td>Каждый день в 12:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+18+*+*+*&amp;lang=ru"><code>0 18 * * *</code></a></td>
+				<td>Каждый день в 18:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+23+*+*+*&amp;lang=ru"><code>30 23 * * *</code></a></td>
+				<td>Каждый день в 23:30</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+*+*+0&amp;lang=ru"><code>0 0 * * 0</code></a></td>
+				<td>По воскресеньям в 0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+3+*+*+0&amp;lang=ru"><code>0 3 * * 0</code></a></td>
+				<td>По воскресеньям в 3:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+9+*+*+MON-FRI&amp;lang=ru"><code>0 9 * * MON-FRI</code></a></td>
+				<td>По будням в 9:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+8+*+*+SAT%2CSUN&amp;lang=ru"><code>30 8 * * SAT,SUN</code></a></td>
+				<td>По выходным в 8:30</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+22+*+*+1-5&amp;lang=ru"><code>0 22 * * 1-5</code></a></td>
+				<td>По будням в 22:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+3+*+*+1%2C3%2C5&amp;lang=ru"><code>0 3 * * 1,3,5</code></a></td>
+				<td>По понедельникам, средам и пятницам в 3:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+1+*+*&amp;lang=ru"><code>0 0 1 * *</code></a></td>
+				<td>В 00:00, в 1 число месяца</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+15+*+*&amp;lang=ru"><code>0 0 15 * *</code></a></td>
+				<td>В 00:00, в 15 число месяца</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=15+14+1+*+*&amp;lang=ru"><code>15 14 1 * *</code></a></td>
+				<td>В 14:15, в 1 число месяца</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+1+1+*&amp;lang=ru"><code>0 0 1 1 *</code></a></td>
+				<td>В 00:00, в 1 число месяца, только январь</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=5+0+*+8+*&amp;lang=ru"><code>5 0 * 8 *</code></a></td>
+				<td>В 00:05, только август</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F7+*+*+*+*&amp;lang=ru"><code>*/7 * * * *</code></a></td>
+				<td>Каждые 7 минут с 0 по 56 минуту каждого часа, затем снова в начале часа</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F5+*+*+*&amp;lang=ru"><code>0 */5 * * *</code></a></td>
+				<td>Каждые 5 часов с 0:00 до 20:00 каждый день, затем снова на следующий день</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=5-59%2F15+*+*+*+*&amp;lang=ru"><code>5-59/15 * * * *</code></a></td>
+				<td>Каждые 15 минут, начиная с 5-й минуты</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40reboot&amp;lang=ru"><code>@reboot</code></a></td>
+				<td>Один раз при запуске системы</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40hourly&amp;lang=ru"><code>@hourly</code></a></td>
+				<td>Каждый час, ровно в начале часа</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40daily&amp;lang=ru"><code>@daily</code></a></td>
+				<td>Каждый день в 0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40weekly&amp;lang=ru"><code>@weekly</code></a></td>
+				<td>По воскресеньям в 0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40monthly&amp;lang=ru"><code>@monthly</code></a></td>
+				<td>В 00:00, в 1 число месяца</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40yearly&amp;lang=ru"><code>@yearly</code></a></td>
+				<td>В 00:00, в 1 число месяца, только январь</td>
+			</tr>
+				</tbody>
+			</table>
+			<p><a href="../index.html?lang=ru">Открыть интерпретатор</a></p>
+		</div>
+	</div>
+	<div id="footer">
+		<a href="https://github.com/tagadvance/cron-h">Исходный код на GitHub</a>
+		&middot;
+		Copyright &copy; 2026 Tag Spilman
+	</div>
+</div>
+</body>
+</html>

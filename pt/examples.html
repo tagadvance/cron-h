@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Exemplos de expressões cron · cron -h</title>
+
+	<meta name="description" content="Agendamentos de crontab comuns e o que eles realmente significam. Escolha um para abri-lo no interpretador." />
+	<link rel="canonical" href="https://cron-h.com/pt/examples.html" />
+	<link rel="alternate" hreflang="en" href="https://cron-h.com/examples.html" />
+	<link rel="alternate" hreflang="es" href="https://cron-h.com/es/examples.html" />
+	<link rel="alternate" hreflang="fr" href="https://cron-h.com/fr/examples.html" />
+	<link rel="alternate" hreflang="ja" href="https://cron-h.com/ja/examples.html" />
+	<link rel="alternate" hreflang="pt" href="https://cron-h.com/pt/examples.html" />
+	<link rel="alternate" hreflang="ru" href="https://cron-h.com/ru/examples.html" />
+	<link rel="alternate" hreflang="zh" href="https://cron-h.com/zh/examples.html" />
+	<link rel="alternate" hreflang="x-default" href="https://cron-h.com/examples.html" />
+
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="cron -h" />
+	<meta property="og:url" content="https://cron-h.com/pt/examples.html" />
+	<meta property="og:title" content="Exemplos de expressões cron" />
+	<meta property="og:description" content="Agendamentos de crontab comuns e o que eles realmente significam. Escolha um para abri-lo no interpretador." />
+	<meta name="twitter:card" content="summary" />
+
+	<link rel="stylesheet" type="text/css" href="../css/template.css" />
+</head>
+<body>
+<div id="container">
+	<div id="content">
+		<h1>cron -h</h1>
+		<h3>Exemplos de expressões cron</h3>
+		<hr>
+		<div id="interpreter">
+			<p>Agendamentos de crontab comuns e o que eles realmente significam. Escolha um para abri-lo no interpretador.</p>
+			<table id="examples-table">
+				<thead>
+					<tr>
+						<th>Expressão</th>
+						<th>Significa</th>
+					</tr>
+				</thead>
+				<tbody>
+			<tr>
+				<td><a href="../index.html?e=*+*+*+*+*&amp;lang=pt"><code>* * * * *</code></a></td>
+				<td>A cada minuto</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F5+*+*+*+*&amp;lang=pt"><code>*/5 * * * *</code></a></td>
+				<td>A cada 5 minutos</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F10+*+*+*+*&amp;lang=pt"><code>*/10 * * * *</code></a></td>
+				<td>A cada 10 minutos</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F15+*+*+*+*&amp;lang=pt"><code>*/15 * * * *</code></a></td>
+				<td>A cada 15 minutos</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F20+*+*+*+*&amp;lang=pt"><code>*/20 * * * *</code></a></td>
+				<td>A cada 20 minutos</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F30+*+*+*+*&amp;lang=pt"><code>*/30 * * * *</code></a></td>
+				<td>A cada 30 minutos</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*+*+*+*&amp;lang=pt"><code>0 * * * *</code></a></td>
+				<td>A cada hora, em ponto</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+*+*+*+*&amp;lang=pt"><code>30 * * * *</code></a></td>
+				<td>A cada hora, no minuto 30</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F2+*+*+*&amp;lang=pt"><code>0 */2 * * *</code></a></td>
+				<td>A cada 2 horas</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F3+*+*+*&amp;lang=pt"><code>0 */3 * * *</code></a></td>
+				<td>A cada 3 horas</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F4+*+*+*&amp;lang=pt"><code>0 */4 * * *</code></a></td>
+				<td>A cada 4 horas</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F6+*+*+*&amp;lang=pt"><code>0 */6 * * *</code></a></td>
+				<td>A cada 6 horas</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F8+*+*+*&amp;lang=pt"><code>0 */8 * * *</code></a></td>
+				<td>A cada 8 horas</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F12+*+*+*&amp;lang=pt"><code>0 */12 * * *</code></a></td>
+				<td>A cada 12 horas</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+9-17+*+*+*&amp;lang=pt"><code>0 9-17 * * *</code></a></td>
+				<td>A cada hora, das 9:00 às 17:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+9-17+*+*+MON-FRI&amp;lang=pt"><code>30 9-17 * * MON-FRI</code></a></td>
+				<td>A cada hora, das 9:30 às 17:30, de segunda a sexta</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F15+*%2F2+*+*+*&amp;lang=pt"><code>*/15 */2 * * *</code></a></td>
+				<td>A cada 15 minutos, nas horas pares</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+*+*+*&amp;lang=pt"><code>0 0 * * *</code></a></td>
+				<td>Todos os dias às 0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+6+*+*+*&amp;lang=pt"><code>0 6 * * *</code></a></td>
+				<td>Todos os dias às 6:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+9+*+*+*&amp;lang=pt"><code>0 9 * * *</code></a></td>
+				<td>Todos os dias às 9:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+12+*+*+*&amp;lang=pt"><code>0 12 * * *</code></a></td>
+				<td>Todos os dias às 12:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+18+*+*+*&amp;lang=pt"><code>0 18 * * *</code></a></td>
+				<td>Todos os dias às 18:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+23+*+*+*&amp;lang=pt"><code>30 23 * * *</code></a></td>
+				<td>Todos os dias às 23:30</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+*+*+0&amp;lang=pt"><code>0 0 * * 0</code></a></td>
+				<td>Aos domingos às 0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+3+*+*+0&amp;lang=pt"><code>0 3 * * 0</code></a></td>
+				<td>Aos domingos às 3:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+9+*+*+MON-FRI&amp;lang=pt"><code>0 9 * * MON-FRI</code></a></td>
+				<td>De segunda a sexta às 9:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+8+*+*+SAT%2CSUN&amp;lang=pt"><code>30 8 * * SAT,SUN</code></a></td>
+				<td>Nos fins de semana às 8:30</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+22+*+*+1-5&amp;lang=pt"><code>0 22 * * 1-5</code></a></td>
+				<td>De segunda a sexta às 22:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+3+*+*+1%2C3%2C5&amp;lang=pt"><code>0 3 * * 1,3,5</code></a></td>
+				<td>Às segundas-feiras, quartas-feiras e sextas-feiras às 3:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+1+*+*&amp;lang=pt"><code>0 0 1 * *</code></a></td>
+				<td>Às 00:00, no dia 1 do mês</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+15+*+*&amp;lang=pt"><code>0 0 15 * *</code></a></td>
+				<td>Às 00:00, no dia 15 do mês</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=15+14+1+*+*&amp;lang=pt"><code>15 14 1 * *</code></a></td>
+				<td>Às 14:15, no dia 1 do mês</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+1+1+*&amp;lang=pt"><code>0 0 1 1 *</code></a></td>
+				<td>Às 00:00, no dia 1 do mês, somente em janeiro</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=5+0+*+8+*&amp;lang=pt"><code>5 0 * 8 *</code></a></td>
+				<td>Às 00:05, somente em agosto</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F7+*+*+*+*&amp;lang=pt"><code>*/7 * * * *</code></a></td>
+				<td>A cada 7 minutos, do minuto 0 ao 56 de cada hora, e de novo ao começar a seguinte</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F5+*+*+*&amp;lang=pt"><code>0 */5 * * *</code></a></td>
+				<td>A cada 5 horas, das 0:00 às 20:00 todos os dias, e de novo no dia seguinte</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=5-59%2F15+*+*+*+*&amp;lang=pt"><code>5-59/15 * * * *</code></a></td>
+				<td>A cada 15 minutos, a partir do minuto 5</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40reboot&amp;lang=pt"><code>@reboot</code></a></td>
+				<td>Uma vez ao iniciar o sistema</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40hourly&amp;lang=pt"><code>@hourly</code></a></td>
+				<td>A cada hora, em ponto</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40daily&amp;lang=pt"><code>@daily</code></a></td>
+				<td>Todos os dias às 0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40weekly&amp;lang=pt"><code>@weekly</code></a></td>
+				<td>Aos domingos às 0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40monthly&amp;lang=pt"><code>@monthly</code></a></td>
+				<td>Às 00:00, no dia 1 do mês</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40yearly&amp;lang=pt"><code>@yearly</code></a></td>
+				<td>Às 00:00, no dia 1 do mês, somente em janeiro</td>
+			</tr>
+				</tbody>
+			</table>
+			<p><a href="../index.html?lang=pt">Abrir o interpretador</a></p>
+		</div>
+	</div>
+	<div id="footer">
+		<a href="https://github.com/tagadvance/cron-h">Código-fonte no GitHub</a>
+		&middot;
+		Copyright &copy; 2026 Tag Spilman
+	</div>
+</div>
+</body>
+</html>

@@ -37,6 +37,12 @@ export default {
 		atStartup: '在系统启动时运行，因此没有下次运行时间可以计算。',
 		never: '永不运行。没有任何日期符合该表达式。',
 		privacy: '运行时间在您的浏览器中按本地时区计算。您的 crontab 不会被上传到任何地方。',
+		examples: '示例',
+		examplesTitle: 'cron 表达式示例',
+		examplesIntro: '常见的 crontab 计划任务及其真实含义。选择任意一条即可在解释器中打开。',
+		columnExpression: '表达式',
+		columnMeaning: '含义',
+		backToTool: '打开解释器',
 		source: '在 GitHub 上查看源代码'
 	},
 	messages: {

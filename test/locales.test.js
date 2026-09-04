@@ -145,3 +145,16 @@ test('Japanese leads with the day rather than trailing it', () => {
 	assert.match(describe('0 3 * * 0', { locale: 'ja' }), /^毎週日曜日/);
 	assert.match(describe('0 9 * * MON-FRI', { locale: 'ja' }), /^平日/);
 });
+
+test('every published example describes cleanly in every language', async () => {
+	const { EXAMPLES } = await import('../bin/examples.js');
+	await loadTranslations();
+
+	for (const { code } of locales()) {
+		for (const expression of EXAMPLES) {
+			const text = describe(expression, { locale: code });
+			assert.match(text, /\S/, `${expression} in ${code}`);
+			assert.doesNotMatch(text, /undefined|NaN|\[object/, `${expression} in ${code}`);
+		}
+	}
+});

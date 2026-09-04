@@ -4,6 +4,7 @@ import { hasTranslations, loadTranslations } from './describe/fallback.js';
 
 const RUN_COUNT = 5;
 const STORED_LOCALE = 'cron-h.locale';
+const SITE = 'cron -h';
 
 function element(tag, className, text) {
 	const node = document.createElement(tag);
@@ -62,6 +63,9 @@ function render(text, target, locale) {
 	const entries = interpretCrontab(text, { count: RUN_COUNT, locale })
 		.filter((entry) => entry.kind === 'entry' || entry.kind === 'error');
 
+	retitle(entries, strings);
+	reflect(entries, locale);
+
 	target.replaceChildren();
 	if (entries.length === 0) {
 		target.appendChild(element('li', 'entry note', strings.ui.empty));
@@ -82,14 +86,47 @@ const CHROME = {
 	step2: 'step2',
 	'language-label': 'language',
 	disclaimer: 'privacy',
+	examples: 'examples',
 	source: 'source'
 };
+
+const description = document.querySelector('meta[name="description"]');
+
+// A page showing exactly one schedule is worth a title and description of its
+// own: it is what a shared link previews as, and what a crawler reads. Open
+// Graph tags stay static, because the crawlers that read them do not run
+// JavaScript.
+function retitle(entries, strings) {
+	const only = entries.length === 1 && entries[0].kind === 'entry' ? entries[0] : null;
+	document.title = only ? `${only.expression} — ${only.description} · ${SITE}` : SITE;
+	description.content = only ? `${only.expression} — ${only.description}` : strings.ui.tagline;
+}
+
+// One schedule can be shared as a link; a whole crontab cannot, and should not
+// end up in somebody's browser history either.
+function reflect(entries, locale) {
+	const only = entries.length === 1 && entries[0].kind === 'entry' ? entries[0] : null;
+	const params = new URLSearchParams();
+	if (only) {
+		params.set('e', only.expression);
+	}
+	if (locale !== 'en') {
+		params.set('lang', locale);
+	}
+
+	const query = params.toString();
+	const url = query ? `${location.pathname}?${query}` : location.pathname;
+	if (url !== location.pathname + location.search) {
+		history.replaceState(null, '', url);
+	}
+}
 
 function renderChrome(locale) {
 	const { ui } = chrome(locale);
 	for (const [id, key] of Object.entries(CHROME)) {
 		document.getElementById(id).textContent = ui[key];
 	}
+	document.getElementById('examples').href = locale === 'en' ? 'examples.html' : `${locale}/examples.html`;
 }
 
 const crontab = document.getElementById('crontab');
@@ -118,7 +155,14 @@ function remember(locale) {
 	}
 }
 
-let locale = base([remembered(), ...navigator.languages, navigator.language].find(supported) ?? 'en');
+// A shared link carries its own language and schedule; both win over anything
+// this browser remembers.
+const shared = new URLSearchParams(location.search);
+if (shared.get('e')) {
+	crontab.value = shared.get('e');
+}
+
+let locale = base([shared.get('lang'), remembered(), ...navigator.languages, navigator.language].find(supported) ?? 'en');
 
 for (const { code, name } of locales()) {
 	const option = element('option', null, name);

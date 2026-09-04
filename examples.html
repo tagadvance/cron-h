@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Cron expression examples · cron -h</title>
+
+	<meta name="description" content="Common crontab schedules and what they actually mean. Pick one to open it in the interpreter." />
+	<link rel="canonical" href="https://cron-h.com/examples.html" />
+	<link rel="alternate" hreflang="en" href="https://cron-h.com/examples.html" />
+	<link rel="alternate" hreflang="es" href="https://cron-h.com/es/examples.html" />
+	<link rel="alternate" hreflang="fr" href="https://cron-h.com/fr/examples.html" />
+	<link rel="alternate" hreflang="ja" href="https://cron-h.com/ja/examples.html" />
+	<link rel="alternate" hreflang="pt" href="https://cron-h.com/pt/examples.html" />
+	<link rel="alternate" hreflang="ru" href="https://cron-h.com/ru/examples.html" />
+	<link rel="alternate" hreflang="zh" href="https://cron-h.com/zh/examples.html" />
+	<link rel="alternate" hreflang="x-default" href="https://cron-h.com/examples.html" />
+
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="cron -h" />
+	<meta property="og:url" content="https://cron-h.com/examples.html" />
+	<meta property="og:title" content="Cron expression examples" />
+	<meta property="og:description" content="Common crontab schedules and what they actually mean. Pick one to open it in the interpreter." />
+	<meta name="twitter:card" content="summary" />
+
+	<link rel="stylesheet" type="text/css" href="css/template.css" />
+</head>
+<body>
+<div id="container">
+	<div id="content">
+		<h1>cron -h</h1>
+		<h3>Cron expression examples</h3>
+		<hr>
+		<div id="interpreter">
+			<p>Common crontab schedules and what they actually mean. Pick one to open it in the interpreter.</p>
+			<table id="examples-table">
+				<thead>
+					<tr>
+						<th>Expression</th>
+						<th>Means</th>
+					</tr>
+				</thead>
+				<tbody>
+			<tr>
+				<td><a href="index.html?e=*+*+*+*+*"><code>* * * * *</code></a></td>
+				<td>Every minute</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=*%2F5+*+*+*+*"><code>*/5 * * * *</code></a></td>
+				<td>Every 5 minutes</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=*%2F10+*+*+*+*"><code>*/10 * * * *</code></a></td>
+				<td>Every 10 minutes</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=*%2F15+*+*+*+*"><code>*/15 * * * *</code></a></td>
+				<td>Every 15 minutes</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=*%2F20+*+*+*+*"><code>*/20 * * * *</code></a></td>
+				<td>Every 20 minutes</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=*%2F30+*+*+*+*"><code>*/30 * * * *</code></a></td>
+				<td>Every 30 minutes</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+*+*+*+*"><code>0 * * * *</code></a></td>
+				<td>Every hour, on the hour</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=30+*+*+*+*"><code>30 * * * *</code></a></td>
+				<td>Every hour at :30</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+*%2F2+*+*+*"><code>0 */2 * * *</code></a></td>
+				<td>Every 2 hours</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+*%2F3+*+*+*"><code>0 */3 * * *</code></a></td>
+				<td>Every 3 hours</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+*%2F4+*+*+*"><code>0 */4 * * *</code></a></td>
+				<td>Every 4 hours</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+*%2F6+*+*+*"><code>0 */6 * * *</code></a></td>
+				<td>Every 6 hours</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+*%2F8+*+*+*"><code>0 */8 * * *</code></a></td>
+				<td>Every 8 hours</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+*%2F12+*+*+*"><code>0 */12 * * *</code></a></td>
+				<td>Every 12 hours</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+9-17+*+*+*"><code>0 9-17 * * *</code></a></td>
+				<td>Every hour from 9:00 AM to 5:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=30+9-17+*+*+MON-FRI"><code>30 9-17 * * MON-FRI</code></a></td>
+				<td>Every hour from 9:30 AM to 5:30 PM, on weekdays</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=*%2F15+*%2F2+*+*+*"><code>*/15 */2 * * *</code></a></td>
+				<td>Every 15 minutes, on even-numbered hours</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+0+*+*+*"><code>0 0 * * *</code></a></td>
+				<td>Every day at 12:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+6+*+*+*"><code>0 6 * * *</code></a></td>
+				<td>Every day at 6:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+9+*+*+*"><code>0 9 * * *</code></a></td>
+				<td>Every day at 9:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+12+*+*+*"><code>0 12 * * *</code></a></td>
+				<td>Every day at 12:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+18+*+*+*"><code>0 18 * * *</code></a></td>
+				<td>Every day at 6:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=30+23+*+*+*"><code>30 23 * * *</code></a></td>
+				<td>Every day at 11:30 PM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+0+*+*+0"><code>0 0 * * 0</code></a></td>
+				<td>Every Sunday at 12:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+3+*+*+0"><code>0 3 * * 0</code></a></td>
+				<td>Every Sunday at 3:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+9+*+*+MON-FRI"><code>0 9 * * MON-FRI</code></a></td>
+				<td>Every weekday at 9:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=30+8+*+*+SAT%2CSUN"><code>30 8 * * SAT,SUN</code></a></td>
+				<td>Every weekend at 8:30 AM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+22+*+*+1-5"><code>0 22 * * 1-5</code></a></td>
+				<td>Every weekday at 10:00 PM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+3+*+*+1%2C3%2C5"><code>0 3 * * 1,3,5</code></a></td>
+				<td>Every Monday, Wednesday, and Friday at 3:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+0+1+*+*"><code>0 0 1 * *</code></a></td>
+				<td>At 12:00 AM, on day 1 of the month</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+0+15+*+*"><code>0 0 15 * *</code></a></td>
+				<td>At 12:00 AM, on day 15 of the month</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=15+14+1+*+*"><code>15 14 1 * *</code></a></td>
+				<td>At 02:15 PM, on day 1 of the month</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+0+1+1+*"><code>0 0 1 1 *</code></a></td>
+				<td>At 12:00 AM, on day 1 of the month, only in January</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=5+0+*+8+*"><code>5 0 * 8 *</code></a></td>
+				<td>At 12:05 AM, only in August</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=*%2F7+*+*+*+*"><code>*/7 * * * *</code></a></td>
+				<td>Every 7 minutes from :00 to :56 of each hour, then again on the hour</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+*%2F5+*+*+*"><code>0 */5 * * *</code></a></td>
+				<td>Every 5 hours from 12:00 AM to 8:00 PM each day, then again the next day</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=5-59%2F15+*+*+*+*"><code>5-59/15 * * * *</code></a></td>
+				<td>Every 15 minutes, starting at :05</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=%40reboot"><code>@reboot</code></a></td>
+				<td>Once at system startup</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=%40hourly"><code>@hourly</code></a></td>
+				<td>Every hour, on the hour</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=%40daily"><code>@daily</code></a></td>
+				<td>Every day at 12:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=%40weekly"><code>@weekly</code></a></td>
+				<td>Every Sunday at 12:00 AM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=%40monthly"><code>@monthly</code></a></td>
+				<td>At 12:00 AM, on day 1 of the month</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=%40yearly"><code>@yearly</code></a></td>
+				<td>At 12:00 AM, on day 1 of the month, only in January</td>
+			</tr>
+				</tbody>
+			</table>
+			<p><a href="index.html">Open the interpreter</a></p>
+		</div>
+	</div>
+	<div id="footer">
+		<a href="https://github.com/tagadvance/cron-h">Source on GitHub</a>
+		&middot;
+		Copyright &copy; 2026 Tag Spilman
+	</div>
+</div>
+</body>
+</html>

@@ -38,6 +38,12 @@ export default {
 		atStartup: 'システム起動時に実行されるため、次回の実行時刻は計算できません。',
 		never: '一度も実行されません。この式に一致する日付はありません。',
 		privacy: '実行時刻はお使いのブラウザで、ローカルのタイムゾーンで計算されます。crontab がどこかに送信されることはありません。',
+		examples: '例',
+		examplesTitle: 'cron 式の例',
+		examplesIntro: 'よく使われる crontab のスケジュールと、その実際の意味です。選択するとインタプリタで開きます。',
+		columnExpression: '式',
+		columnMeaning: '意味',
+		backToTool: 'インタプリタを開く',
 		source: 'GitHub のソースコード'
 	},
 	messages: {

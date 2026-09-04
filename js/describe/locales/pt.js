@@ -51,6 +51,12 @@ export default {
 		atStartup: 'Executa ao iniciar o sistema, portanto não há próxima execução a calcular.',
 		never: 'Nunca executa. Nenhuma data satisfaz esta expressão.',
 		privacy: 'Os horários são calculados no seu navegador, no seu fuso horário. Seu crontab nunca é enviado a lugar nenhum.',
+		examples: 'Exemplos',
+		examplesTitle: 'Exemplos de expressões cron',
+		examplesIntro: 'Agendamentos de crontab comuns e o que eles realmente significam. Escolha um para abri-lo no interpretador.',
+		columnExpression: 'Expressão',
+		columnMeaning: 'Significa',
+		backToTool: 'Abrir o interpretador',
 		source: 'Código-fonte no GitHub'
 	},
 	messages: {

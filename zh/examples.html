@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>cron 表达式示例 · cron -h</title>
+
+	<meta name="description" content="常见的 crontab 计划任务及其真实含义。选择任意一条即可在解释器中打开。" />
+	<link rel="canonical" href="https://cron-h.com/zh/examples.html" />
+	<link rel="alternate" hreflang="en" href="https://cron-h.com/examples.html" />
+	<link rel="alternate" hreflang="es" href="https://cron-h.com/es/examples.html" />
+	<link rel="alternate" hreflang="fr" href="https://cron-h.com/fr/examples.html" />
+	<link rel="alternate" hreflang="ja" href="https://cron-h.com/ja/examples.html" />
+	<link rel="alternate" hreflang="pt" href="https://cron-h.com/pt/examples.html" />
+	<link rel="alternate" hreflang="ru" href="https://cron-h.com/ru/examples.html" />
+	<link rel="alternate" hreflang="zh" href="https://cron-h.com/zh/examples.html" />
+	<link rel="alternate" hreflang="x-default" href="https://cron-h.com/examples.html" />
+
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="cron -h" />
+	<meta property="og:url" content="https://cron-h.com/zh/examples.html" />
+	<meta property="og:title" content="cron 表达式示例" />
+	<meta property="og:description" content="常见的 crontab 计划任务及其真实含义。选择任意一条即可在解释器中打开。" />
+	<meta name="twitter:card" content="summary" />
+
+	<link rel="stylesheet" type="text/css" href="../css/template.css" />
+</head>
+<body>
+<div id="container">
+	<div id="content">
+		<h1>cron -h</h1>
+		<h3>cron 表达式示例</h3>
+		<hr>
+		<div id="interpreter">
+			<p>常见的 crontab 计划任务及其真实含义。选择任意一条即可在解释器中打开。</p>
+			<table id="examples-table">
+				<thead>
+					<tr>
+						<th>表达式</th>
+						<th>含义</th>
+					</tr>
+				</thead>
+				<tbody>
+			<tr>
+				<td><a href="../index.html?e=*+*+*+*+*&amp;lang=zh"><code>* * * * *</code></a></td>
+				<td>每分钟</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F5+*+*+*+*&amp;lang=zh"><code>*/5 * * * *</code></a></td>
+				<td>每5分钟</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F10+*+*+*+*&amp;lang=zh"><code>*/10 * * * *</code></a></td>
+				<td>每10分钟</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F15+*+*+*+*&amp;lang=zh"><code>*/15 * * * *</code></a></td>
+				<td>每15分钟</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F20+*+*+*+*&amp;lang=zh"><code>*/20 * * * *</code></a></td>
+				<td>每20分钟</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F30+*+*+*+*&amp;lang=zh"><code>*/30 * * * *</code></a></td>
+				<td>每30分钟</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*+*+*+*&amp;lang=zh"><code>0 * * * *</code></a></td>
+				<td>每小时整点</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+*+*+*+*&amp;lang=zh"><code>30 * * * *</code></a></td>
+				<td>每小时的第30分钟</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F2+*+*+*&amp;lang=zh"><code>0 */2 * * *</code></a></td>
+				<td>每2小时</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F3+*+*+*&amp;lang=zh"><code>0 */3 * * *</code></a></td>
+				<td>每3小时</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F4+*+*+*&amp;lang=zh"><code>0 */4 * * *</code></a></td>
+				<td>每4小时</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F6+*+*+*&amp;lang=zh"><code>0 */6 * * *</code></a></td>
+				<td>每6小时</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F8+*+*+*&amp;lang=zh"><code>0 */8 * * *</code></a></td>
+				<td>每8小时</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F12+*+*+*&amp;lang=zh"><code>0 */12 * * *</code></a></td>
+				<td>每12小时</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+9-17+*+*+*&amp;lang=zh"><code>0 9-17 * * *</code></a></td>
+				<td>9:00到17:00之间每小时</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+9-17+*+*+MON-FRI&amp;lang=zh"><code>30 9-17 * * MON-FRI</code></a></td>
+				<td>9:30到17:30之间每小时，工作日</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F15+*%2F2+*+*+*&amp;lang=zh"><code>*/15 */2 * * *</code></a></td>
+				<td>每15分钟，在偶数小时</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+*+*+*&amp;lang=zh"><code>0 0 * * *</code></a></td>
+				<td>每天0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+6+*+*+*&amp;lang=zh"><code>0 6 * * *</code></a></td>
+				<td>每天6:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+9+*+*+*&amp;lang=zh"><code>0 9 * * *</code></a></td>
+				<td>每天9:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+12+*+*+*&amp;lang=zh"><code>0 12 * * *</code></a></td>
+				<td>每天12:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+18+*+*+*&amp;lang=zh"><code>0 18 * * *</code></a></td>
+				<td>每天18:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+23+*+*+*&amp;lang=zh"><code>30 23 * * *</code></a></td>
+				<td>每天23:30</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+*+*+0&amp;lang=zh"><code>0 0 * * 0</code></a></td>
+				<td>每周日0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+3+*+*+0&amp;lang=zh"><code>0 3 * * 0</code></a></td>
+				<td>每周日3:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+9+*+*+MON-FRI&amp;lang=zh"><code>0 9 * * MON-FRI</code></a></td>
+				<td>每工作日9:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+8+*+*+SAT%2CSUN&amp;lang=zh"><code>30 8 * * SAT,SUN</code></a></td>
+				<td>每周末8:30</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+22+*+*+1-5&amp;lang=zh"><code>0 22 * * 1-5</code></a></td>
+				<td>每工作日22:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+3+*+*+1%2C3%2C5&amp;lang=zh"><code>0 3 * * 1,3,5</code></a></td>
+				<td>每周一、周三和周五3:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+1+*+*&amp;lang=zh"><code>0 0 1 * *</code></a></td>
+				<td>在上午 12:00, 限每月 1 号</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+15+*+*&amp;lang=zh"><code>0 0 15 * *</code></a></td>
+				<td>在上午 12:00, 限每月 15 号</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=15+14+1+*+*&amp;lang=zh"><code>15 14 1 * *</code></a></td>
+				<td>在下午 02:15, 限每月 1 号</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+1+1+*&amp;lang=zh"><code>0 0 1 1 *</code></a></td>
+				<td>在上午 12:00, 限每月 1 号, 仅于一月份</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=5+0+*+8+*&amp;lang=zh"><code>5 0 * 8 *</code></a></td>
+				<td>在上午 12:05, 仅于八月份</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F7+*+*+*+*&amp;lang=zh"><code>*/7 * * * *</code></a></td>
+				<td>每小时的第0分钟至第56分钟之间每7分钟一次，然后在整点重新开始</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F5+*+*+*&amp;lang=zh"><code>0 */5 * * *</code></a></td>
+				<td>每天从0:00至20:00每5小时一次，然后次日重新开始</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=5-59%2F15+*+*+*+*&amp;lang=zh"><code>5-59/15 * * * *</code></a></td>
+				<td>每15分钟，从第5分钟开始</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40reboot&amp;lang=zh"><code>@reboot</code></a></td>
+				<td>系统启动时运行一次</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40hourly&amp;lang=zh"><code>@hourly</code></a></td>
+				<td>每小时整点</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40daily&amp;lang=zh"><code>@daily</code></a></td>
+				<td>每天0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40weekly&amp;lang=zh"><code>@weekly</code></a></td>
+				<td>每周日0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40monthly&amp;lang=zh"><code>@monthly</code></a></td>
+				<td>在上午 12:00, 限每月 1 号</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40yearly&amp;lang=zh"><code>@yearly</code></a></td>
+				<td>在上午 12:00, 限每月 1 号, 仅于一月份</td>
+			</tr>
+				</tbody>
+			</table>
+			<p><a href="../index.html?lang=zh">打开解释器</a></p>
+		</div>
+	</div>
+	<div id="footer">
+		<a href="https://github.com/tagadvance/cron-h">在 GitHub 上查看源代码</a>
+		&middot;
+		Copyright &copy; 2026 Tag Spilman
+	</div>
+</div>
+</body>
+</html>

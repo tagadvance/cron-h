@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>cron 式の例 · cron -h</title>
+
+	<meta name="description" content="よく使われる crontab のスケジュールと、その実際の意味です。選択するとインタプリタで開きます。" />
+	<link rel="canonical" href="https://cron-h.com/ja/examples.html" />
+	<link rel="alternate" hreflang="en" href="https://cron-h.com/examples.html" />
+	<link rel="alternate" hreflang="es" href="https://cron-h.com/es/examples.html" />
+	<link rel="alternate" hreflang="fr" href="https://cron-h.com/fr/examples.html" />
+	<link rel="alternate" hreflang="ja" href="https://cron-h.com/ja/examples.html" />
+	<link rel="alternate" hreflang="pt" href="https://cron-h.com/pt/examples.html" />
+	<link rel="alternate" hreflang="ru" href="https://cron-h.com/ru/examples.html" />
+	<link rel="alternate" hreflang="zh" href="https://cron-h.com/zh/examples.html" />
+	<link rel="alternate" hreflang="x-default" href="https://cron-h.com/examples.html" />
+
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="cron -h" />
+	<meta property="og:url" content="https://cron-h.com/ja/examples.html" />
+	<meta property="og:title" content="cron 式の例" />
+	<meta property="og:description" content="よく使われる crontab のスケジュールと、その実際の意味です。選択するとインタプリタで開きます。" />
+	<meta name="twitter:card" content="summary" />
+
+	<link rel="stylesheet" type="text/css" href="../css/template.css" />
+</head>
+<body>
+<div id="container">
+	<div id="content">
+		<h1>cron -h</h1>
+		<h3>cron 式の例</h3>
+		<hr>
+		<div id="interpreter">
+			<p>よく使われる crontab のスケジュールと、その実際の意味です。選択するとインタプリタで開きます。</p>
+			<table id="examples-table">
+				<thead>
+					<tr>
+						<th>式</th>
+						<th>意味</th>
+					</tr>
+				</thead>
+				<tbody>
+			<tr>
+				<td><a href="../index.html?e=*+*+*+*+*&amp;lang=ja"><code>* * * * *</code></a></td>
+				<td>毎分</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F5+*+*+*+*&amp;lang=ja"><code>*/5 * * * *</code></a></td>
+				<td>5分ごと</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F10+*+*+*+*&amp;lang=ja"><code>*/10 * * * *</code></a></td>
+				<td>10分ごと</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F15+*+*+*+*&amp;lang=ja"><code>*/15 * * * *</code></a></td>
+				<td>15分ごと</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F20+*+*+*+*&amp;lang=ja"><code>*/20 * * * *</code></a></td>
+				<td>20分ごと</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F30+*+*+*+*&amp;lang=ja"><code>*/30 * * * *</code></a></td>
+				<td>30分ごと</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*+*+*+*&amp;lang=ja"><code>0 * * * *</code></a></td>
+				<td>毎時0分</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+*+*+*+*&amp;lang=ja"><code>30 * * * *</code></a></td>
+				<td>毎時30分</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F2+*+*+*&amp;lang=ja"><code>0 */2 * * *</code></a></td>
+				<td>2時間ごと</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F3+*+*+*&amp;lang=ja"><code>0 */3 * * *</code></a></td>
+				<td>3時間ごと</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F4+*+*+*&amp;lang=ja"><code>0 */4 * * *</code></a></td>
+				<td>4時間ごと</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F6+*+*+*&amp;lang=ja"><code>0 */6 * * *</code></a></td>
+				<td>6時間ごと</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F8+*+*+*&amp;lang=ja"><code>0 */8 * * *</code></a></td>
+				<td>8時間ごと</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F12+*+*+*&amp;lang=ja"><code>0 */12 * * *</code></a></td>
+				<td>12時間ごと</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+9-17+*+*+*&amp;lang=ja"><code>0 9-17 * * *</code></a></td>
+				<td>9:00から17:00まで毎時</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+9-17+*+*+MON-FRI&amp;lang=ja"><code>30 9-17 * * MON-FRI</code></a></td>
+				<td>9:30から17:30まで毎時、平日</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F15+*%2F2+*+*+*&amp;lang=ja"><code>*/15 */2 * * *</code></a></td>
+				<td>15分ごと、偶数時のみ</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+*+*+*&amp;lang=ja"><code>0 0 * * *</code></a></td>
+				<td>毎日0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+6+*+*+*&amp;lang=ja"><code>0 6 * * *</code></a></td>
+				<td>毎日6:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+9+*+*+*&amp;lang=ja"><code>0 9 * * *</code></a></td>
+				<td>毎日9:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+12+*+*+*&amp;lang=ja"><code>0 12 * * *</code></a></td>
+				<td>毎日12:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+18+*+*+*&amp;lang=ja"><code>0 18 * * *</code></a></td>
+				<td>毎日18:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+23+*+*+*&amp;lang=ja"><code>30 23 * * *</code></a></td>
+				<td>毎日23:30</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+*+*+0&amp;lang=ja"><code>0 0 * * 0</code></a></td>
+				<td>毎週日曜日の0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+3+*+*+0&amp;lang=ja"><code>0 3 * * 0</code></a></td>
+				<td>毎週日曜日の3:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+9+*+*+MON-FRI&amp;lang=ja"><code>0 9 * * MON-FRI</code></a></td>
+				<td>平日の9:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=30+8+*+*+SAT%2CSUN&amp;lang=ja"><code>30 8 * * SAT,SUN</code></a></td>
+				<td>週末の8:30</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+22+*+*+1-5&amp;lang=ja"><code>0 22 * * 1-5</code></a></td>
+				<td>平日の22:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+3+*+*+1%2C3%2C5&amp;lang=ja"><code>0 3 * * 1,3,5</code></a></td>
+				<td>毎週月曜日、水曜日、金曜日の3:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+1+*+*&amp;lang=ja"><code>0 0 1 * *</code></a></td>
+				<td>次において実施00:00、月の 1 日目</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+15+*+*&amp;lang=ja"><code>0 0 15 * *</code></a></td>
+				<td>次において実施00:00、月の 15 日目</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=15+14+1+*+*&amp;lang=ja"><code>15 14 1 * *</code></a></td>
+				<td>次において実施14:15、月の 1 日目</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+1+1+*&amp;lang=ja"><code>0 0 1 1 *</code></a></td>
+				<td>次において実施00:00、月の 1 日目1月 でのみ</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=5+0+*+8+*&amp;lang=ja"><code>5 0 * 8 *</code></a></td>
+				<td>次において実施00:058月 でのみ</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=*%2F7+*+*+*+*&amp;lang=ja"><code>*/7 * * * *</code></a></td>
+				<td>毎時0分から56分まで7分ごと、その後は正時に再開</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+*%2F5+*+*+*&amp;lang=ja"><code>0 */5 * * *</code></a></td>
+				<td>毎日0:00から20:00まで5時間ごと、その後は翌日に再開</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=5-59%2F15+*+*+*+*&amp;lang=ja"><code>5-59/15 * * * *</code></a></td>
+				<td>15分ごと（毎時5分から）</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40reboot&amp;lang=ja"><code>@reboot</code></a></td>
+				<td>システム起動時に1回</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40hourly&amp;lang=ja"><code>@hourly</code></a></td>
+				<td>毎時0分</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40daily&amp;lang=ja"><code>@daily</code></a></td>
+				<td>毎日0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40weekly&amp;lang=ja"><code>@weekly</code></a></td>
+				<td>毎週日曜日の0:00</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40monthly&amp;lang=ja"><code>@monthly</code></a></td>
+				<td>次において実施00:00、月の 1 日目</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=%40yearly&amp;lang=ja"><code>@yearly</code></a></td>
+				<td>次において実施00:00、月の 1 日目1月 でのみ</td>
+			</tr>
+				</tbody>
+			</table>
+			<p><a href="../index.html?lang=ja">インタプリタを開く</a></p>
+		</div>
+	</div>
+	<div id="footer">
+		<a href="https://github.com/tagadvance/cron-h">GitHub のソースコード</a>
+		&middot;
+		Copyright &copy; 2026 Tag Spilman
+	</div>
+</div>
+</body>
+</html>

@@ -57,6 +57,12 @@ export default {
 		atStartup: 'Runs at system startup, so there is no next run to calculate.',
 		never: 'Never runs. No date satisfies this expression.',
 		privacy: 'Run times are calculated in your browser, in your local time zone. Your crontab is never uploaded anywhere.',
+		examples: 'Examples',
+		examplesTitle: 'Cron expression examples',
+		examplesIntro: 'Common crontab schedules and what they actually mean. Pick one to open it in the interpreter.',
+		columnExpression: 'Expression',
+		columnMeaning: 'Means',
+		backToTool: 'Open the interpreter',
 		source: 'Source on GitHub'
 	},
 	messages: {
