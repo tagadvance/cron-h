@@ -1,7 +1,7 @@
 # cron-h
 
 Human readable cron interpreter web application. Live at
-[www.cron-h.com](https://www.cron-h.com).
+[cron-h.com](https://cron-h.com).
 
 Paste a crontab in; every schedule it finds is explained in English along with
 its next five run times. Everything is calculated in the browser — nothing is
