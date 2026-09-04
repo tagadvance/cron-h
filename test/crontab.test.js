@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { describe, interpretCrontab, nextRuns, parseLine } from '../js/crontab.js';
+import { interpretCrontab, interpretLine, nextRuns, parseLine } from '../js/crontab.js';
 
 const FROM = new Date('2026-01-01T00:00:00Z');
 const UTC = { count: 3, from: FROM, timezone: 'UTC' };
@@ -41,27 +41,10 @@ test('too few fields is an error', () => {
 	assert.equal(parseLine('nonsense').kind, 'error');
 });
 
-test('expressions are described in English', () => {
-	assert.equal(describe('* * * * *'), 'Every minute');
-	assert.equal(describe('*/15 * * * *'), 'Every 15 minutes');
-	assert.equal(describe('0 */2 * * *'), 'On the hour, every 2 hours');
-	assert.equal(describe('0 3 * * 0'), 'At 03:00 AM, only on Sunday');
-	assert.equal(describe('*/15 * * * SUN'), 'Every 15 minutes, only on Sunday');
-});
-
-test('every nickname is described', () => {
-	assert.equal(describe('@reboot'), 'Run once, at startup');
-	assert.equal(describe('@yearly'), describe('0 0 1 1 *'));
-	assert.equal(describe('@annually'), describe('0 0 1 1 *'));
-	assert.equal(describe('@monthly'), describe('0 0 1 * *'));
-	assert.equal(describe('@weekly'), describe('0 0 * * 0'));
-	assert.equal(describe('@daily'), describe('0 0 * * *'));
-	assert.equal(describe('@midnight'), describe('0 0 * * *'));
-	assert.equal(describe('@hourly'), describe('0 * * * *'));
-});
-
-test('an unparseable expression throws', () => {
-	assert.throws(() => describe('* * * * bogus'));
+test('an unparseable expression becomes an error, not an exception', () => {
+	const entry = interpretLine('* * * * bogus /bin/nope');
+	assert.equal(entry.kind, 'error');
+	assert.match(entry.message, /\S/);
 });
 
 test('next runs are listed soonest first', () => {
@@ -95,7 +78,7 @@ test('a crontab is interpreted line by line', () => {
 
 	assert.deepEqual(entries.map((entry) => entry.kind), ['comment', 'env', 'blank', 'entry', 'error']);
 	assert.deepEqual(entries.map((entry) => entry.lineNumber), [1, 2, 3, 4, 5]);
-	assert.equal(entries[3].description, 'At 12:00 AM');
+	assert.equal(entries[3].description, 'Every day at 12:00 AM');
 	assert.equal(entries[3].command, '/bin/rotate');
 	assert.match(entries[4].message, /\S/);
 });

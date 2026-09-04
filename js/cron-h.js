@@ -1,6 +1,7 @@
 import { interpretCrontab } from './crontab.js';
 
 const RUN_COUNT = 5;
+const LOCALE = navigator.language;
 
 const timestamp = new Intl.DateTimeFormat(undefined, { dateStyle: 'full', timeStyle: 'short' });
 
@@ -56,7 +57,7 @@ function renderError(entry) {
 }
 
 function render(text, target) {
-	const entries = interpretCrontab(text, { count: RUN_COUNT })
+	const entries = interpretCrontab(text, { count: RUN_COUNT, locale: LOCALE })
 		.filter((entry) => entry.kind === 'entry' || entry.kind === 'error');
 
 	target.replaceChildren();

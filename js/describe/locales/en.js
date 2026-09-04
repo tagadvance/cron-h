@@ -1,0 +1,80 @@
+// A locale is a module, not a data file, so it can make its own decisions about
+// plurals, word order and cultural facts without the core knowing about them.
+// Which days count as "the weekend" is one of those facts, and it is not the
+// same everywhere, which is exactly why it lives here.
+
+const MINUTES = { one: 'minute', other: 'minutes' };
+const HOURS = { one: 'hour', other: 'hours' };
+
+const WEEKDAYS = [1, 2, 3, 4, 5];
+const WEEKEND = [0, 6];
+
+const sameDays = (days, group) => days.length === group.length && group.every((day) => days.includes(day));
+
+function group(days) {
+	if (sameDays(days, WEEKDAYS)) {
+		return { one: 'weekday', many: 'weekdays' };
+	}
+	if (sameDays(days, WEEKEND)) {
+		return { one: 'weekend', many: 'weekends' };
+	}
+	return null;
+}
+
+// "all day Sunday" for schedules that repeat throughout the day, "Every Sunday"
+// for ones that fire at a point in time.
+function allDay(days, f) {
+	if (!days) {
+		return '';
+	}
+	const named = group(days);
+	return named ? `, all day on ${named.many}` : `, all day ${f.weekdays(days)}`;
+}
+
+const past = (minute, f) => `:${String(minute).padStart(2, '0')}`;
+
+export default {
+	code: 'en',
+	messages: {
+		reboot: () => 'Once at system startup',
+
+		everyMinute: ({ days }, f) => `Every minute${allDay(days, f)}`,
+
+		minuteInterval: ({ step, offset, days }, f) => {
+			const from = offset === 0 ? '' : `, starting at ${past(offset, f)}`;
+			return `Every ${f.number(step)} ${f.plural(step, MINUTES)}${from}${allDay(days, f)}`;
+		},
+
+		unevenMinuteInterval: ({ step, first, last, days }, f) =>
+			`Every ${f.number(step)} ${f.plural(step, MINUTES)} from ${past(first, f)} to ${past(last, f)} of each hour, then again on the hour${allDay(days, f)}`,
+
+		minuteIntervalInHours: ({ step, hourStep, hourOffset, days }, f) => {
+			const every = `Every ${f.number(step)} ${f.plural(step, MINUTES)}`;
+			if (hourStep === 2) {
+				return `${every}, on ${hourOffset === 0 ? 'even' : 'odd'}-numbered hours${allDay(days, f)}`;
+			}
+			return `Every ${f.number(hourStep)} ${f.plural(hourStep, HOURS)}, then every ${f.number(step)} ${f.plural(step, MINUTES)} within that hour${allDay(days, f)}`;
+		},
+
+		hourly: ({ minute, days }, f) =>
+			minute === 0
+				? `Every hour, on the hour${allDay(days, f)}`
+				: `Every hour at ${past(minute, f)}${allDay(days, f)}`,
+
+		hourInterval: ({ step, time, days }, f) => {
+			const from = time.hour === 0 && time.minute === 0 ? '' : `, starting at ${f.time(time)}`;
+			return `Every ${f.number(step)} ${f.plural(step, HOURS)}${from}${allDay(days, f)}`;
+		},
+
+		unevenHourInterval: ({ step, first, last, days }, f) =>
+			`Every ${f.number(step)} ${f.plural(step, HOURS)} from ${f.time(first)} to ${f.time(last)} each day, then again the next day${allDay(days, f)}`,
+
+		atTime: ({ time, days }, f) => {
+			if (!days) {
+				return `Every day at ${f.time(time)}`;
+			}
+			const named = group(days);
+			return `Every ${named ? named.one : f.weekdays(days)} at ${f.time(time)}`;
+		}
+	}
+};

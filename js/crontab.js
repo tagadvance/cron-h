@@ -1,12 +1,6 @@
-import cronstrue from './vendor/cronstrue.js';
 import { Cron } from './vendor/croner.js';
-
-// croner understands most crontab nicknames, but not these two: @midnight has
-// no equivalent, and @reboot is not a schedule at all.
-const UNSUPPORTED_NICKNAMES = {
-	'@midnight': '0 0 * * *',
-	'@reboot': null
-};
+import { describe } from './describe/index.js';
+import { expand } from './nicknames.js';
 
 const ENV_ASSIGNMENT = /^[A-Za-z_][A-Za-z0-9_]*\s*=/;
 
@@ -36,18 +30,15 @@ export function parseLine(line) {
 	return { kind: 'entry', expression: fields.slice(0, 5).join(' '), command: fields.slice(5).join(' ') };
 }
 
-/** Throws if the expression cannot be parsed. */
-export function describe(expression) {
-	return cronstrue.toString(expression, { verbose: false, throwExceptionOnParseError: true });
-}
 
 /**
  * Upcoming run times, soonest first. Returns null for schedules that are not
  * time-based (@reboot) and an empty array for schedules that can never fire.
  */
 export function nextRuns(expression, { count = 5, from = new Date(), timezone } = {}) {
-	const nickname = expression.toLowerCase();
-	const normalized = nickname in UNSUPPORTED_NICKNAMES ? UNSUPPORTED_NICKNAMES[nickname] : expression;
+	// croner rejects the nicknames it does not know, so every one of them is
+	// expanded before it gets there.
+	const normalized = expand(expression);
 	if (normalized === null) {
 		return null;
 	}
@@ -60,7 +51,11 @@ export function interpretLine(line, options) {
 		return parsed;
 	}
 	try {
-		return { ...parsed, description: describe(parsed.expression), runs: nextRuns(parsed.expression, options) };
+		return {
+			...parsed,
+			description: describe(parsed.expression, options),
+			runs: nextRuns(parsed.expression, options)
+		};
 	} catch (error) {
 		return { kind: 'error', message: error.message || String(error) };
 	}
