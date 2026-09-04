@@ -18,6 +18,19 @@ python3 -m http.server 8000
 The page is an ES module, so it needs to be served over HTTP; opening
 `index.html` from the filesystem will not work.
 
+## Example pages
+
+`examples.html` and `<lang>/examples.html` are generated from the describer so
+their wording cannot drift from what the interpreter says. After changing the
+describer or the list in `bin/examples.js`:
+
+```
+node bin/examples.js
+```
+
+That rewrites all seven pages and `sitemap.xml`. Commit the output — it is
+served as-is, there is still no build step.
+
 ## Tests
 
 ```
