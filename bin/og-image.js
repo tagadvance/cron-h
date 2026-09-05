@@ -7,7 +7,7 @@
 // advertise wording the site does not actually produce.
 
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -18,6 +18,9 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const EXPRESSION = '*/15 9-17 * * *';
 
 const BROWSERS = ['google-chrome', 'google-chrome-stable', 'chromium', 'chromium-browser'];
+
+const escape = (text) =>
+	text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 function browser() {
 	for (const candidate of BROWSERS) {
@@ -70,9 +73,9 @@ function card() {
 <body>
 	<div id="card">
 		<h1>cron -h</h1>
-		<h2>${ui.tagline}</h2>
-		<div id="expression">${EXPRESSION}</div>
-		<div id="meaning">${describe(EXPRESSION, { locale: 'en' })}</div>
+		<h2>${escape(ui.tagline)}</h2>
+		<div id="expression">${escape(EXPRESSION)}</div>
+		<div id="meaning">${escape(describe(EXPRESSION, { locale: 'en' }))}</div>
 		<div id="languages">English · Espa&ntilde;ol · Fran&ccedil;ais · &#26085;&#26412;&#35486; · Portugu&ecirc;s · &#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081; · &#20013;&#25991;</div>
 	</div>
 </body>
@@ -80,19 +83,38 @@ function card() {
 `;
 }
 
+// Resolved before anything is written, so the no-browser path leaves nothing
+// behind.
+const chrome = browser();
+const output = join(ROOT, 'og.png');
+const before = statSync(output, { throwIfNoEntry: false })?.mtimeMs ?? 0;
+
 const scratch = mkdtempSync(join(tmpdir(), 'cron-h-og-'));
 const source = join(scratch, 'card.html');
-writeFileSync(source, card());
 
-const output = join(ROOT, 'og.png');
-execFileSync(browser(), [
-	'--headless',
-	'--disable-gpu',
-	'--no-sandbox',
-	'--hide-scrollbars',
-	'--window-size=1200,630',
-	`--screenshot=${output}`,
-	`file://${source}`,
-]);
+try {
+	writeFileSync(source, card());
+	execFileSync(chrome, [
+		'--headless',
+		'--disable-gpu',
+		'--no-sandbox',
+		'--hide-scrollbars',
+		'--window-size=1200,630',
+		`--screenshot=${output}`,
+		`file://${source}`,
+	]);
 
-console.log(`wrote /og.png from ${source}`);
+	// Headless Chrome exits 0 whether or not it managed to write the file, and
+	// screenshots its own error page if the source is unreadable. Neither
+	// failure is visible without checking the result.
+	const after = statSync(output, { throwIfNoEntry: false });
+	if (!after || after.mtimeMs <= before) {
+		throw new Error(`${chrome} reported success but did not write ${output}`);
+	}
+	if (after.size < 1024) {
+		throw new Error(`${output} is ${after.size} bytes, which is not a card`);
+	}
+	console.log(`wrote /og.png (${after.size} bytes)`);
+} finally {
+	rmSync(scratch, { recursive: true, force: true });
+}

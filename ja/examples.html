@@ -24,6 +24,7 @@
 	<meta property="og:image" content="https://cron-h.com/og.png" />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
+	<meta property="og:image:alt" content="cron 式の例" />
 	<meta name="twitter:card" content="summary_large_image" />
 
 	<link rel="stylesheet" type="text/css" href="../css/template.css" />
@@ -70,7 +71,7 @@
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+*+*+*+*&amp;lang=ja"><code>0 * * * *</code></a></td>
-				<td>毎時0分</td>
+				<td>毎正時</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=30+*+*+*+*&amp;lang=ja"><code>30 * * * *</code></a></td>
@@ -194,7 +195,7 @@
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=*%2F7+*+*+*+*&amp;lang=ja"><code>*/7 * * * *</code></a></td>
-				<td>毎時0分から56分まで7分ごと、その後は正時に再開</td>
+				<td>毎時0分から56分まで7分ごと、その後は次の時間の0分に再開</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+*%2F5+*+*+*&amp;lang=ja"><code>0 */5 * * *</code></a></td>
@@ -210,7 +211,7 @@
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=%40hourly&amp;lang=ja"><code>@hourly</code></a></td>
-				<td>毎時0分</td>
+				<td>毎正時</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=%40daily&amp;lang=ja"><code>@daily</code></a></td>

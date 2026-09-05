@@ -70,7 +70,12 @@ export const EXAMPLES = [
 ];
 
 const escape = (text) =>
-	text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+	text
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&#39;');
 
 const pathFor = (code) => (code === 'en' ? '/examples.html' : `/${code}/examples.html`);
 
@@ -121,6 +126,7 @@ ${alternates()}
 	<meta property="og:image" content="${ORIGIN}/og.png" />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
+	<meta property="og:image:alt" content="${escape(ui.examplesTitle)}" />
 	<meta name="twitter:card" content="summary_large_image" />
 
 	<link rel="stylesheet" type="text/css" href="${css}" />
