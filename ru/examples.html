@@ -21,7 +21,10 @@
 	<meta property="og:url" content="https://cron-h.com/ru/examples.html" />
 	<meta property="og:title" content="Примеры выражений cron" />
 	<meta property="og:description" content="Часто встречающиеся расписания crontab и что они значат на самом деле. Выберите любое, чтобы открыть его в интерпретаторе." />
-	<meta name="twitter:card" content="summary" />
+	<meta property="og:image" content="https://cron-h.com/og.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta name="twitter:card" content="summary_large_image" />
 
 	<link rel="stylesheet" type="text/css" href="../css/template.css" />
 </head>
@@ -159,23 +162,23 @@
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+0+1+*+*&amp;lang=ru"><code>0 0 1 * *</code></a></td>
-				<td>В 00:00, в 1 число месяца</td>
+				<td>Каждый месяц 1-го числа в 0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+0+15+*+*&amp;lang=ru"><code>0 0 15 * *</code></a></td>
-				<td>В 00:00, в 15 число месяца</td>
+				<td>Каждый месяц 15-го числа в 0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=15+14+1+*+*&amp;lang=ru"><code>15 14 1 * *</code></a></td>
-				<td>В 14:15, в 1 число месяца</td>
+				<td>Каждый месяц 1-го числа в 14:15</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+0+1+1+*&amp;lang=ru"><code>0 0 1 1 *</code></a></td>
-				<td>В 00:00, в 1 число месяца, только январь</td>
+				<td>Каждый год 1 января в 0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=5+0+*+8+*&amp;lang=ru"><code>5 0 * 8 *</code></a></td>
-				<td>В 00:05, только август</td>
+				<td>В августе каждый день в 0:05</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=*%2F7+*+*+*+*&amp;lang=ru"><code>*/7 * * * *</code></a></td>
@@ -207,11 +210,11 @@
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=%40monthly&amp;lang=ru"><code>@monthly</code></a></td>
-				<td>В 00:00, в 1 число месяца</td>
+				<td>Каждый месяц 1-го числа в 0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=%40yearly&amp;lang=ru"><code>@yearly</code></a></td>
-				<td>В 00:00, в 1 число месяца, только январь</td>
+				<td>Каждый год 1 января в 0:00</td>
 			</tr>
 				</tbody>
 			</table>

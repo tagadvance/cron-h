@@ -21,7 +21,10 @@
 	<meta property="og:url" content="https://cron-h.com/ja/examples.html" />
 	<meta property="og:title" content="cron 式の例" />
 	<meta property="og:description" content="よく使われる crontab のスケジュールと、その実際の意味です。選択するとインタプリタで開きます。" />
-	<meta name="twitter:card" content="summary" />
+	<meta property="og:image" content="https://cron-h.com/og.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta name="twitter:card" content="summary_large_image" />
 
 	<link rel="stylesheet" type="text/css" href="../css/template.css" />
 </head>
@@ -159,23 +162,23 @@
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+0+1+*+*&amp;lang=ja"><code>0 0 1 * *</code></a></td>
-				<td>次において実施00:00、月の 1 日目</td>
+				<td>毎月1日の0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+0+15+*+*&amp;lang=ja"><code>0 0 15 * *</code></a></td>
-				<td>次において実施00:00、月の 15 日目</td>
+				<td>毎月15日の0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=15+14+1+*+*&amp;lang=ja"><code>15 14 1 * *</code></a></td>
-				<td>次において実施14:15、月の 1 日目</td>
+				<td>毎月1日の14:15</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+0+1+1+*&amp;lang=ja"><code>0 0 1 1 *</code></a></td>
-				<td>次において実施00:00、月の 1 日目1月 でのみ</td>
+				<td>毎年1月1日の0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=5+0+*+8+*&amp;lang=ja"><code>5 0 * 8 *</code></a></td>
-				<td>次において実施00:058月 でのみ</td>
+				<td>8月の毎日0:05</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=*%2F7+*+*+*+*&amp;lang=ja"><code>*/7 * * * *</code></a></td>
@@ -207,11 +210,11 @@
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=%40monthly&amp;lang=ja"><code>@monthly</code></a></td>
-				<td>次において実施00:00、月の 1 日目</td>
+				<td>毎月1日の0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=%40yearly&amp;lang=ja"><code>@yearly</code></a></td>
-				<td>次において実施00:00、月の 1 日目1月 でのみ</td>
+				<td>毎年1月1日の0:00</td>
 			</tr>
 				</tbody>
 			</table>

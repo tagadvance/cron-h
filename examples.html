@@ -21,7 +21,10 @@
 	<meta property="og:url" content="https://cron-h.com/examples.html" />
 	<meta property="og:title" content="Cron expression examples" />
 	<meta property="og:description" content="Common crontab schedules and what they actually mean. Pick one to open it in the interpreter." />
-	<meta name="twitter:card" content="summary" />
+	<meta property="og:image" content="https://cron-h.com/og.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta name="twitter:card" content="summary_large_image" />
 
 	<link rel="stylesheet" type="text/css" href="css/template.css" />
 </head>
@@ -159,23 +162,23 @@
 			</tr>
 			<tr>
 				<td><a href="index.html?e=0+0+1+*+*"><code>0 0 1 * *</code></a></td>
-				<td>At 12:00 AM, on day 1 of the month</td>
+				<td>Every month on the 1st at 12:00 AM</td>
 			</tr>
 			<tr>
 				<td><a href="index.html?e=0+0+15+*+*"><code>0 0 15 * *</code></a></td>
-				<td>At 12:00 AM, on day 15 of the month</td>
+				<td>Every month on the 15th at 12:00 AM</td>
 			</tr>
 			<tr>
 				<td><a href="index.html?e=15+14+1+*+*"><code>15 14 1 * *</code></a></td>
-				<td>At 02:15 PM, on day 1 of the month</td>
+				<td>Every month on the 1st at 2:15 PM</td>
 			</tr>
 			<tr>
 				<td><a href="index.html?e=0+0+1+1+*"><code>0 0 1 1 *</code></a></td>
-				<td>At 12:00 AM, on day 1 of the month, only in January</td>
+				<td>Every year on January 1 at 12:00 AM</td>
 			</tr>
 			<tr>
 				<td><a href="index.html?e=5+0+*+8+*"><code>5 0 * 8 *</code></a></td>
-				<td>At 12:05 AM, only in August</td>
+				<td>Every day in August at 12:05 AM</td>
 			</tr>
 			<tr>
 				<td><a href="index.html?e=*%2F7+*+*+*+*"><code>*/7 * * * *</code></a></td>
@@ -207,11 +210,11 @@
 			</tr>
 			<tr>
 				<td><a href="index.html?e=%40monthly"><code>@monthly</code></a></td>
-				<td>At 12:00 AM, on day 1 of the month</td>
+				<td>Every month on the 1st at 12:00 AM</td>
 			</tr>
 			<tr>
 				<td><a href="index.html?e=%40yearly"><code>@yearly</code></a></td>
-				<td>At 12:00 AM, on day 1 of the month, only in January</td>
+				<td>Every year on January 1 at 12:00 AM</td>
 			</tr>
 				</tbody>
 			</table>

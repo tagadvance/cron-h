@@ -21,7 +21,10 @@
 	<meta property="og:url" content="https://cron-h.com/fr/examples.html" />
 	<meta property="og:title" content="Exemples d’expressions cron" />
 	<meta property="og:description" content="Les planifications crontab courantes et ce qu’elles signifient réellement. Choisissez-en une pour l’ouvrir dans l’interpréteur." />
-	<meta name="twitter:card" content="summary" />
+	<meta property="og:image" content="https://cron-h.com/og.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta name="twitter:card" content="summary_large_image" />
 
 	<link rel="stylesheet" type="text/css" href="../css/template.css" />
 </head>
@@ -159,23 +162,23 @@
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+0+1+*+*&amp;lang=fr"><code>0 0 1 * *</code></a></td>
-				<td>À 00:00, le 1 du mois</td>
+				<td>Tous les mois le 1er à 0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+0+15+*+*&amp;lang=fr"><code>0 0 15 * *</code></a></td>
-				<td>À 00:00, le 15 du mois</td>
+				<td>Tous les mois le 15 à 0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=15+14+1+*+*&amp;lang=fr"><code>15 14 1 * *</code></a></td>
-				<td>À 14:15, le 1 du mois</td>
+				<td>Tous les mois le 1er à 14:15</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+0+1+1+*&amp;lang=fr"><code>0 0 1 1 *</code></a></td>
-				<td>À 00:00, le 1 du mois, uniquement en janvier</td>
+				<td>Tous les ans le 1er janvier à 0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=5+0+*+8+*&amp;lang=fr"><code>5 0 * 8 *</code></a></td>
-				<td>À 00:05, uniquement en août</td>
+				<td>En août, tous les jours à 0:05</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=*%2F7+*+*+*+*&amp;lang=fr"><code>*/7 * * * *</code></a></td>
@@ -207,11 +210,11 @@
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=%40monthly&amp;lang=fr"><code>@monthly</code></a></td>
-				<td>À 00:00, le 1 du mois</td>
+				<td>Tous les mois le 1er à 0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=%40yearly&amp;lang=fr"><code>@yearly</code></a></td>
-				<td>À 00:00, le 1 du mois, uniquement en janvier</td>
+				<td>Tous les ans le 1er janvier à 0:00</td>
 			</tr>
 				</tbody>
 			</table>

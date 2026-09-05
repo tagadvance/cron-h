@@ -21,7 +21,10 @@
 	<meta property="og:url" content="https://cron-h.com/zh/examples.html" />
 	<meta property="og:title" content="cron 表达式示例" />
 	<meta property="og:description" content="常见的 crontab 计划任务及其真实含义。选择任意一条即可在解释器中打开。" />
-	<meta name="twitter:card" content="summary" />
+	<meta property="og:image" content="https://cron-h.com/og.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta name="twitter:card" content="summary_large_image" />
 
 	<link rel="stylesheet" type="text/css" href="../css/template.css" />
 </head>
@@ -159,23 +162,23 @@
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+0+1+*+*&amp;lang=zh"><code>0 0 1 * *</code></a></td>
-				<td>在上午 12:00, 限每月 1 号</td>
+				<td>每月1号0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+0+15+*+*&amp;lang=zh"><code>0 0 15 * *</code></a></td>
-				<td>在上午 12:00, 限每月 15 号</td>
+				<td>每月15号0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=15+14+1+*+*&amp;lang=zh"><code>15 14 1 * *</code></a></td>
-				<td>在下午 02:15, 限每月 1 号</td>
+				<td>每月1号14:15</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=0+0+1+1+*&amp;lang=zh"><code>0 0 1 1 *</code></a></td>
-				<td>在上午 12:00, 限每月 1 号, 仅于一月份</td>
+				<td>每年1月1日0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=5+0+*+8+*&amp;lang=zh"><code>5 0 * 8 *</code></a></td>
-				<td>在上午 12:05, 仅于八月份</td>
+				<td>八月每天0:05</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=*%2F7+*+*+*+*&amp;lang=zh"><code>*/7 * * * *</code></a></td>
@@ -207,11 +210,11 @@
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=%40monthly&amp;lang=zh"><code>@monthly</code></a></td>
-				<td>在上午 12:00, 限每月 1 号</td>
+				<td>每月1号0:00</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=%40yearly&amp;lang=zh"><code>@yearly</code></a></td>
-				<td>在上午 12:00, 限每月 1 号, 仅于一月份</td>
+				<td>每年1月1日0:00</td>
 			</tr>
 				</tbody>
 			</table>

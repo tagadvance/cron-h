@@ -115,7 +115,10 @@ ${alternates(code)}
 	<meta property="og:url" content="${ORIGIN}${pathFor(code)}" />
 	<meta property="og:title" content="${escape(ui.examplesTitle)}" />
 	<meta property="og:description" content="${escape(ui.examplesIntro)}" />
-	<meta name="twitter:card" content="summary" />
+	<meta property="og:image" content="${ORIGIN}/og.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta name="twitter:card" content="summary_large_image" />
 
 	<link rel="stylesheet" type="text/css" href="${css}" />
 </head>
