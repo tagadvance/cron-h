@@ -5,7 +5,16 @@
   "description": "Human readable cron interpreter web application.",
   "type": "module",
   "scripts": {
-    "test": "node --test test/"
+    "test": "node --test test/",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write . && eslint --fix ."
   },
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.10.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.12.0",
+    "prettier": "^3.9.6"
+  }
 }
