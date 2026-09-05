@@ -88,7 +88,7 @@ function row(expression, code) {
 
 // Every language lists every other, which is what tells a crawler these pages
 // are the same content rather than duplicates competing with each other.
-function alternates(code) {
+function alternates() {
 	const links = locales().map(
 		({ code: other }) =>
 			`	<link rel="alternate" hreflang="${other}" href="${ORIGIN}${pathFor(other)}" />`
@@ -111,7 +111,7 @@ function page(code) {
 
 	<meta name="description" content="${escape(ui.examplesIntro)}" />
 	<link rel="canonical" href="${ORIGIN}${pathFor(code)}" />
-${alternates(code)}
+${alternates()}
 
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="cron -h" />

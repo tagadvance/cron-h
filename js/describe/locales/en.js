@@ -43,7 +43,7 @@ function allDay(days, f) {
 	return named ? `, all day on ${named.many}` : `, all day ${f.weekdays(days)}`;
 }
 
-const past = (minute, f) => `:${String(minute).padStart(2, '0')}`;
+const past = (minute) => `:${String(minute).padStart(2, '0')}`;
 
 const ordinal = (value, f) => `${f.number(value)}${ORDINALS[f.ordinal(value)] ?? 'th'}`;
 
@@ -77,12 +77,12 @@ export default {
 		everyMinute: ({ days }, f) => `Every minute${allDay(days, f)}`,
 
 		minuteInterval: ({ step, offset, days }, f) => {
-			const from = offset === 0 ? '' : `, starting at ${past(offset, f)}`;
+			const from = offset === 0 ? '' : `, starting at ${past(offset)}`;
 			return `Every ${f.number(step)} ${f.plural(step, MINUTES)}${from}${allDay(days, f)}`;
 		},
 
 		unevenMinuteInterval: ({ step, first, last, days }, f) =>
-			`Every ${f.number(step)} ${f.plural(step, MINUTES)} from ${past(first, f)} to ${past(last, f)} of each hour, then again on the hour${allDay(days, f)}`,
+			`Every ${f.number(step)} ${f.plural(step, MINUTES)} from ${past(first)} to ${past(last)} of each hour, then again on the hour${allDay(days, f)}`,
 
 		minuteIntervalInHours: ({ step, hourStep, hourOffset, days }, f) => {
 			const every = `Every ${f.number(step)} ${f.plural(step, MINUTES)}`;
@@ -95,7 +95,7 @@ export default {
 		hourly: ({ minute, days }, f) =>
 			minute === 0
 				? `Every hour, on the hour${allDay(days, f)}`
-				: `Every hour at ${past(minute, f)}${allDay(days, f)}`,
+				: `Every hour at ${past(minute)}${allDay(days, f)}`,
 
 		hourInterval: ({ step, time, days }, f) => {
 			const from = time.hour === 0 && time.minute === 0 ? '' : `, starting at ${f.time(time)}`;
