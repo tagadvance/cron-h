@@ -132,6 +132,8 @@ const CLAIMS = {
 			const matchesDate = monthDays.includes(date.getUTCDate());
 			const matchesWeekday = days.includes(date.getUTCDay());
 			assert.ok(matchesDate || matchesWeekday, `${date.toISOString()} matches neither field`);
+			assert.equal(date.getUTCHours(), time.hour);
+			assert.equal(date.getUTCMinutes(), time.minute);
 			byDate += matchesDate ? 1 : 0;
 			byWeekday += matchesWeekday ? 1 : 0;
 		}
