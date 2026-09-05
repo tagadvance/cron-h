@@ -73,15 +73,20 @@ export function parseField(text, spec) {
 		}
 	}
 
+	// Whether the field was written as a bare star is not a detail of syntax
+	// that can be discarded. Cron decides between AND and OR for the two day
+	// fields on exactly this, so `1-31` and `*` mean different things even
+	// though they match the same days. See recognize() in patterns.js.
 	return values.size === 0
 		? null
 		: analyze(
 				[...values].sort((a, b) => a - b),
 				spec,
+				text === '*',
 			);
 }
 
-function analyze(values, spec) {
+function analyze(values, spec, isStar) {
 	const first = values[0];
 	const last = values[values.length - 1];
 
@@ -105,6 +110,7 @@ function analyze(values, spec) {
 		first,
 		last,
 		stride,
+		isStar,
 		isFull: values.length === spec.max - spec.min + 1,
 		isSingleton: values.length === 1,
 		isEvenCycle: spec.cyclic && stride !== null && wrap === stride,
