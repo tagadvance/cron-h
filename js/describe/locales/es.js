@@ -77,7 +77,7 @@ export default {
 		},
 
 		unevenMinuteInterval: ({ step, first, last, days }, f) =>
-			`Cada ${f.number(step)} ${f.plural(step, MINUTES)}, del minuto ${f.number(first)} al ${f.number(last)} de cada hora, y de nuevo en el minuto ${f.number(first)} de la siguiente${allDay(days, f)}`,
+			`${step === 1 ? 'Cada minuto' : `Cada ${f.number(step)} ${f.plural(step, MINUTES)}`}, del minuto ${f.number(first)} al ${f.number(last)} de cada hora, y de nuevo en el minuto ${f.number(first)} de la siguiente${allDay(days, f)}`,
 
 		minuteIntervalInHours: ({ step, hourStep, hourOffset, days }, f) => {
 			if (hourStep === 2) {

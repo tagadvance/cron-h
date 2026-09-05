@@ -92,7 +92,7 @@ export default {
 		},
 
 		unevenMinuteInterval: ({ step, first, last, days }, f) =>
-			`Every ${f.number(step)} ${f.plural(step, MINUTES)} from ${past(first)} to ${past(last)} of each hour, then again at ${past(first)} of the next${allDay(days, f)}`,
+			`${step === 1 ? 'Every minute' : `Every ${f.number(step)} ${f.plural(step, MINUTES)}`} from ${past(first)} to ${past(last)} of each hour, then again at ${past(first)} of the next${allDay(days, f)}`,
 
 		minuteIntervalInHours: ({ step, hourStep, hourOffset, days }, f) => {
 			const every = `Every ${f.number(step)} ${f.plural(step, MINUTES)}`;

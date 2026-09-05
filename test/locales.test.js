@@ -10,29 +10,59 @@ import ru from '../js/describe/locales/ru.js';
 import zh from '../js/describe/locales/zh.js';
 import { describe, chrome, locales } from '../js/describe/index.js';
 import { loadTranslations } from '../js/describe/fallback.js';
-import { recognize } from '../js/describe/patterns.js';
+import { PATTERN_COUNT, recognize } from '../js/describe/patterns.js';
 
 const ALL = [en, es, fr, ja, pt, ru, zh];
 
-// Every descriptor a recognizer can produce, taken from the corpus the oracle
-// already checks, so a new pattern cannot quietly go untranslated.
-const IDS = [
-	'reboot',
-	'everyMinute',
-	'minuteInterval',
-	'unevenMinuteInterval',
-	'minuteIntervalInHours',
-	'hourly',
-	'hourInterval',
-	'hourRange',
-	'unevenHourInterval',
-	'minuteIntervalInHourRange',
-	'monthlyOnDay',
-	'yearlyOnDate',
-	'inMonths',
-	'dayOfMonthOrWeek',
-	'atTime',
-];
+// Derived from the recognizers by sweeping a generated matrix, not from a
+// hand-written list. A list would have to be maintained alongside the one in
+// patterns.js, and the two would drift — which is exactly how a pattern ships
+// with no translation in any language.
+function sweep() {
+	const minutes = ['*', '0', '30', '*/15', '*/7', '5-59/15'];
+	const hours = ['*', '0', '9', '*/2', '*/5', '9-17', '1-23/2'];
+	const monthDays = ['*', '1', '13', '1,15', '31', '1-31', '*/2'];
+	const months = ['*', '1', '8'];
+	const weekDays = ['*', '0', 'FRI', 'MON-FRI', '1-7'];
+
+	const ids = new Set(['reboot']);
+	for (const minute of minutes) {
+		for (const hour of hours) {
+			for (const dom of monthDays) {
+				for (const month of months) {
+					for (const dow of weekDays) {
+						const descriptor = recognize(`${minute} ${hour} ${dom} ${month} ${dow}`);
+						if (descriptor !== null) {
+							ids.add(descriptor.id);
+						}
+					}
+				}
+			}
+		}
+	}
+	return [...ids];
+}
+
+const IDS = sweep();
+
+// Strings that are genuinely the same word in both languages. Exempting them
+// by name keeps the check strict everywhere else, where sameness means the
+// translation was never written.
+// What each language calls itself. The picker shows these, so "Spanish" where
+// "Español" belongs is a real defect, and a non-empty check would not see it.
+const ENDONYMS = {
+	en: 'English',
+	es: 'Español',
+	fr: 'Français',
+	ja: '日本語',
+	pt: 'Português',
+	ru: 'Русский',
+	zh: '中文',
+};
+
+const COINCIDENCES = {
+	fr: ['columnExpression'], // "Expression" is spelled the same in French.
+};
 
 const SAMPLES = [
 	'@reboot',
@@ -55,6 +85,10 @@ const SAMPLES = [
 	'30 8 * * SAT,SUN',
 ];
 
+test('the sweep reaches every recognizer there is', () => {
+	assert.equal(IDS.length, PATTERN_COUNT, 'a recognizer exists that nothing here reaches');
+});
+
 test('the sample expressions cover every descriptor', () => {
 	assert.deepEqual(
 		[...new Set(SAMPLES.map((expression) => recognize(expression).id))].sort(),
@@ -63,13 +97,36 @@ test('the sample expressions cover every descriptor', () => {
 });
 
 for (const locale of ALL) {
-	test(`${locale.code} translates every descriptor`, () => {
+	test(`${locale.code} has a message for every descriptor`, () => {
 		assert.deepEqual(Object.keys(locale.messages).sort(), [...IDS].sort());
 	});
 
-	test(`${locale.code} translates every page string`, () => {
+	test(`${locale.code} has every page string`, () => {
 		assert.deepEqual(Object.keys(locale.ui).sort(), Object.keys(en.ui).sort());
 	});
+
+	// Having the key is not having the translation. Copying the English
+	// template into a locale satisfied the checks above and nothing else.
+	if (locale.code !== 'en') {
+		test(`${locale.code} actually translates, rather than echoing English`, () => {
+			for (const expression of SAMPLES) {
+				assert.notEqual(
+					describe(expression, { locale: locale.code }),
+					describe(expression, { locale: 'en' }),
+					`${expression} is identical to the English`,
+				);
+			}
+		});
+
+		test(`${locale.code} actually translates the page strings`, () => {
+			for (const [key, value] of Object.entries(locale.ui)) {
+				if (typeof value !== 'string' || COINCIDENCES[locale.code]?.includes(key)) {
+					continue;
+				}
+				assert.notEqual(value, en.ui[key], `ui.${key} is identical to the English`);
+			}
+		});
+	}
 
 	test(`${locale.code} produces a non-empty description for every sample`, () => {
 		for (const expression of SAMPLES) {
@@ -81,7 +138,8 @@ for (const locale of ALL) {
 	});
 
 	test(`${locale.code} names itself in its own language`, () => {
-		assert.match(locale.name, /\S/);
+		// Pinned, because "non-empty" would have accepted "Spanish" for es.
+		assert.equal(locale.name, ENDONYMS[locale.code]);
 		assert.equal(locale.fallback.slice(0, 2), locale.code);
 	});
 }
@@ -182,4 +240,29 @@ test('every published example describes cleanly in every language', async () => 
 			assert.doesNotMatch(text, /undefined|NaN|\[object/, `${expression} in ${code}`);
 		}
 	}
+});
+
+// The audit found the fallback bundle's loaded/not-loaded flag had no coverage
+// in either direction: hard-coding it either way passed the whole suite. With
+// it stuck on "loaded", a non-English reader silently gets English forever for
+// anything no recognizer claims.
+test('the fallback reports whether its translations have arrived', async () => {
+	const { hasTranslations, loadTranslations } = await import('../js/describe/fallback.js');
+	const unrecognized = '*/15 * 1 * *';
+	assert.equal(recognize(unrecognized), null, 'this test needs an unrecognized schedule');
+
+	if (!hasTranslations()) {
+		assert.equal(
+			describe(unrecognized, { locale: 'es' }),
+			describe(unrecognized, { locale: 'en' }),
+			'before loading, every language gets the English fallback',
+		);
+	}
+
+	await loadTranslations();
+	assert.equal(hasTranslations(), true, 'it must report the bundle as loaded');
+	assert.notEqual(
+		describe(unrecognized, { locale: 'es' }),
+		describe(unrecognized, { locale: 'en' }),
+	);
 });

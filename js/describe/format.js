@@ -49,7 +49,6 @@ export function createFormat(locale) {
 		/** A day and month together, which every locale words differently:
 		 *  "January 1", "1 de enero", "1月1日". */
 		date: ({ month: m, day }) => calendar.format(Date.UTC(2024, m - 1, day)),
-		monthNames: (values) => values.map((m) => month.format(Date.UTC(2024, m - 1, 1))),
 		months: (values) =>
 			conjunction.format(values.map((m) => month.format(Date.UTC(2024, m - 1, 1)))),
 	};

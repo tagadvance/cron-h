@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { interpretCrontab, interpretLine, nextRuns, parseLine } from '../js/crontab.js';
+import { SPECS, parseField } from '../js/describe/fields.js';
 
 const FROM = new Date('2026-01-01T00:00:00Z');
 const UTC = { count: 3, from: FROM, timezone: 'UTC' };
@@ -102,4 +103,50 @@ test('carriage returns do not leak into the last field', () => {
 		['entry', 'entry', 'blank'],
 	);
 	assert.equal(entries[0].command, '/bin/rotate');
+});
+
+// The regex exists to tell MAILTO=x from a schedule. Relaxing it to /=/ passed
+// the whole suite, and under that relaxation any command containing = — which
+// is most of them — was silently reclassified as an environment line and
+// vanished from the page.
+test('a command containing = is still a schedule, not an environment line', () => {
+	assert.equal(parseLine('*/5 * * * * /bin/x --mode=fast').kind, 'entry');
+	assert.equal(parseLine('0 3 * * 0 FOO=bar /bin/backup').kind, 'entry');
+	assert.equal(parseLine('@daily /bin/x --set a=b').kind, 'entry');
+	assert.equal(parseLine('MAILTO=tag@example.com').kind, 'env');
+	assert.equal(parseLine('9NOTAVAR=x').kind, 'error', 'a name cannot start with a digit');
+});
+
+test('the run count and start default rather than being required', () => {
+	const now = Date.now();
+	const defaults = nextRuns('*/15 * * * *');
+	assert.equal(defaults.length, 5, 'five runs by default');
+	assert.ok(defaults[0].getTime() > now, 'and they start from now');
+
+	assert.equal(nextRuns('*/15 * * * *', { count: 2 }).length, 2);
+});
+
+test('fields separated by anything but a space or tab are rejected', () => {
+	// NBSP is common in text copied out of a web page or a PDF. Cron separates
+	// fields with spaces and tabs, so such a line is not a schedule, and saying
+	// it is would be worse than saying nothing.
+	assert.equal(interpretLine('0\u00A00 * * * /bin/x').kind, 'error', 'NBSP is not a separator');
+	assert.equal(interpretLine('0\u30000 * * * /bin/x').kind, 'error', 'nor an ideographic space');
+
+	assert.equal(parseLine('0\t0 * * * /bin/x').kind, 'entry', 'a tab is a real separator');
+	assert.equal(parseLine('0  0   * * * /bin/x').kind, 'entry', 'so is a run of spaces');
+	assert.equal(interpretLine('0\t0 * * * /bin/x').description, 'Every day at 12:00 AM');
+});
+
+// The flag exists because month lengths vary, so a stride over days of the
+// month has no fixed wrap-around gap and can never honestly be called "every N
+// days". Nothing read it, so flipping it changed no output and no test — this
+// pins the behaviour the comment describes.
+test('a stride over days of the month is never an even cycle', () => {
+	const dayOfMonth = SPECS.find((spec) => spec.name === 'dayOfMonth');
+	const minute = SPECS.find((spec) => spec.name === 'minute');
+
+	assert.equal(parseField('*/10', dayOfMonth).isEvenCycle, false, 'months vary in length');
+	assert.equal(parseField('*/5', dayOfMonth).stride, 5, 'the stride itself is still known');
+	assert.equal(parseField('*/10', minute).isEvenCycle, true, 'but an hour is always 60 minutes');
 });

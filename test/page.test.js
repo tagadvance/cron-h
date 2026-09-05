@@ -116,6 +116,18 @@ test('an unparseable line is reported rather than swallowed', options, async () 
 	assert.match(dom, /class="entry error"/);
 });
 
+// The i18n bundle is fetched only for a non-English reader, and only for
+// schedules no recognizer claims. Hard-coding the "already loaded" flag either
+// way passed the whole suite, while leaving a Spanish reader on English
+// forever. This is the only test that exercises that path end to end.
+test('an unrecognized schedule is still translated', options, async () => {
+	const dom = await render('/index.html?e=*%2F15+*+1+*+*&lang=es');
+	const shown = [...dom.matchAll(/<p class="description">([^<]*)</g)].map((m) => m[1]);
+	assert.equal(shown.length, 1);
+	assert.doesNotMatch(shown[0], /^Every /, 'fell back to English');
+	assert.match(shown[0], /minutos/, 'the translated fallback arrived');
+});
+
 test('the page a crawler sees carries its card and canonical', options, async () => {
 	const dom = await render('/');
 	assert.match(dom, /<meta property="og:image" content="https:\/\/cron-h\.com\/og\.png"/);

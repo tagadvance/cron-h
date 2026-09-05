@@ -47,7 +47,9 @@ test('weekday and weekend sets are named, not enumerated', () => {
 
 test('the same schedule written two ways reads the same way', () => {
 	assert.equal(described('0,15,30,45 * * * *'), described('*/15 * * * *'));
+	assert.equal(described('0,15,30,45 * * * *'), 'Every 15 minutes', 'and it is this');
 	assert.equal(described('0 0 * * SUN'), described('@weekly'));
+	assert.equal(described('0 0 * * SUN'), 'Every Sunday at 12:00 AM', 'and it is this');
 });
 
 test('unrecognized schedules fall back rather than fail', () => {
@@ -118,4 +120,79 @@ test('a restricted day of month AND day of week says so, loudly', () => {
 	assert.match(described13, /Friday/);
 	assert.match(described13, /and also/);
 	assert.match(described13, /either/);
+});
+
+// Cron combines the two day fields with OR unless the field is a star. The
+// test is syntactic: 1-31 matches every day and is still a restriction, so
+// these all run every day rather than on the day the fields name.
+test('a written-out full day field is a restriction, not a wildcard', () => {
+	assert.equal(described('0 0 13 * 1-7'), 'Every day at 12:00 AM');
+	assert.equal(described('0 0 13 * 0-6'), 'Every day at 12:00 AM');
+	assert.equal(described('30 8 1-31 * MON-FRI'), 'Every day at 8:30 AM');
+	assert.equal(described('0 0 1-31 8 FRI'), 'Every day in August at 12:00 AM');
+
+	// The star forms of the same schedules, which do mean what they look like.
+	assert.equal(described('0 0 13 * *'), 'Every month on the 13th at 12:00 AM');
+	assert.equal(described('30 8 * * MON-FRI'), 'Every weekday at 8:30 AM');
+});
+
+test('a date that cannot occur is never described as one that can', () => {
+	// Date.UTC rolls 31 April into 1 May, so this used to read "Every year on
+	// May 1" directly above "Never runs."
+	for (const expression of ['0 0 31 4 *', '0 0 30 2 *', '0 0 31 2 *', '0 0 31 6 *']) {
+		assert.equal(recognize(expression), null, expression);
+		assert.doesNotMatch(described(expression), /May|March|July/, expression);
+	}
+	// February 29 does come round, so it stays.
+	assert.equal(described('0 0 29 2 *'), 'Every leap year on February 29 at 12:00 AM');
+});
+
+test('a day that skips short months does not claim every month', () => {
+	assert.equal(described('0 0 31 * *'), 'On the 31st of every month that has one, at 12:00 AM');
+	assert.equal(described('0 0 28 * *'), 'Every month on the 28th at 12:00 AM');
+});
+
+test('an interval that does not restart on the hour does not say it does', () => {
+	assert.equal(
+		described('5-59/7 * * * *'),
+		'Every 7 minutes from :05 to :54 of each hour, then again at :05 of the next',
+	);
+});
+
+test('a bare value with a step runs to the end of its field', () => {
+	assert.equal(described('5/10 * * * *'), 'Every 10 minutes, starting at :05');
+	// Not "every minute": it skips :00 and :01.
+	assert.equal(
+		described('2/1 * * * *'),
+		'Every minute from :02 to :59 of each hour, then again at :02 of the next',
+	);
+});
+
+test('Sunday can be written as 7', () => {
+	assert.equal(described('0 3 * * 7'), described('0 3 * * 0'));
+	assert.equal(described('0 3 * * 5-7'), 'Every Sunday, Friday, and Saturday at 3:00 AM');
+});
+
+test('@annually is @yearly', () => {
+	assert.equal(described('@annually'), described('@yearly'));
+	assert.equal(described('@annually'), 'Every year on January 1 at 12:00 AM');
+	// Padding is tolerated on a nickname.
+	assert.equal(described('  @daily  '), 'Every day at 12:00 AM');
+});
+
+test('an inherited property of the nickname table is not a nickname', () => {
+	// `in` walks the prototype chain; these used to expand to a function and an
+	// object, and describe() threw.
+	for (const name of ['constructor', '__proto__', 'toString', 'hasOwnProperty']) {
+		assert.throws(() => described(name), name);
+	}
+});
+
+test('a region keeps its own clock', () => {
+	assert.equal(describe('0 15 * * *', { locale: 'en' }), 'Every day at 3:00 PM');
+	assert.equal(describe('0 15 * * *', { locale: 'en-GB' }), 'Every day at 15:00');
+});
+
+test('an unparseable expression still throws', () => {
+	assert.throws(() => described('* * * * bogus'));
 });

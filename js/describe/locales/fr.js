@@ -76,7 +76,7 @@ export default {
 		},
 
 		unevenMinuteInterval: ({ step, first, last, days }, f) =>
-			`Toutes les ${f.number(step)} ${f.plural(step, MINUTES)}, de la minute ${f.number(first)} à la minute ${f.number(last)} de chaque heure, puis de nouveau à la minute ${f.number(first)} de l’heure suivante${allDay(days, f)}`,
+			`${step === 1 ? 'Chaque minute' : `Toutes les ${f.number(step)} ${f.plural(step, MINUTES)}`}, de la minute ${f.number(first)} à la minute ${f.number(last)} de chaque heure, puis de nouveau à la minute ${f.number(first)} de l’heure suivante${allDay(days, f)}`,
 
 		minuteIntervalInHours: ({ step, hourStep, hourOffset, days }, f) => {
 			if (hourStep === 2) {

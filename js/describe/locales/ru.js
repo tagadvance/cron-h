@@ -103,7 +103,7 @@ export default {
 		},
 
 		unevenMinuteInterval: ({ step, first, last, days }, f) =>
-			`${f.plural(step, EVERY_MINUTES)} ${f.number(step)} ${f.plural(step, MINUTES)} с ${f.number(first)} по ${f.number(last)} минуту каждого часа, затем снова на ${f.number(first)}-й минуте следующего${allDay(days, f)}`,
+			`${step === 1 ? 'Каждую минуту' : `${f.plural(step, EVERY_MINUTES)} ${f.number(step)} ${f.plural(step, MINUTES)}`} с ${f.number(first)} по ${f.number(last)} минуту каждого часа, затем снова на ${f.number(first)}-й минуте следующего${allDay(days, f)}`,
 
 		minuteIntervalInHours: ({ step, hourStep, hourOffset, days }, f) => {
 			if (hourStep === 2) {
