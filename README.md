@@ -75,16 +75,20 @@ Recognizers return a message id and typed parameters, never a sentence, so a
 language is a new module rather than a rewrite:
 
 1. Copy `js/describe/locales/en.js` and translate both `messages` (the
-   schedules) and `ui` (the page's own wording). Plurals, list punctuation,
-   weekday names and clock formats come from `Intl` via the formatter passed to
-   every message, so they need no tables.
+   schedules) and `ui` (the page's own wording, including the error reasons).
+   Plurals, list punctuation, weekday names and clock formats come from `Intl`
+   via the formatter passed to every message, so they need no tables. What
+   `Intl` cannot reach belongs here: English ordinal suffixes, the French
+   `1er`, the Russian dative and prepositional month names. Set `formats` only
+   if the language is written for one script, as Chinese is.
 2. Set `fallback` to the matching [cronstrue locale
    code](https://github.com/bradymholt/cronstrue/tree/main/src/i18n/locales) —
    note it is `zh_CN`, not `zh`.
 3. Register it in `LOCALES` in `js/describe/index.js`, and import it in
    `test/locales.test.js`, which checks that every locale covers every message.
 4. `test/oracle.test.js` needs nothing: it asserts on descriptors, so it already
-   covers every language.
+   covers every language. The locale tests will fail until the new module
+   actually differs from the English — a copied template does not pass.
 
 Corrections to any translation are welcome as a GitHub issue; they were written
 without a native speaker to check them.
