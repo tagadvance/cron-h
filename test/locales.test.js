@@ -110,11 +110,16 @@ for (const locale of ALL) {
 	if (locale.code !== 'en') {
 		test(`${locale.code} actually translates, rather than echoing English`, () => {
 			for (const expression of SAMPLES) {
+				const translated = describe(expression, { locale: locale.code });
 				assert.notEqual(
-					describe(expression, { locale: locale.code }),
+					translated,
 					describe(expression, { locale: 'en' }),
 					`${expression} is identical to the English`,
 				);
+				// Comparing strings is not enough on its own: an English template
+				// rendered with a local clock differs from the English string while
+				// still being English. No other language has a word "Every".
+				assert.doesNotMatch(translated, /\bEvery\b/, `${expression} is still English`);
 			}
 		});
 

@@ -9,7 +9,10 @@ export const SPECS = [
 	{ name: 'minute', min: 0, max: 59, cyclic: true },
 	{ name: 'hour', min: 0, max: 23, cyclic: true },
 	// Month lengths vary, so a stride over days of the month has no fixed
-	// wrap-around gap and can never be honestly called "every N days".
+	// wrap-around gap and can never honestly be called "every N days". The flag
+	// is belt and braces: an even wrap needs 31 = (k + 1) * stride and 31 is
+	// prime, so no day-of-month field can reach one anyway. Keeping it means the
+	// rule survives someone changing these bounds.
 	{ name: 'dayOfMonth', min: 1, max: 31, cyclic: false },
 	{ name: 'month', min: 1, max: 12, names: MONTHS, cyclic: true },
 	{ name: 'dayOfWeek', min: 0, max: 6, parseMax: 7, names: DAYS, cyclic: true },

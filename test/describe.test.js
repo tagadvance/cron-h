@@ -196,3 +196,16 @@ test('a region keeps its own clock', () => {
 test('an unparseable expression still throws', () => {
 	assert.throws(() => described('* * * * bogus'));
 });
+
+test('a field one value short of full is not full', () => {
+	// Relaxing isFull by one passed the whole suite, and turned these into
+	// "Every minute" and "Every day".
+	assert.equal(
+		described('0-58 * * * *'),
+		'Every minute from :00 to :58 of each hour, then again at :00 of the next',
+	);
+	// 1-30 is not every day of the month, so this must not collapse to one.
+	assert.notEqual(described('0 0 1-30 * *'), 'Every day at 12:00 AM');
+	assert.match(described('0 0 1-30 * *'), /30th/);
+	assert.equal(described('0 0 1-31 * *'), 'Every day at 12:00 AM', 'but 1-31 is');
+});
