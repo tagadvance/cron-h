@@ -113,6 +113,10 @@
 				<td>Every 15 minutes, on even-numbered hours</td>
 			</tr>
 			<tr>
+				<td><a href="index.html?e=*%2F15+9-17+*+*+*"><code>*/15 9-17 * * *</code></a></td>
+				<td>Every 15 minutes from 9:00 AM to 5:45 PM</td>
+			</tr>
+			<tr>
 				<td><a href="index.html?e=0+0+*+*+*"><code>0 0 * * *</code></a></td>
 				<td>Every day at 12:00 AM</td>
 			</tr>
@@ -177,8 +181,16 @@
 				<td>Every year on January 1 at 12:00 AM</td>
 			</tr>
 			<tr>
+				<td><a href="index.html?e=0+0+1%2C15+*+*"><code>0 0 1,15 * *</code></a></td>
+				<td>Every month on the 1st and 15th at 12:00 AM</td>
+			</tr>
+			<tr>
 				<td><a href="index.html?e=5+0+*+8+*"><code>5 0 * 8 *</code></a></td>
 				<td>Every day in August at 12:05 AM</td>
+			</tr>
+			<tr>
+				<td><a href="index.html?e=0+0+13+*+FRI"><code>0 0 13 * FRI</code></a></td>
+				<td>Every month on the 13th at 12:00 AM, and also every Friday at 12:00 AM — cron runs this when either matches, not only when both do</td>
 			</tr>
 			<tr>
 				<td><a href="index.html?e=*%2F7+*+*+*+*"><code>*/7 * * * *</code></a></td>

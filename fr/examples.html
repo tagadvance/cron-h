@@ -113,6 +113,10 @@
 				<td>Toutes les 15 minutes, aux heures paires</td>
 			</tr>
 			<tr>
+				<td><a href="../index.html?e=*%2F15+9-17+*+*+*&amp;lang=fr"><code>*/15 9-17 * * *</code></a></td>
+				<td>Toutes les 15 minutes de 9:00 à 17:45</td>
+			</tr>
+			<tr>
 				<td><a href="../index.html?e=0+0+*+*+*&amp;lang=fr"><code>0 0 * * *</code></a></td>
 				<td>Tous les jours à 0:00</td>
 			</tr>
@@ -177,8 +181,16 @@
 				<td>Tous les ans le 1er janvier à 0:00</td>
 			</tr>
 			<tr>
+				<td><a href="../index.html?e=0+0+1%2C15+*+*&amp;lang=fr"><code>0 0 1,15 * *</code></a></td>
+				<td>Tous les mois les 1er et 15 à 0:00</td>
+			</tr>
+			<tr>
 				<td><a href="../index.html?e=5+0+*+8+*&amp;lang=fr"><code>5 0 * 8 *</code></a></td>
 				<td>En août, tous les jours à 0:05</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+13+*+FRI&amp;lang=fr"><code>0 0 13 * FRI</code></a></td>
+				<td>Tous les mois le 13 à 0:00, et aussi les vendredis à 0:00 : cron s’exécute dès que l’une des deux conditions est remplie, pas seulement quand les deux le sont</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=*%2F7+*+*+*+*&amp;lang=fr"><code>*/7 * * * *</code></a></td>

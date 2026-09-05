@@ -113,6 +113,10 @@
 				<td>15分ごと、偶数時のみ</td>
 			</tr>
 			<tr>
+				<td><a href="../index.html?e=*%2F15+9-17+*+*+*&amp;lang=ja"><code>*/15 9-17 * * *</code></a></td>
+				<td>9:00から17:45まで15分ごと</td>
+			</tr>
+			<tr>
 				<td><a href="../index.html?e=0+0+*+*+*&amp;lang=ja"><code>0 0 * * *</code></a></td>
 				<td>毎日0:00</td>
 			</tr>
@@ -177,8 +181,16 @@
 				<td>毎年1月1日の0:00</td>
 			</tr>
 			<tr>
+				<td><a href="../index.html?e=0+0+1%2C15+*+*&amp;lang=ja"><code>0 0 1,15 * *</code></a></td>
+				<td>毎月1日、15日の0:00</td>
+			</tr>
+			<tr>
 				<td><a href="../index.html?e=5+0+*+8+*&amp;lang=ja"><code>5 0 * 8 *</code></a></td>
 				<td>8月の毎日0:05</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+13+*+FRI&amp;lang=ja"><code>0 0 13 * FRI</code></a></td>
+				<td>毎月13日の0:00、および毎週金曜日の0:00。cron はどちらか一方が一致した時点で実行され、両方が揃う必要はありません</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=*%2F7+*+*+*+*&amp;lang=ja"><code>*/7 * * * *</code></a></td>

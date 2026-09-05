@@ -113,6 +113,10 @@
 				<td>每15分钟，在偶数小时</td>
 			</tr>
 			<tr>
+				<td><a href="../index.html?e=*%2F15+9-17+*+*+*&amp;lang=zh"><code>*/15 9-17 * * *</code></a></td>
+				<td>9:00到17:45之间每15分钟</td>
+			</tr>
+			<tr>
 				<td><a href="../index.html?e=0+0+*+*+*&amp;lang=zh"><code>0 0 * * *</code></a></td>
 				<td>每天0:00</td>
 			</tr>
@@ -177,8 +181,16 @@
 				<td>每年1月1日0:00</td>
 			</tr>
 			<tr>
+				<td><a href="../index.html?e=0+0+1%2C15+*+*&amp;lang=zh"><code>0 0 1,15 * *</code></a></td>
+				<td>每月1号和15号0:00</td>
+			</tr>
+			<tr>
 				<td><a href="../index.html?e=5+0+*+8+*&amp;lang=zh"><code>5 0 * 8 *</code></a></td>
 				<td>八月每天0:05</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+13+*+FRI&amp;lang=zh"><code>0 0 13 * FRI</code></a></td>
+				<td>每月13号0:00，以及每周五0:00。只要满足其中任意一个条件 cron 就会运行，并不需要同时满足</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=*%2F7+*+*+*+*&amp;lang=zh"><code>*/7 * * * *</code></a></td>

@@ -113,6 +113,10 @@
 				<td>Каждые 15 минут, в чётные часы</td>
 			</tr>
 			<tr>
+				<td><a href="../index.html?e=*%2F15+9-17+*+*+*&amp;lang=ru"><code>*/15 9-17 * * *</code></a></td>
+				<td>Каждые 15 минут с 9:00 до 17:45</td>
+			</tr>
+			<tr>
 				<td><a href="../index.html?e=0+0+*+*+*&amp;lang=ru"><code>0 0 * * *</code></a></td>
 				<td>Каждый день в 0:00</td>
 			</tr>
@@ -177,8 +181,16 @@
 				<td>Каждый год 1 января в 0:00</td>
 			</tr>
 			<tr>
+				<td><a href="../index.html?e=0+0+1%2C15+*+*&amp;lang=ru"><code>0 0 1,15 * *</code></a></td>
+				<td>Каждый месяц 1-го и 15-го числа в 0:00</td>
+			</tr>
+			<tr>
 				<td><a href="../index.html?e=5+0+*+8+*&amp;lang=ru"><code>5 0 * 8 *</code></a></td>
 				<td>В августе каждый день в 0:05</td>
+			</tr>
+			<tr>
+				<td><a href="../index.html?e=0+0+13+*+FRI&amp;lang=ru"><code>0 0 13 * FRI</code></a></td>
+				<td>Каждый месяц 13-го числа в 0:00, а также по пятницам в 0:00: cron запускается, когда выполняется любое из двух условий, а не только когда оба сразу</td>
 			</tr>
 			<tr>
 				<td><a href="../index.html?e=*%2F7+*+*+*+*&amp;lang=ru"><code>*/7 * * * *</code></a></td>
