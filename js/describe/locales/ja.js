@@ -37,6 +37,8 @@ export default {
 		step1: 'cron ファイルの内容を下のテキストエリアに貼り付けてください。',
 		step2: '見つかったスケジュールごとに、意味と次回以降の実行時刻を下に表示します。',
 		empty: '上に crontab を貼り付けると、その内容を表示します。',
+		notASchedule: 'スケジュールではありません。空白区切りの5つのフィールドか @ 別名が必要です。',
+		unreadable: 'cron はこの行を受け付けません。',
 		language: '言語',
 		nextRuns: (count, f) => `次回以降の${f.number(count)}回の実行`,
 		atStartup: 'システム起動時に実行されるため、次回の実行時刻は計算できません。',

@@ -58,6 +58,9 @@ export default {
 		step1: 'Copie e cole o conteúdo do seu arquivo cron na área de texto abaixo.',
 		step2: 'Cada agendamento encontrado é explicado abaixo, junto com as próximas execuções.',
 		empty: 'Cole um crontab acima para ver o que ele faz.',
+		notASchedule:
+			'Não é um agendamento: esperavam-se cinco campos separados por espaços, ou um @atalho.',
+		unreadable: 'o cron não aceitaria esta linha.',
 		language: 'Idioma',
 		nextRuns: (count, f) => `Próximas ${f.number(count)} execuções`,
 		atStartup: 'Executa ao iniciar o sistema, portanto não há próxima execução a calcular.',

@@ -45,8 +45,21 @@ function browser() {
 const CHROME = browser();
 const options = CHROME ? {} : { skip: 'no headless browser found' };
 
+const PROBE = (target) => `<!DOCTYPE html><html><head><title>pending</title></head><body>
+<iframe id="f" src="${target}"></iframe>
+<script>
+	setTimeout(() => { document.title = document.getElementById('f').contentWindow.location.href; }, 2000);
+</script>
+</body></html>`;
+
 const server = createServer(async (request, response) => {
-	const path = normalize(decodeURIComponent(new URL(request.url, 'http://localhost').pathname));
+	const url = new URL(request.url, 'http://localhost');
+	if (url.pathname === '/__probe') {
+		response.writeHead(200, { 'content-type': 'text/html' });
+		response.end(PROBE(url.searchParams.get('target')));
+		return;
+	}
+	const path = normalize(decodeURIComponent(url.pathname));
 	const file = join(ROOT, path === '/' ? 'index.html' : path);
 	try {
 		const body = await readFile(file);
@@ -133,4 +146,31 @@ test('the page a crawler sees carries its card and canonical', options, async ()
 	assert.match(dom, /<meta property="og:image" content="https:\/\/cron-h\.com\/og\.png"/);
 	assert.match(dom, /<link rel="canonical" href="https:\/\/cron-h\.com\/"/);
 	assert.match(dom, /name="twitter:card" content="summary_large_image"/);
+});
+
+test('an error is reported in the reader’s language', options, async () => {
+	const dom = await render('/index.html?e=60+*+*+*+*&lang=ru');
+	assert.match(dom, /class="entry error"/);
+	assert.match(dom, /cron не принял бы эту строку/);
+	// Not croner's or cronstrue's own wording, which leaked a class name and a
+	// doubled "Error:" prefix into a box already labelled as an error.
+	assert.doesNotMatch(dom, /CronPattern|Error: Error/);
+});
+
+test('the URL keeps what it was given', options, async () => {
+	// Rebuilding the query from the path alone discarded the fragment and every
+	// other parameter, and cleared `e` for anything that was not exactly one
+	// schedule — so a reload threw the reader's input away.
+	const target = encodeURIComponent('/index.html?ref=news&e=0+3+*+*+0#top');
+	const dom = await render(`/__probe?target=${target}`);
+	const [, href] = dom.match(/<title>([^<]*)</);
+
+	assert.match(href, /ref=news/, 'other parameters survive');
+	assert.match(href, /e=0\+3\+\*\+\*\+0/, 'the schedule is still there');
+	assert.match(href, /#top$/, 'and so does the fragment');
+});
+
+test('the results list announces itself to a screen reader', options, async () => {
+	const dom = await render('/');
+	assert.match(dom, /id="results"[^>]*aria-live="polite"/);
 });

@@ -65,6 +65,8 @@ export default {
 		step1: 'Copy and paste the contents of your cron file into the textarea below.',
 		step2: 'Every schedule it finds is explained underneath, along with its next few run times.',
 		empty: 'Paste a crontab above to see what it does.',
+		notASchedule: 'Not a schedule: expected five fields separated by spaces, or an @nickname.',
+		unreadable: 'cron would not accept this line.',
 		language: 'Language',
 		nextRuns: (count, f) => `Next ${f.number(count)} runs`,
 		atStartup: 'Runs at system startup, so there is no next run to calculate.',

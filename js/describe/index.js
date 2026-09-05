@@ -28,9 +28,20 @@ function resolve(tag) {
 
 function formatFor(tag) {
 	if (!formats.has(tag)) {
-		formats.set(tag, createFormat(tag));
+		formats.set(tag, create(tag));
 	}
 	return formats.get(tag);
+}
+
+// Only the language subtag is checked against the locales we have, so a tag
+// like "en-" or "fr-1" gets this far and then throws inside Intl. A malformed
+// region is not worth an exception; drop to the bare language.
+function create(tag) {
+	try {
+		return createFormat(tag);
+	} catch {
+		return createFormat(tag.toLowerCase().split('-')[0]);
+	}
 }
 
 export function render(descriptor, tag = DEFAULT_LOCALE) {

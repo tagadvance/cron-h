@@ -49,6 +49,9 @@ export default {
 		step1: 'Copia y pega el contenido de tu archivo cron en el área de texto de abajo.',
 		step2: 'Cada programación que encuentre se explica debajo, junto con sus próximas ejecuciones.',
 		empty: 'Pega un crontab arriba para ver qué hace.',
+		notASchedule:
+			'No es una programación: se esperaban cinco campos separados por espacios, o un @alias.',
+		unreadable: 'cron no aceptaría esta línea.',
 		language: 'Idioma',
 		nextRuns: (count, f) => `Próximas ${f.number(count)} ejecuciones`,
 		atStartup:

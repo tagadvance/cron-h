@@ -48,6 +48,9 @@ export default {
 		step1: 'Copiez et collez le contenu de votre fichier cron dans la zone de texte ci-dessous.',
 		step2: 'Chaque planification trouvée est expliquée en dessous, avec ses prochaines exécutions.',
 		empty: 'Collez un crontab ci-dessus pour voir ce qu’il fait.',
+		notASchedule:
+			'Ce n’est pas une planification : cinq champs séparés par des espaces, ou un @raccourci, sont attendus.',
+		unreadable: 'cron n’accepterait pas cette ligne.',
 		language: 'Langue',
 		nextRuns: (count, f) => `${f.number(count)} prochaines exécutions`,
 		atStartup:

@@ -41,7 +41,7 @@ function renderEntry(entry, { ui, format }, timestamp) {
 		return item;
 	}
 
-	item.appendChild(element('h6', null, ui.nextRuns(entry.runs.length, format)));
+	item.appendChild(element('h4', null, ui.nextRuns(entry.runs.length, format)));
 	const list = element('ol', 'runs');
 	for (const run of entry.runs) {
 		list.appendChild(element('li', null, timestamp.format(run)));
@@ -50,10 +50,13 @@ function renderEntry(entry, { ui, format }, timestamp) {
 	return item;
 }
 
-function renderError(entry) {
+function renderError(entry, { ui }) {
 	const item = element('li', 'entry error');
-	item.appendChild(element('code', 'expression', entry.line.trim()));
-	item.appendChild(element('p', 'description', entry.message));
+	item.appendChild(element('code', 'expression', entry.expression ?? entry.line.trim()));
+	item.appendChild(element('p', 'description', ui[entry.reason]));
+	if (entry.command) {
+		item.appendChild(element('p', 'command', entry.command));
+	}
 	return item;
 }
 
@@ -65,7 +68,8 @@ function render(text, target, locale) {
 	);
 
 	retitle(entries, strings);
-	reflect(entries, locale);
+	lastEntries = entries;
+	scheduleUrlUpdate();
 
 	target.replaceChildren();
 	if (entries.length === 0) {
@@ -74,7 +78,7 @@ function render(text, target, locale) {
 	}
 	for (const entry of entries) {
 		target.appendChild(
-			entry.kind === 'error' ? renderError(entry) : renderEntry(entry, strings, timestamp),
+			entry.kind === 'error' ? renderError(entry, strings) : renderEntry(entry, strings, timestamp),
 		);
 	}
 }
@@ -96,6 +100,8 @@ const CHROME = {
 
 const description = document.querySelector('meta[name="description"]');
 
+let lastEntries = [];
+
 // A page showing exactly one schedule is worth a title and description of its
 // own: it is what a shared link previews as, and what a crawler reads. Open
 // Graph tags stay static, because the crawlers that read them do not run
@@ -108,19 +114,25 @@ function retitle(entries, strings) {
 
 // One schedule can be shared as a link; a whole crontab cannot, and should not
 // end up in somebody's browser history either.
+//
+// Anything else already in the URL is left alone. Rebuilding the query from
+// scratch dropped the fragment and every other parameter, and clearing `e` for
+// input that is not exactly one schedule meant a reload threw the reader's
+// work away.
 function reflect(entries, locale) {
 	const only = entries.length === 1 && entries[0].kind === 'entry' ? entries[0] : null;
-	const params = new URLSearchParams();
+	const url = new URL(location.href);
+
 	if (only) {
-		params.set('e', only.expression);
+		url.searchParams.set('e', only.expression);
 	}
-	if (locale !== 'en') {
-		params.set('lang', locale);
+	if (locale === 'en') {
+		url.searchParams.delete('lang');
+	} else {
+		url.searchParams.set('lang', locale);
 	}
 
-	const query = params.toString();
-	const url = query ? `${location.pathname}?${query}` : location.pathname;
-	if (url !== location.pathname + location.search) {
+	if (url.href !== location.href) {
 		history.replaceState(null, '', url);
 	}
 }
@@ -194,6 +206,14 @@ function update() {
 	if (locale !== 'en' && !hasTranslations()) {
 		loadTranslations().then(() => render(crontab.value, results, locale));
 	}
+}
+
+// Browsers rate-limit history updates, and Chrome warns at a few hundred. The
+// rendering is cheap enough to run per keystroke; only the URL waits.
+let pendingUrl = null;
+function scheduleUrlUpdate() {
+	clearTimeout(pendingUrl);
+	pendingUrl = setTimeout(() => reflect(lastEntries, locale), 250);
 }
 
 crontab.addEventListener('input', update);

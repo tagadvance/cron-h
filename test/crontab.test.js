@@ -45,7 +45,9 @@ test('too few fields is an error', () => {
 test('an unparseable expression becomes an error, not an exception', () => {
 	const entry = interpretLine('* * * * bogus /bin/nope');
 	assert.equal(entry.kind, 'error');
-	assert.match(entry.message, /\S/);
+	// A reason the page can translate, not a message from a vendor's internals.
+	assert.equal(entry.reason, 'unreadable');
+	assert.equal(entry.expression, '* * * * bogus', 'and it keeps what it was given');
 });
 
 test('next runs are listed soonest first', () => {
@@ -93,7 +95,7 @@ test('a crontab is interpreted line by line', () => {
 	);
 	assert.equal(entries[3].description, 'Every day at 12:00 AM');
 	assert.equal(entries[3].command, '/bin/rotate');
-	assert.match(entries[4].message, /\S/);
+	assert.equal(entries[4].reason, 'unreadable');
 });
 
 test('carriage returns do not leak into the last field', () => {

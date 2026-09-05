@@ -43,6 +43,8 @@ export default {
 		step1: '将 cron 文件的内容复制粘贴到下面的文本框中。',
 		step2: '每一条找到的计划任务都会在下方解释，并列出接下来的几次运行时间。',
 		empty: '在上方粘贴 crontab 即可查看其含义。',
+		notASchedule: '这不是一条计划任务：需要五个以空格分隔的字段，或一个 @别名。',
+		unreadable: 'cron 不会接受这一行。',
 		language: '语言',
 		nextRuns: (count, f) => `接下来 ${f.number(count)} 次运行`,
 		atStartup: '在系统启动时运行，因此没有下次运行时间可以计算。',

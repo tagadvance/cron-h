@@ -32,14 +32,14 @@
 		<div id="container">
 			<div id="content">
 				<h1>cron -h</h1>
-				<h3 id="tagline">The human readable cron interpreter.</h3>
+				<h2 id="tagline">The human readable cron interpreter.</h2>
 				<hr />
 				<div id="interpreter">
 					<div id="toolbar">
 						<label id="language-label" for="language">Language</label>
 						<select id="language"></select>
 					</div>
-					<h5 id="instructions-heading">Instructions:</h5>
+					<h3 id="instructions-heading">Instructions:</h3>
 					<ol id="instructions">
 						<li id="step1">
 							Copy and paste the contents of your cron file into the textarea below.
@@ -55,7 +55,7 @@
 0 3 * * 0         /usr/local/bin/backup --full
 @daily            /usr/local/bin/rotate-logs
 @reboot           /usr/local/bin/warm-cache</textarea>
-					<ul id="results"></ul>
+					<ul id="results" aria-live="polite" aria-atomic="false"></ul>
 					<p id="disclaimer">Run times are calculated in your browser, in your local time zone.</p>
 				</div>
 			</div>

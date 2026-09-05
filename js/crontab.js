@@ -30,7 +30,7 @@ export function parseLine(line) {
 		};
 	}
 	if (fields.length < 5) {
-		return { kind: 'error', message: 'Expected five fields or an @nickname.' };
+		return { kind: 'error', reason: 'notASchedule' };
 	}
 	return {
 		kind: 'entry',
@@ -64,8 +64,12 @@ export function interpretLine(line, options) {
 			description: describe(parsed.expression, options),
 			runs: nextRuns(parsed.expression, options),
 		};
-	} catch (error) {
-		return { kind: 'error', message: error.message || String(error) };
+	} catch {
+		// cronstrue and croner both throw text meant for their own callers —
+		// a doubled "Error:" prefix, or an internal class name. The reader gets
+		// a reason in their own language instead, and the page keeps the
+		// expression itself, which is the part worth showing.
+		return { ...parsed, kind: 'error', reason: 'unreadable' };
 	}
 }
 
