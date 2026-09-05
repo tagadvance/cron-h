@@ -25,11 +25,11 @@ test('every nickname', () => {
 test('a stride that does not divide its field evenly says so', () => {
 	assert.equal(
 		described('*/7 * * * *'),
-		'Every 7 minutes from :00 to :56 of each hour, then again on the hour'
+		'Every 7 minutes from :00 to :56 of each hour, then again on the hour',
 	);
 	assert.equal(
 		described('0 */5 * * *'),
-		'Every 5 hours from 12:00 AM to 8:00 PM each day, then again the next day'
+		'Every 5 hours from 12:00 AM to 8:00 PM each day, then again the next day',
 	);
 });
 
@@ -82,7 +82,7 @@ test('a stride inside a window ends at the last firing, not on the hour', () => 
 	assert.equal(described('*/15 9-17 * * *'), 'Every 15 minutes from 9:00 AM to 5:45 PM');
 	assert.equal(
 		described('*/20 8-18 * * MON-FRI'),
-		'Every 20 minutes from 8:00 AM to 6:40 PM, on weekdays'
+		'Every 20 minutes from 8:00 AM to 6:40 PM, on weekdays',
 	);
 });
 
@@ -97,7 +97,15 @@ test('calendar schedules are described by the calendar', () => {
 });
 
 test('every nickname is now recognized rather than falling back', () => {
-	for (const nickname of ['@reboot', '@hourly', '@daily', '@midnight', '@weekly', '@monthly', '@yearly']) {
+	for (const nickname of [
+		'@reboot',
+		'@hourly',
+		'@daily',
+		'@midnight',
+		'@weekly',
+		'@monthly',
+		'@yearly',
+	]) {
 		assert.notEqual(recognize(nickname), null, nickname);
 	}
 });

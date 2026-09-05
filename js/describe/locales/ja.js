@@ -5,7 +5,8 @@
 const WEEKDAYS = [1, 2, 3, 4, 5];
 const WEEKEND = [0, 6];
 
-const sameDays = (days, group) => days.length === group.length && group.every((day) => days.includes(day));
+const sameDays = (days, group) =>
+	days.length === group.length && group.every((day) => days.includes(day));
 
 function when(days, f) {
 	if (sameDays(days, WEEKDAYS)) {
@@ -21,7 +22,8 @@ const on = (days, f) => (days ? `、${when(days, f)}` : '');
 
 const allDay = (days, f) => (days ? `、${when(days, f)}終日` : '');
 
-const every = (days, f) => (sameDays(days, WEEKDAYS) || sameDays(days, WEEKEND) ? when(days, f) : `毎週${when(days, f)}`);
+const every = (days, f) =>
+	sameDays(days, WEEKDAYS) || sameDays(days, WEEKEND) ? when(days, f) : `毎週${when(days, f)}`;
 
 const monthDays = (values, f) => f.list(values.map((day) => `${f.number(day)}日`));
 
@@ -39,15 +41,17 @@ export default {
 		nextRuns: (count, f) => `次回以降の${f.number(count)}回の実行`,
 		atStartup: 'システム起動時に実行されるため、次回の実行時刻は計算できません。',
 		never: '一度も実行されません。この式に一致する日付はありません。',
-		privacy: '実行時刻はお使いのブラウザで、ローカルのタイムゾーンで計算されます。crontab がどこかに送信されることはありません。',
+		privacy:
+			'実行時刻はお使いのブラウザで、ローカルのタイムゾーンで計算されます。crontab がどこかに送信されることはありません。',
 		examples: '例',
 		examplesTitle: 'cron 式の例',
-		examplesIntro: 'よく使われる crontab のスケジュールと、その実際の意味です。選択するとインタプリタで開きます。',
+		examplesIntro:
+			'よく使われる crontab のスケジュールと、その実際の意味です。選択するとインタプリタで開きます。',
 		columnExpression: '式',
 		columnMeaning: '意味',
 		backToTool: 'インタプリタを開く',
 		sponsor: 'スポンサー',
-		source: 'GitHub のソースコード'
+		source: 'GitHub のソースコード',
 	},
 	messages: {
 		reboot: () => 'システム起動時に1回',
@@ -99,6 +103,7 @@ export default {
 			`毎月${monthDays(values, f)}の${f.time(time)}、および毎週${when(days, f)}の${f.time(time)}。` +
 			`cron はどちらか一方が一致した時点で実行され、両方が揃う必要はありません`,
 
-		atTime: ({ time, days }, f) => (days ? `${every(days, f)}の${f.time(time)}` : `毎日${f.time(time)}`)
-	}
+		atTime: ({ time, days }, f) =>
+			days ? `${every(days, f)}の${f.time(time)}` : `毎日${f.time(time)}`,
+	},
 };

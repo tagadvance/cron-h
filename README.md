@@ -50,11 +50,11 @@ npm test
 
 Vendored under `js/vendor/` so the site has no runtime network dependency:
 
-| Library | Version | Used for |
-| --- | --- | --- |
-| [cronstrue](https://github.com/bradymholt/cronstrue) | 3.24.0 | fallback for unrecognized schedules |
-| cronstrue i18n | 3.24.0 | the same fallback, translated |
-| [croner](https://github.com/hexagon/croner) | 9.1.0 | next run times |
+| Library                                              | Version | Used for                            |
+| ---------------------------------------------------- | ------- | ----------------------------------- |
+| [cronstrue](https://github.com/bradymholt/cronstrue) | 3.24.0  | fallback for unrecognized schedules |
+| cronstrue i18n                                       | 3.24.0  | the same fallback, translated       |
+| [croner](https://github.com/hexagon/croner)          | 9.1.0   | next run times                      |
 
 The i18n bundle is ten times the size of the English one, so it is imported
 dynamically and only when a reader picks a language other than English.

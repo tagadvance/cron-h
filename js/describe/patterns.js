@@ -25,7 +25,12 @@ const RECOGNIZERS = [
 		if (!minute.isEvenCycle || !hour.isFull) {
 			return null;
 		}
-		return { id: 'minuteInterval', step: minute.stride, offset: minute.first, days: days(dayOfWeek) };
+		return {
+			id: 'minuteInterval',
+			step: minute.stride,
+			offset: minute.first,
+			days: days(dayOfWeek),
+		};
 	},
 
 	// */7 * * * *, which fires at :00 through :56 and then again 4 minutes
@@ -39,7 +44,7 @@ const RECOGNIZERS = [
 			step: minute.stride,
 			first: minute.first,
 			last: minute.last,
-			days: days(dayOfWeek)
+			days: days(dayOfWeek),
 		};
 	},
 
@@ -53,7 +58,7 @@ const RECOGNIZERS = [
 			step: minute.stride,
 			hourStep: hour.stride,
 			hourOffset: hour.first,
-			days: days(dayOfWeek)
+			days: days(dayOfWeek),
 		};
 	},
 
@@ -74,7 +79,7 @@ const RECOGNIZERS = [
 			id: 'hourInterval',
 			step: hour.stride,
 			time: { hour: hour.first, minute: minute.first },
-			days: days(dayOfWeek)
+			days: days(dayOfWeek),
 		};
 	},
 
@@ -89,7 +94,7 @@ const RECOGNIZERS = [
 			step: minute.stride,
 			first: { hour: hour.first, minute: minute.first },
 			last: { hour: hour.last, minute: minute.last },
-			days: days(dayOfWeek)
+			days: days(dayOfWeek),
 		};
 	},
 
@@ -104,7 +109,7 @@ const RECOGNIZERS = [
 			id: 'hourRange',
 			first: { hour: hour.first, minute: minute.first },
 			last: { hour: hour.last, minute: minute.first },
-			days: days(dayOfWeek)
+			days: days(dayOfWeek),
 		};
 	},
 
@@ -118,7 +123,7 @@ const RECOGNIZERS = [
 			step: hour.stride,
 			first: { hour: hour.first, minute: minute.first },
 			last: { hour: hour.last, minute: minute.first },
-			days: days(dayOfWeek)
+			days: days(dayOfWeek),
 		};
 	},
 
@@ -127,8 +132,12 @@ const RECOGNIZERS = [
 		if (!minute.isSingleton || !hour.isSingleton) {
 			return null;
 		}
-		return { id: 'atTime', time: { hour: hour.first, minute: minute.first }, days: days(dayOfWeek) };
-	}
+		return {
+			id: 'atTime',
+			time: { hour: hour.first, minute: minute.first },
+			days: days(dayOfWeek),
+		};
+	},
 ];
 
 // Schedules that turn on the calendar rather than the clock. These are tried
@@ -149,7 +158,7 @@ const CALENDAR = [
 			id: 'dayOfMonthOrWeek',
 			time: { hour: hour.first, minute: minute.first },
 			monthDays: dayOfMonth.values,
-			days: dayOfWeek.values
+			days: dayOfWeek.values,
 		};
 	},
 
@@ -164,7 +173,7 @@ const CALENDAR = [
 		return {
 			id: 'yearlyOnDate',
 			time: { hour: hour.first, minute: minute.first },
-			date: { month: month.first, day: dayOfMonth.first }
+			date: { month: month.first, day: dayOfMonth.first },
 		};
 	},
 
@@ -179,7 +188,7 @@ const CALENDAR = [
 		return {
 			id: 'monthlyOnDay',
 			time: { hour: hour.first, minute: minute.first },
-			monthDays: dayOfMonth.values
+			monthDays: dayOfMonth.values,
 		};
 	},
 
@@ -192,9 +201,9 @@ const CALENDAR = [
 			id: 'inMonths',
 			time: { hour: hour.first, minute: minute.first },
 			months: month.values,
-			days: days(dayOfWeek)
+			days: days(dayOfWeek),
 		};
-	}
+	},
 ];
 
 /**

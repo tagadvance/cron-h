@@ -1,62 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>cron -h</title>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>cron -h</title>
 
-	<meta name="description" content="The human readable cron interpreter." />
-	<link rel="canonical" href="https://cron-h.com/" />
+		<meta name="description" content="The human readable cron interpreter." />
+		<link rel="canonical" href="https://cron-h.com/" />
 
-	<meta property="og:type" content="website" />
-	<meta property="og:site_name" content="cron -h" />
-	<meta property="og:url" content="https://cron-h.com/" />
-	<meta property="og:title" content="cron -h" />
-	<meta property="og:description" content="Paste a crontab and read back what it actually does, in seven languages." />
-	<meta property="og:image" content="https://cron-h.com/og.png" />
-	<meta property="og:image:width" content="1200" />
-	<meta property="og:image:height" content="630" />
-	<meta property="og:image:alt" content="cron -h — */15 9-17 * * * means every 15 minutes from 9:00 AM to 5:45 PM" />
-	<meta name="twitter:card" content="summary_large_image" />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="cron -h" />
+		<meta property="og:url" content="https://cron-h.com/" />
+		<meta property="og:title" content="cron -h" />
+		<meta
+			property="og:description"
+			content="Paste a crontab and read back what it actually does, in seven languages."
+		/>
+		<meta property="og:image" content="https://cron-h.com/og.png" />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta
+			property="og:image:alt"
+			content="cron -h — */15 9-17 * * * means every 15 minutes from 9:00 AM to 5:45 PM"
+		/>
+		<meta name="twitter:card" content="summary_large_image" />
 
-	<link rel="stylesheet" type="text/css" href="css/template.css" />
-	<script type="module" src="js/cron-h.js"></script>
-</head>
-<body>
-<div id="container">
-	<div id="content">
-		<h1>cron -h</h1>
-		<h3 id="tagline">The human readable cron interpreter.</h3>
-		<hr>
-		<div id="interpreter">
-			<div id="toolbar">
-				<label id="language-label" for="language">Language</label>
-				<select id="language"></select>
-			</div>
-			<h5 id="instructions-heading">Instructions:</h5>
-			<ol id="instructions">
-				<li id="step1">Copy and paste the contents of your cron file into the textarea below.</li>
-				<li id="step2">Every schedule it finds is explained underneath, along with its next few run times.</li>
-			</ol>
-			<label class="visually-hidden" for="crontab">crontab</label>
-			<textarea name="crontab" id="crontab" spellcheck="false"># m h dom mon dow  command
+		<link rel="stylesheet" type="text/css" href="css/template.css" />
+		<script type="module" src="js/cron-h.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="content">
+				<h1>cron -h</h1>
+				<h3 id="tagline">The human readable cron interpreter.</h3>
+				<hr />
+				<div id="interpreter">
+					<div id="toolbar">
+						<label id="language-label" for="language">Language</label>
+						<select id="language"></select>
+					</div>
+					<h5 id="instructions-heading">Instructions:</h5>
+					<ol id="instructions">
+						<li id="step1">
+							Copy and paste the contents of your cron file into the textarea below.
+						</li>
+						<li id="step2">
+							Every schedule it finds is explained underneath, along with its next few run times.
+						</li>
+					</ol>
+					<label class="visually-hidden" for="crontab">crontab</label>
+					<textarea name="crontab" id="crontab" spellcheck="false">
+# m h dom mon dow  command
 */15 * * * *      /usr/local/bin/sync-photos
 0 3 * * 0         /usr/local/bin/backup --full
 @daily            /usr/local/bin/rotate-logs
 @reboot           /usr/local/bin/warm-cache</textarea>
-			<ul id="results"></ul>
-			<p id="disclaimer">Run times are calculated in your browser, in your local time zone.</p>
+					<ul id="results"></ul>
+					<p id="disclaimer">Run times are calculated in your browser, in your local time zone.</p>
+				</div>
+			</div>
+			<div id="footer">
+				<a id="examples" href="examples.html">Examples</a>
+				&middot;
+				<a id="source" href="https://github.com/tagadvance/cron-h">Source on GitHub</a>
+				&middot;
+				<a id="sponsor" href="https://github.com/sponsors/tagadvance">Sponsor</a>
+				&middot; Copyright &copy; 2026 Tag Spilman
+			</div>
 		</div>
-	</div>
-	<div id="footer">
-		<a id="examples" href="examples.html">Examples</a>
-		&middot;
-		<a id="source" href="https://github.com/tagadvance/cron-h">Source on GitHub</a>
-		&middot;
-		<a id="sponsor" href="https://github.com/sponsors/tagadvance">Sponsor</a>
-		&middot;
-		Copyright &copy; 2026 Tag Spilman
-	</div>
-</div>
-</body>
+	</body>
 </html>

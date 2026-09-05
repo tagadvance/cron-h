@@ -7,7 +7,8 @@ const HOURS = { one: 'heure', other: 'heures' };
 const WEEKDAYS = [1, 2, 3, 4, 5];
 const WEEKEND = [0, 6];
 
-const sameDays = (days, group) => days.length === group.length && group.every((day) => days.includes(day));
+const sameDays = (days, group) =>
+	days.length === group.length && group.every((day) => days.includes(day));
 
 const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
@@ -34,7 +35,8 @@ const monthDays = (values, f) =>
 		: `les ${f.list(values.map((day) => frenchDay(day, f)))}`;
 
 // Intl renders the date as "1 janvier"; French wants "1er janvier".
-const frenchDate = (date, f) => (date.day === 1 ? f.date(date).replace(/^1\b/, '1er') : f.date(date));
+const frenchDate = (date, f) =>
+	date.day === 1 ? f.date(date).replace(/^1\b/, '1er') : f.date(date);
 
 export default {
 	code: 'fr',
@@ -48,17 +50,20 @@ export default {
 		empty: 'Collez un crontab ci-dessus pour voir ce qu’il fait.',
 		language: 'Langue',
 		nextRuns: (count, f) => `${f.number(count)} prochaines exécutions`,
-		atStartup: 'S’exécute au démarrage du système ; il n’y a donc pas de prochaine exécution à calculer.',
+		atStartup:
+			'S’exécute au démarrage du système ; il n’y a donc pas de prochaine exécution à calculer.',
 		never: 'Ne s’exécute jamais. Aucune date ne satisfait cette expression.',
-		privacy: 'Les heures sont calculées dans votre navigateur, dans votre fuseau horaire. Votre crontab n’est jamais envoyé nulle part.',
+		privacy:
+			'Les heures sont calculées dans votre navigateur, dans votre fuseau horaire. Votre crontab n’est jamais envoyé nulle part.',
 		examples: 'Exemples',
 		examplesTitle: 'Exemples d’expressions cron',
-		examplesIntro: 'Les planifications crontab courantes et ce qu’elles signifient réellement. Choisissez-en une pour l’ouvrir dans l’interpréteur.',
+		examplesIntro:
+			'Les planifications crontab courantes et ce qu’elles signifient réellement. Choisissez-en une pour l’ouvrir dans l’interpréteur.',
 		columnExpression: 'Expression',
 		columnMeaning: 'Signifie',
 		backToTool: 'Ouvrir l’interpréteur',
 		sponsor: 'Soutenir',
-		source: 'Code source sur GitHub'
+		source: 'Code source sur GitHub',
 	},
 	messages: {
 		reboot: () => 'Une fois au démarrage du système',
@@ -114,6 +119,6 @@ export default {
 			`cron s’exécute dès que l’une des deux conditions est remplie, pas seulement quand les deux le sont`,
 
 		atTime: ({ time, days }, f) =>
-			days ? `${capitalize(when(days, f))} à ${f.time(time)}` : `Tous les jours à ${f.time(time)}`
-	}
+			days ? `${capitalize(when(days, f))} à ${f.time(time)}` : `Tous les jours à ${f.time(time)}`,
+	},
 };

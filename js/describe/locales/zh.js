@@ -6,7 +6,8 @@
 const WEEKDAYS = [1, 2, 3, 4, 5];
 const WEEKEND = [0, 6];
 
-const sameDays = (days, group) => days.length === group.length && group.every((day) => days.includes(day));
+const sameDays = (days, group) =>
+	days.length === group.length && group.every((day) => days.includes(day));
 
 function when(days, f) {
 	if (sameDays(days, WEEKDAYS)) {
@@ -46,7 +47,7 @@ export default {
 		columnMeaning: '含义',
 		backToTool: '打开解释器',
 		sponsor: '赞助',
-		source: '在 GitHub 上查看源代码'
+		source: '在 GitHub 上查看源代码',
 	},
 	messages: {
 		reboot: () => '系统启动时运行一次',
@@ -87,8 +88,7 @@ export default {
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`每天从${f.time(first)}至${f.time(last)}每${f.number(step)}小时一次，然后次日重新开始${on(days, f)}`,
 
-		monthlyOnDay: ({ time, monthDays: values }, f) =>
-			`每月${monthDays(values, f)}${f.time(time)}`,
+		monthlyOnDay: ({ time, monthDays: values }, f) => `每月${monthDays(values, f)}${f.time(time)}`,
 
 		yearlyOnDate: ({ time, date }, f) => `每年${f.date(date)}${f.time(time)}`,
 
@@ -101,6 +101,7 @@ export default {
 			`每月${monthDays(values, f)}${f.time(time)}，以及每${when(days, f)}${f.time(time)}。` +
 			`只要满足其中任意一个条件 cron 就会运行，并不需要同时满足`,
 
-		atTime: ({ time, days }, f) => (days ? `每${when(days, f)}${f.time(time)}` : `每天${f.time(time)}`)
-	}
+		atTime: ({ time, days }, f) =>
+			days ? `每${when(days, f)}${f.time(time)}` : `每天${f.time(time)}`,
+	},
 };

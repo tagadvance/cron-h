@@ -1,14 +1,16 @@
 body {
 	background-color: #777777;
-	font-family: "Courier New", monospace;
+	font-family: 'Courier New', monospace;
 	margin: 0;
 }
 
-h1, h3 {
+h1,
+h3 {
 	text-align: center;
 }
 
-h5, h6 {
+h5,
+h6 {
 	margin-bottom: 0px;
 }
 
@@ -45,7 +47,7 @@ hr {
 }
 
 #content {
-	background-color: #FFFFFF;
+	background-color: #ffffff;
 	border: 1px dotted #000000;
 	padding: 2px;
 	max-width: 800px;
@@ -63,7 +65,7 @@ hr {
 	width: 100%;
 	min-height: 7em;
 	resize: vertical;
-	font-family: "Courier New", monospace;
+	font-family: 'Courier New', monospace;
 	font-size: 14pt;
 	white-space: pre;
 	overflow-wrap: normal;
@@ -110,7 +112,7 @@ hr {
 }
 
 #results .description {
-	color: #CC0000;
+	color: #cc0000;
 	font-weight: bold;
 	margin: 0.25em 0;
 }
@@ -124,7 +126,7 @@ hr {
 
 #results .error .description {
 	color: #000000;
-	background-color: #FFDDDD;
+	background-color: #ffdddd;
 	display: inline-block;
 	padding: 0 0.25em;
 }
@@ -143,10 +145,10 @@ hr {
 #footer {
 	text-align: center;
 	font-size: 11px;
-	color: #FFFFFF;
+	color: #ffffff;
 	padding: 0.5em 0 1em 0;
 }
 
 #footer a {
-	color: #FFFFFF;
+	color: #ffffff;
 }

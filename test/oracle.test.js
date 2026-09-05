@@ -16,9 +16,11 @@ const SAMPLE = 200;
 const MINUTE = 60 * 1000;
 const HOUR = 60 * MINUTE;
 
-const runs = (expression) => new Cron(expand(expression), { timezone: 'UTC' }).nextRuns(SAMPLE, FROM);
+const runs = (expression) =>
+	new Cron(expand(expression), { timezone: 'UTC' }).nextRuns(SAMPLE, FROM);
 
-const gaps = (dates) => dates.slice(1).map((date, index) => date.getTime() - dates[index].getTime());
+const gaps = (dates) =>
+	dates.slice(1).map((date, index) => date.getTime() - dates[index].getTime());
 
 // A rhythm claim is scoped by whatever day clause the wording carries: "every
 // 15 minutes, all day Sunday" promises nothing about the six days in between,
@@ -43,7 +45,10 @@ function assertEveryGap(segments, expected, message) {
 function assertSomeGap(segments, unexpected, message) {
 	const observed = segments.flatMap(gaps);
 	assert.ok(new Set(observed).size > 1, message);
-	assert.ok(observed.some((gap) => gap !== unexpected), message);
+	assert.ok(
+		observed.some((gap) => gap !== unexpected),
+		message,
+	);
 }
 
 // One checker per descriptor id, asserting what the wording promises. Value
@@ -99,7 +104,10 @@ const CLAIMS = {
 
 	monthlyOnDay: (dates, { time, monthDays }) => {
 		for (const date of dates) {
-			assert.ok(monthDays.includes(date.getUTCDate()), `${date.toISOString()} is not an allowed day`);
+			assert.ok(
+				monthDays.includes(date.getUTCDate()),
+				`${date.toISOString()} is not an allowed day`,
+			);
 			assert.equal(date.getUTCHours(), time.hour);
 			assert.equal(date.getUTCMinutes(), time.minute);
 		}
@@ -116,7 +124,10 @@ const CLAIMS = {
 
 	inMonths: (dates, { time, months }) => {
 		for (const date of dates) {
-			assert.ok(months.includes(date.getUTCMonth() + 1), `${date.toISOString()} is not an allowed month`);
+			assert.ok(
+				months.includes(date.getUTCMonth() + 1),
+				`${date.toISOString()} is not an allowed month`,
+			);
 			assert.equal(date.getUTCHours(), time.hour);
 			assert.equal(date.getUTCMinutes(), time.minute);
 		}
@@ -164,7 +175,7 @@ const CLAIMS = {
 			assert.equal(date.getUTCHours(), time.hour);
 			assert.equal(date.getUTCMinutes(), time.minute);
 		}
-	}
+	},
 };
 
 const CORPUS = [
@@ -204,7 +215,7 @@ const CORPUS = [
 	'@daily',
 	'@hourly',
 	'@weekly',
-	'@reboot'
+	'@reboot',
 ];
 
 for (const expression of CORPUS) {
@@ -223,7 +234,10 @@ for (const expression of CORPUS) {
 		// the listed weekdays, and its own checker asserts the disjunction.
 		if (descriptor.days && descriptor.id !== 'dayOfMonthOrWeek') {
 			for (const date of dates) {
-				assert.ok(descriptor.days.includes(date.getUTCDay()), `${date.toISOString()} is not an allowed day`);
+				assert.ok(
+					descriptor.days.includes(date.getUTCDay()),
+					`${date.toISOString()} is not an allowed day`,
+				);
 			}
 		}
 	});

@@ -22,14 +22,21 @@ export function parseLine(line) {
 
 	const fields = trimmed.split(/\s+/);
 	if (fields[0].startsWith('@')) {
-		return { kind: 'entry', expression: fields[0].toLowerCase(), command: fields.slice(1).join(' ') };
+		return {
+			kind: 'entry',
+			expression: fields[0].toLowerCase(),
+			command: fields.slice(1).join(' '),
+		};
 	}
 	if (fields.length < 5) {
 		return { kind: 'error', message: 'Expected five fields or an @nickname.' };
 	}
-	return { kind: 'entry', expression: fields.slice(0, 5).join(' '), command: fields.slice(5).join(' ') };
+	return {
+		kind: 'entry',
+		expression: fields.slice(0, 5).join(' '),
+		command: fields.slice(5).join(' '),
+	};
 }
-
 
 /**
  * Upcoming run times, soonest first. Returns null for schedules that are not
@@ -54,7 +61,7 @@ export function interpretLine(line, options) {
 		return {
 			...parsed,
 			description: describe(parsed.expression, options),
-			runs: nextRuns(parsed.expression, options)
+			runs: nextRuns(parsed.expression, options),
 		};
 	} catch (error) {
 		return { kind: 'error', message: error.message || String(error) };
@@ -62,5 +69,7 @@ export function interpretLine(line, options) {
 }
 
 export function interpretCrontab(text, options) {
-	return text.split(/\r?\n/).map((line, index) => ({ lineNumber: index + 1, line, ...interpretLine(line, options) }));
+	return text
+		.split(/\r?\n/)
+		.map((line, index) => ({ lineNumber: index + 1, line, ...interpretLine(line, options) }));
 }

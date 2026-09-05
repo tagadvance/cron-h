@@ -20,7 +20,7 @@ test('a five field line splits into expression and command', () => {
 	assert.deepEqual(parseLine('*/15 * * * * /usr/local/bin/sync --now'), {
 		kind: 'entry',
 		expression: '*/15 * * * *',
-		command: '/usr/local/bin/sync --now'
+		command: '/usr/local/bin/sync --now',
 	});
 });
 
@@ -28,7 +28,7 @@ test('a nickname line splits into expression and command', () => {
 	assert.deepEqual(parseLine('@Daily /usr/local/bin/rotate-logs'), {
 		kind: 'entry',
 		expression: '@daily',
-		command: '/usr/local/bin/rotate-logs'
+		command: '/usr/local/bin/rotate-logs',
 	});
 });
 
@@ -51,12 +51,12 @@ test('next runs are listed soonest first', () => {
 	assert.deepEqual(iso(nextRuns('*/15 * * * *', UTC)), [
 		'2026-01-01T00:15:00.000Z',
 		'2026-01-01T00:30:00.000Z',
-		'2026-01-01T00:45:00.000Z'
+		'2026-01-01T00:45:00.000Z',
 	]);
 	assert.deepEqual(iso(nextRuns('0 3 * * 0', UTC)), [
 		'2026-01-04T03:00:00.000Z',
 		'2026-01-11T03:00:00.000Z',
-		'2026-01-18T03:00:00.000Z'
+		'2026-01-18T03:00:00.000Z',
 	]);
 });
 
@@ -73,11 +73,23 @@ test('a schedule that can never fire has no next run', () => {
 });
 
 test('a crontab is interpreted line by line', () => {
-	const crontab = ['# comment', 'MAILTO=tag@example.com', '', '@daily /bin/rotate', '* * * * bogus /bin/nope'];
+	const crontab = [
+		'# comment',
+		'MAILTO=tag@example.com',
+		'',
+		'@daily /bin/rotate',
+		'* * * * bogus /bin/nope',
+	];
 	const entries = interpretCrontab(crontab.join('\n'), UTC);
 
-	assert.deepEqual(entries.map((entry) => entry.kind), ['comment', 'env', 'blank', 'entry', 'error']);
-	assert.deepEqual(entries.map((entry) => entry.lineNumber), [1, 2, 3, 4, 5]);
+	assert.deepEqual(
+		entries.map((entry) => entry.kind),
+		['comment', 'env', 'blank', 'entry', 'error'],
+	);
+	assert.deepEqual(
+		entries.map((entry) => entry.lineNumber),
+		[1, 2, 3, 4, 5],
+	);
 	assert.equal(entries[3].description, 'Every day at 12:00 AM');
 	assert.equal(entries[3].command, '/bin/rotate');
 	assert.match(entries[4].message, /\S/);
@@ -85,6 +97,9 @@ test('a crontab is interpreted line by line', () => {
 
 test('carriage returns do not leak into the last field', () => {
 	const entries = interpretCrontab('@daily /bin/rotate\r\n0 3 * * 0 /bin/backup\r\n', UTC);
-	assert.deepEqual(entries.map((entry) => entry.kind), ['entry', 'entry', 'blank']);
+	assert.deepEqual(
+		entries.map((entry) => entry.kind),
+		['entry', 'entry', 'blank'],
+	);
 	assert.equal(entries[0].command, '/bin/rotate');
 });

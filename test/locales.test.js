@@ -31,7 +31,7 @@ const IDS = [
 	'yearlyOnDate',
 	'inMonths',
 	'dayOfMonthOrWeek',
-	'atTime'
+	'atTime',
 ];
 
 const SAMPLES = [
@@ -52,11 +52,14 @@ const SAMPLES = [
 	'0 3 * * 0',
 	'*/15 * * * SUN',
 	'0 9 * * MON-FRI',
-	'30 8 * * SAT,SUN'
+	'30 8 * * SAT,SUN',
 ];
 
 test('the sample expressions cover every descriptor', () => {
-	assert.deepEqual([...new Set(SAMPLES.map((expression) => recognize(expression).id))].sort(), [...IDS].sort());
+	assert.deepEqual(
+		[...new Set(SAMPLES.map((expression) => recognize(expression).id))].sort(),
+		[...IDS].sort(),
+	);
 });
 
 for (const locale of ALL) {
@@ -85,8 +88,10 @@ for (const locale of ALL) {
 
 test('every locale is registered for the picker', () => {
 	assert.deepEqual(
-		locales().map(({ code }) => code).sort(),
-		ALL.map(({ code }) => code).sort()
+		locales()
+			.map(({ code }) => code)
+			.sort(),
+		ALL.map(({ code }) => code).sort(),
 	);
 	for (const { name } of locales()) {
 		assert.match(name, /\S/);
@@ -108,14 +113,24 @@ test('descriptions differ between locales rather than silently falling back', ()
 
 test('the fallback is translated once the bundle is loaded', async () => {
 	const unrecognized = '*/15 * 1 * *';
-	assert.equal(recognize(unrecognized), null, 'this test is only meaningful for an unrecognized schedule');
+	assert.equal(
+		recognize(unrecognized),
+		null,
+		'this test is only meaningful for an unrecognized schedule',
+	);
 
 	// Before the bundle arrives every language gets the English fallback.
 	assert.equal(describe(unrecognized, { locale: 'es' }), describe(unrecognized, { locale: 'en' }));
 
 	await loadTranslations();
-	assert.notEqual(describe(unrecognized, { locale: 'es' }), describe(unrecognized, { locale: 'en' }));
-	assert.notEqual(describe(unrecognized, { locale: 'zh' }), describe(unrecognized, { locale: 'en' }));
+	assert.notEqual(
+		describe(unrecognized, { locale: 'es' }),
+		describe(unrecognized, { locale: 'en' }),
+	);
+	assert.notEqual(
+		describe(unrecognized, { locale: 'zh' }),
+		describe(unrecognized, { locale: 'en' }),
+	);
 });
 
 // The inflections each language needed. These are the cases that would have

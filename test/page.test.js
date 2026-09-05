@@ -22,11 +22,16 @@ const TYPES = {
 	'.png': 'image/png',
 	'.ico': 'image/vnd.microsoft.icon',
 	'.xml': 'application/xml',
-	'.txt': 'text/plain'
+	'.txt': 'text/plain',
 };
 
 function browser() {
-	for (const candidate of ['google-chrome', 'google-chrome-stable', 'chromium', 'chromium-browser']) {
+	for (const candidate of [
+		'google-chrome',
+		'google-chrome-stable',
+		'chromium',
+		'chromium-browser',
+	]) {
 		try {
 			execFileSync('which', [candidate], { stdio: 'ignore' });
 			return candidate;
@@ -68,14 +73,15 @@ async function render(path) {
 			'--no-sandbox',
 			'--virtual-time-budget=8000',
 			'--dump-dom',
-			`${origin}${path}`
+			`${origin}${path}`,
 		],
-		{ encoding: 'utf8', timeout: 60000, maxBuffer: 32 * 1024 * 1024 }
+		{ encoding: 'utf8', timeout: 60000, maxBuffer: 32 * 1024 * 1024 },
 	);
 	return stdout;
 }
 
-const descriptions = (dom) => [...dom.matchAll(/<p class="description">([^<]*)</g)].map((m) => m[1]);
+const descriptions = (dom) =>
+	[...dom.matchAll(/<p class="description">([^<]*)</g)].map((m) => m[1]);
 
 test('the sample crontab is explained on load', options, async () => {
 	const dom = await render('/');
@@ -83,7 +89,7 @@ test('the sample crontab is explained on load', options, async () => {
 		'Every 15 minutes',
 		'Every Sunday at 3:00 AM',
 		'Every day at 12:00 AM',
-		'Once at system startup'
+		'Once at system startup',
 	]);
 	assert.match(dom, /Next 5 runs/);
 });
@@ -91,7 +97,10 @@ test('the sample crontab is explained on load', options, async () => {
 test('a shared link fills in its schedule and titles the page after it', options, async () => {
 	const dom = await render('/index.html?e=0+9-17+*+*+MON-FRI');
 	assert.deepEqual(descriptions(dom), ['Every hour from 9:00 AM to 5:00 PM, on weekdays']);
-	assert.match(dom, /<title>0 9-17 \* \* MON-FRI — Every hour from 9:00 AM to 5:00 PM, on weekdays · cron -h/);
+	assert.match(
+		dom,
+		/<title>0 9-17 \* \* MON-FRI — Every hour from 9:00 AM to 5:00 PM, on weekdays · cron -h/,
+	);
 });
 
 test('a shared link carries its language', options, async () => {

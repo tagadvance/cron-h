@@ -11,11 +11,16 @@ const WEEKEND = [0, 6];
 
 const MASCULINE = [0, 6];
 
-const sameDays = (days, group) => days.length === group.length && group.every((day) => days.includes(day));
+const sameDays = (days, group) =>
+	days.length === group.length && group.every((day) => days.includes(day));
 
 const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
-const pluralize = (name) => name.split('-').map((part) => `${part}s`).join('-');
+const pluralize = (name) =>
+	name
+		.split('-')
+		.map((part) => `${part}s`)
+		.join('-');
 
 // "à 1:00" but "às 3:00".
 const at = (time, f) => `${time.hour === 1 ? 'à' : 'às'} ${f.time(time)}`;
@@ -55,15 +60,17 @@ export default {
 		nextRuns: (count, f) => `Próximas ${f.number(count)} execuções`,
 		atStartup: 'Executa ao iniciar o sistema, portanto não há próxima execução a calcular.',
 		never: 'Nunca executa. Nenhuma data satisfaz esta expressão.',
-		privacy: 'Os horários são calculados no seu navegador, no seu fuso horário. Seu crontab nunca é enviado a lugar nenhum.',
+		privacy:
+			'Os horários são calculados no seu navegador, no seu fuso horário. Seu crontab nunca é enviado a lugar nenhum.',
 		examples: 'Exemplos',
 		examplesTitle: 'Exemplos de expressões cron',
-		examplesIntro: 'Agendamentos de crontab comuns e o que eles realmente significam. Escolha um para abri-lo no interpretador.',
+		examplesIntro:
+			'Agendamentos de crontab comuns e o que eles realmente significam. Escolha um para abri-lo no interpretador.',
 		columnExpression: 'Expressão',
 		columnMeaning: 'Significa',
 		backToTool: 'Abrir o interpretador',
 		sponsor: 'Apoiar',
-		source: 'Código-fonte no GitHub'
+		source: 'Código-fonte no GitHub',
 	},
 	messages: {
 		reboot: () => 'Uma vez ao iniciar o sistema',
@@ -119,6 +126,6 @@ export default {
 			`o cron executa quando qualquer uma das duas condições ocorre, não apenas quando ambas ocorrem`,
 
 		atTime: ({ time, days }, f) =>
-			days ? `${capitalize(when(days, f))} ${at(time, f)}` : `Todos os dias ${at(time, f)}`
-	}
+			days ? `${capitalize(when(days, f))} ${at(time, f)}` : `Todos os dias ${at(time, f)}`,
+	},
 };

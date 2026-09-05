@@ -8,7 +8,7 @@ const NICKNAMES = {
 	'@daily': '0 0 * * *',
 	'@midnight': '0 0 * * *',
 	'@hourly': '0 * * * *',
-	'@reboot': null
+	'@reboot': null,
 };
 
 export function isNickname(expression) {

@@ -12,7 +12,8 @@ const ORDINALS = { one: 'st', two: 'nd', few: 'rd', other: 'th' };
 const WEEKDAYS = [1, 2, 3, 4, 5];
 const WEEKEND = [0, 6];
 
-const sameDays = (days, group) => days.length === group.length && group.every((day) => days.includes(day));
+const sameDays = (days, group) =>
+	days.length === group.length && group.every((day) => days.includes(day));
 
 function group(days) {
 	if (sameDays(days, WEEKDAYS)) {
@@ -61,15 +62,17 @@ export default {
 		nextRuns: (count, f) => `Next ${f.number(count)} runs`,
 		atStartup: 'Runs at system startup, so there is no next run to calculate.',
 		never: 'Never runs. No date satisfies this expression.',
-		privacy: 'Run times are calculated in your browser, in your local time zone. Your crontab is never uploaded anywhere.',
+		privacy:
+			'Run times are calculated in your browser, in your local time zone. Your crontab is never uploaded anywhere.',
 		examples: 'Examples',
 		examplesTitle: 'Cron expression examples',
-		examplesIntro: 'Common crontab schedules and what they actually mean. Pick one to open it in the interpreter.',
+		examplesIntro:
+			'Common crontab schedules and what they actually mean. Pick one to open it in the interpreter.',
 		columnExpression: 'Expression',
 		columnMeaning: 'Means',
 		backToTool: 'Open the interpreter',
 		sponsor: 'Sponsor',
-		source: 'Source on GitHub'
+		source: 'Source on GitHub',
 	},
 	messages: {
 		reboot: () => 'Once at system startup',
@@ -134,6 +137,6 @@ export default {
 			}
 			const named = group(days);
 			return `Every ${named ? named.one : f.weekdays(days)} at ${f.time(time)}`;
-		}
-	}
+		},
+	},
 };

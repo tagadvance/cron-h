@@ -60,8 +60,9 @@ function renderError(entry) {
 function render(text, target, locale) {
 	const strings = chrome(locale);
 	const timestamp = new Intl.DateTimeFormat(locale, { dateStyle: 'full', timeStyle: 'short' });
-	const entries = interpretCrontab(text, { count: RUN_COUNT, locale })
-		.filter((entry) => entry.kind === 'entry' || entry.kind === 'error');
+	const entries = interpretCrontab(text, { count: RUN_COUNT, locale }).filter(
+		(entry) => entry.kind === 'entry' || entry.kind === 'error',
+	);
 
 	retitle(entries, strings);
 	reflect(entries, locale);
@@ -72,7 +73,9 @@ function render(text, target, locale) {
 		return;
 	}
 	for (const entry of entries) {
-		target.appendChild(entry.kind === 'error' ? renderError(entry) : renderEntry(entry, strings, timestamp));
+		target.appendChild(
+			entry.kind === 'error' ? renderError(entry) : renderEntry(entry, strings, timestamp),
+		);
 	}
 }
 
@@ -88,7 +91,7 @@ const CHROME = {
 	disclaimer: 'privacy',
 	examples: 'examples',
 	source: 'source',
-	sponsor: 'sponsor'
+	sponsor: 'sponsor',
 };
 
 const description = document.querySelector('meta[name="description"]');
@@ -127,7 +130,8 @@ function renderChrome(locale) {
 	for (const [id, key] of Object.entries(CHROME)) {
 		document.getElementById(id).textContent = ui[key];
 	}
-	document.getElementById('examples').href = locale === 'en' ? 'examples.html' : `${locale}/examples.html`;
+	document.getElementById('examples').href =
+		locale === 'en' ? 'examples.html' : `${locale}/examples.html`;
 }
 
 const crontab = document.getElementById('crontab');
@@ -135,7 +139,10 @@ const results = document.getElementById('results');
 const language = document.getElementById('language');
 
 const spoken = new Set(locales().map(({ code }) => code));
-const base = (tag) => String(tag ?? '').toLowerCase().split('-')[0];
+const base = (tag) =>
+	String(tag ?? '')
+		.toLowerCase()
+		.split('-')[0];
 const supported = (tag) => spoken.has(base(tag));
 
 // A remembered choice wins over the browser's, and browser storage is not
@@ -163,7 +170,10 @@ if (shared.get('e')) {
 	crontab.value = shared.get('e');
 }
 
-let locale = base([shared.get('lang'), remembered(), ...navigator.languages, navigator.language].find(supported) ?? 'en');
+let locale = base(
+	[shared.get('lang'), remembered(), ...navigator.languages, navigator.language].find(supported) ??
+		'en',
+);
 
 for (const { code, name } of locales()) {
 	const option = element('option', null, name);

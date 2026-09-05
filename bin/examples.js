@@ -66,7 +66,7 @@ export const EXAMPLES = [
 	'@daily',
 	'@weekly',
 	'@monthly',
-	'@yearly'
+	'@yearly',
 ];
 
 const escape = (text) =>
@@ -91,7 +91,7 @@ function row(expression, code) {
 function alternates() {
 	const links = locales().map(
 		({ code: other }) =>
-			`	<link rel="alternate" hreflang="${other}" href="${ORIGIN}${pathFor(other)}" />`
+			`	<link rel="alternate" hreflang="${other}" href="${ORIGIN}${pathFor(other)}" />`,
 	);
 	links.push(`	<link rel="alternate" hreflang="x-default" href="${ORIGIN}${pathFor('en')}" />`);
 	return links.join('\n');

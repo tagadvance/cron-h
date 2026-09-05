@@ -8,7 +8,11 @@ let translator = cronstrue;
 let pending = null;
 
 export function translate(expression, code) {
-	return translator.toString(expression, { locale: code, verbose: false, throwExceptionOnParseError: true });
+	return translator.toString(expression, {
+		locale: code,
+		verbose: false,
+		throwExceptionOnParseError: true,
+	});
 }
 
 export const hasTranslations = () => translator !== cronstrue;

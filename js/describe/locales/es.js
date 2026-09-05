@@ -8,7 +8,8 @@ const HOURS = { one: 'hora', other: 'horas' };
 const WEEKDAYS = [1, 2, 3, 4, 5];
 const WEEKEND = [0, 6];
 
-const sameDays = (days, group) => days.length === group.length && group.every((day) => days.includes(day));
+const sameDays = (days, group) =>
+	days.length === group.length && group.every((day) => days.includes(day));
 
 const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
@@ -22,7 +23,9 @@ function when(days, f) {
 	if (sameDays(days, WEEKEND)) {
 		return 'los fines de semana';
 	}
-	const names = f.weekdayNames(days).map((name, index) => (days[index] % 6 === 0 ? `${name}s` : name));
+	const names = f
+		.weekdayNames(days)
+		.map((name, index) => (days[index] % 6 === 0 ? `${name}s` : name));
 	return `los ${f.list(names)}`;
 }
 
@@ -48,17 +51,20 @@ export default {
 		empty: 'Pega un crontab arriba para ver qué hace.',
 		language: 'Idioma',
 		nextRuns: (count, f) => `Próximas ${f.number(count)} ejecuciones`,
-		atStartup: 'Se ejecuta al iniciar el sistema, así que no hay una próxima ejecución que calcular.',
+		atStartup:
+			'Se ejecuta al iniciar el sistema, así que no hay una próxima ejecución que calcular.',
 		never: 'No se ejecuta nunca. Ninguna fecha satisface esta expresión.',
-		privacy: 'Las horas se calculan en tu navegador, en tu zona horaria local. Tu crontab nunca se envía a ningún sitio.',
+		privacy:
+			'Las horas se calculan en tu navegador, en tu zona horaria local. Tu crontab nunca se envía a ningún sitio.',
 		examples: 'Ejemplos',
 		examplesTitle: 'Ejemplos de expresiones cron',
-		examplesIntro: 'Programaciones de crontab habituales y lo que significan en realidad. Elige una para abrirla en el intérprete.',
+		examplesIntro:
+			'Programaciones de crontab habituales y lo que significan en realidad. Elige una para abrirla en el intérprete.',
 		columnExpression: 'Expresión',
 		columnMeaning: 'Significa',
 		backToTool: 'Abrir el intérprete',
 		sponsor: 'Patrocinar',
-		source: 'Código fuente en GitHub'
+		source: 'Código fuente en GitHub',
 	},
 	messages: {
 		reboot: () => 'Una vez al iniciar el sistema',
@@ -114,6 +120,8 @@ export default {
 			`cron lo ejecuta cuando se cumple cualquiera de las dos condiciones, no solo cuando se cumplen ambas`,
 
 		atTime: ({ time, days }, f) =>
-			days ? `${capitalize(when(days, f))} a ${hour(time, f)}` : `Todos los días a ${hour(time, f)}`
-	}
+			days
+				? `${capitalize(when(days, f))} a ${hour(time, f)}`
+				: `Todos los días a ${hour(time, f)}`,
+	},
 };

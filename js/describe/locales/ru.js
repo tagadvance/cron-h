@@ -14,13 +14,14 @@ const DATIVE = [
 	'средам',
 	'четвергам',
 	'пятницам',
-	'субботам'
+	'субботам',
 ];
 
 const WEEKDAYS = [1, 2, 3, 4, 5];
 const WEEKEND = [0, 6];
 
-const sameDays = (days, group) => days.length === group.length && group.every((day) => days.includes(day));
+const sameDays = (days, group) =>
+	days.length === group.length && group.every((day) => days.includes(day));
 
 const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
@@ -52,7 +53,7 @@ const PREPOSITIONAL = [
 	'сентябре',
 	'октябре',
 	'ноябре',
-	'декабре'
+	'декабре',
 ];
 
 const inMonthNames = (values, f) => f.list(values.map((month) => PREPOSITIONAL[month - 1]));
@@ -73,15 +74,17 @@ export default {
 		nextRuns: (count, f) => `Следующие ${f.number(count)} ${f.plural(count, RUNS)}`,
 		atStartup: 'Запускается при старте системы, поэтому вычислить следующий запуск нельзя.',
 		never: 'Не запускается никогда. Ни одна дата не подходит под это выражение.',
-		privacy: 'Время запуска вычисляется в вашем браузере, в вашем часовом поясе. Ваш crontab никуда не отправляется.',
+		privacy:
+			'Время запуска вычисляется в вашем браузере, в вашем часовом поясе. Ваш crontab никуда не отправляется.',
 		examples: 'Примеры',
 		examplesTitle: 'Примеры выражений cron',
-		examplesIntro: 'Часто встречающиеся расписания crontab и что они значат на самом деле. Выберите любое, чтобы открыть его в интерпретаторе.',
+		examplesIntro:
+			'Часто встречающиеся расписания crontab и что они значат на самом деле. Выберите любое, чтобы открыть его в интерпретаторе.',
 		columnExpression: 'Выражение',
 		columnMeaning: 'Значение',
 		backToTool: 'Открыть интерпретатор',
 		sponsor: 'Поддержать',
-		source: 'Исходный код на GitHub'
+		source: 'Исходный код на GitHub',
 	},
 	messages: {
 		reboot: () => 'Один раз при запуске системы',
@@ -137,6 +140,6 @@ export default {
 			`cron запускается, когда выполняется любое из двух условий, а не только когда оба сразу`,
 
 		atTime: ({ time, days }, f) =>
-			days ? `${capitalize(when(days, f))} в ${f.time(time)}` : `Каждый день в ${f.time(time)}`
-	}
+			days ? `${capitalize(when(days, f))} в ${f.time(time)}` : `Каждый день в ${f.time(time)}`,
+	},
 };

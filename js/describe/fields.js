@@ -12,7 +12,7 @@ export const SPECS = [
 	// wrap-around gap and can never be honestly called "every N days".
 	{ name: 'dayOfMonth', min: 1, max: 31, cyclic: false },
 	{ name: 'month', min: 1, max: 12, names: MONTHS, cyclic: true },
-	{ name: 'dayOfWeek', min: 0, max: 6, parseMax: 7, names: DAYS, cyclic: true }
+	{ name: 'dayOfWeek', min: 0, max: 6, parseMax: 7, names: DAYS, cyclic: true },
 ];
 
 function parseValue(token, spec) {
@@ -55,7 +55,12 @@ export function parseField(text, spec) {
 			}
 			start = parseValue(bounds[0], spec);
 			// A bare value with a step, as in 5/10, runs to the end of the field.
-			end = bounds.length === 2 ? parseValue(bounds[1], spec) : (stepText === undefined ? start : spec.max);
+			end =
+				bounds.length === 2
+					? parseValue(bounds[1], spec)
+					: stepText === undefined
+						? start
+						: spec.max;
 			if (start === null || end === null || start > end) {
 				return null;
 			}
@@ -68,7 +73,12 @@ export function parseField(text, spec) {
 		}
 	}
 
-	return values.size === 0 ? null : analyze([...values].sort((a, b) => a - b), spec);
+	return values.size === 0
+		? null
+		: analyze(
+				[...values].sort((a, b) => a - b),
+				spec,
+			);
 }
 
 function analyze(values, spec) {
@@ -78,7 +88,9 @@ function analyze(values, spec) {
 	let stride = null;
 	if (values.length >= 2) {
 		const step = values[1] - values[0];
-		stride = values.every((value, index) => index === 0 || value - values[index - 1] === step) ? step : null;
+		stride = values.every((value, index) => index === 0 || value - values[index - 1] === step)
+			? step
+			: null;
 	}
 
 	// The gap from the last value of one cycle to the first of the next. Unless
@@ -95,7 +107,7 @@ function analyze(values, spec) {
 		stride,
 		isFull: values.length === spec.max - spec.min + 1,
 		isSingleton: values.length === 1,
-		isEvenCycle: spec.cyclic && stride !== null && wrap === stride
+		isEvenCycle: spec.cyclic && stride !== null && wrap === stride,
 	};
 }
 
