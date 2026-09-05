@@ -271,3 +271,35 @@ test('the fallback reports whether its translations have arrived', async () => {
 		describe(unrecognized, { locale: 'en' }),
 	);
 });
+
+// Region tags reach describe() through the public API even though the page
+// strips them, and they used to throw out of Intl or mismatch their own text.
+test('a region keeps its clock without breaking its grammar', () => {
+	// The article follows the hour as rendered, not the 24-hour value.
+	assert.equal(describe('0 13 * * 1', { locale: 'es' }), 'Los lunes a las 13:00');
+	assert.equal(describe('0 13 * * 1', { locale: 'es-MX' }), 'Los lunes a la 1:00 p.m.');
+	assert.equal(describe('0 1 * * 1', { locale: 'es' }), 'Los lunes a la 1:00');
+
+	// English keeps the split: a British reader gets a 24 hour clock.
+	assert.equal(describe('0 15 * * *', { locale: 'en-GB' }), 'Every day at 15:00');
+	assert.equal(describe('0 15 * * *', { locale: 'en' }), 'Every day at 3:00 PM');
+});
+
+test('a locale written for one script pins its formatter to it', () => {
+	// Traditional weekday names inside Simplified sentences would be a mismatch.
+	assert.equal(
+		describe('0 13 * * 1', { locale: 'zh-Hant' }),
+		describe('0 13 * * 1', { locale: 'zh' }),
+	);
+	assert.equal(
+		describe('0 13 * * 1', { locale: 'zh-TW' }),
+		describe('0 13 * * 1', { locale: 'zh' }),
+	);
+});
+
+test('a malformed region falls back rather than throwing', () => {
+	for (const tag of ['en-', 'fr-1', 'es-$$', 'en--US', 'zh-Hant-', '']) {
+		assert.doesNotThrow(() => describe('0 15 * * *', { locale: tag }), tag);
+		assert.doesNotThrow(() => chrome(tag), tag);
+	}
+});

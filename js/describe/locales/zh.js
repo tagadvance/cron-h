@@ -37,6 +37,10 @@ export default {
 	code: 'zh',
 	name: '中文',
 	fallback: 'zh_CN',
+	// This module is written in Simplified, so the formatter is pinned to it
+	// too. Without this, zh-Hant renders Traditional weekday names inside
+	// Simplified sentences.
+	formats: 'zh-Hans',
 	ui: {
 		tagline: '人类可读的 cron 解释器。',
 		instructions: '使用说明：',

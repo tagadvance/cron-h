@@ -13,8 +13,11 @@ const sameDays = (days, group) =>
 
 const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
-// "la 1:00" but "las 2:00".
-const hour = (time, f) => `${time.hour === 1 ? 'la' : 'las'} ${f.time(time)}`;
+// "la 1:00" but "las 2:00". Decided by the hour as rendered, not by the 24-hour
+// value: es-MX shows 13:00 as "1:00 p.m.", which takes the singular.
+const singular = (time, f) => /^1\D/.test(f.time(time));
+
+const hour = (time, f) => `${singular(time, f) ? 'la' : 'las'} ${f.time(time)}`;
 
 function when(days, f) {
 	if (sameDays(days, WEEKDAYS)) {

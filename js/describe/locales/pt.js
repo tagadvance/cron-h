@@ -22,9 +22,12 @@ const pluralize = (name) =>
 		.map((part) => `${part}s`)
 		.join('-');
 
-// "à 1:00" but "às 3:00".
-const at = (time, f) => `${time.hour === 1 ? 'à' : 'às'} ${f.time(time)}`;
-const from = (time, f) => `${time.hour === 1 ? 'da' : 'das'} ${f.time(time)}`;
+// "à 1:00" but "às 3:00". Decided by the hour as rendered, not by the 24-hour
+// value: pt-BR shows 13:00 as "1:00 PM", which takes the singular.
+const singular = (time, f) => /^1\D/.test(f.time(time));
+
+const at = (time, f) => `${singular(time, f) ? 'à' : 'às'} ${f.time(time)}`;
+const from = (time, f) => `${singular(time, f) ? 'da' : 'das'} ${f.time(time)}`;
 
 function when(days, f) {
 	if (sameDays(days, WEEKDAYS)) {

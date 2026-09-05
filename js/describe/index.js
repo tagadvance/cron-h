@@ -21,9 +21,13 @@ const formats = new Map();
 function resolve(tag) {
 	const requested = String(tag ?? DEFAULT_LOCALE).trim();
 	const language = requested.toLowerCase().split('-')[0];
-	return language in LOCALES
-		? { locale: LOCALES[language], tag: requested }
-		: { locale: LOCALES[DEFAULT_LOCALE], tag: DEFAULT_LOCALE };
+	if (!(language in LOCALES)) {
+		return { locale: LOCALES[DEFAULT_LOCALE], tag: DEFAULT_LOCALE };
+	}
+	const locale = LOCALES[language];
+	// A locale written for one script pins its own formatter; the rest take the
+	// tag as given, which is what lets en-GB keep a 24 hour clock.
+	return { locale, tag: locale.formats ?? requested };
 }
 
 function formatFor(tag) {
