@@ -11,8 +11,11 @@ const NICKNAMES = {
 	'@reboot': null,
 };
 
+// Object.hasOwn, not `in`: `in` walks the prototype chain, so 'constructor'
+// and '__proto__' would read as nicknames and expand() would hand back a
+// function or an object instead of a string.
 export function isNickname(expression) {
-	return expression.trim().toLowerCase() in NICKNAMES;
+	return Object.hasOwn(NICKNAMES, expression.trim().toLowerCase());
 }
 
 /**
@@ -21,5 +24,5 @@ export function isNickname(expression) {
  */
 export function expand(expression) {
 	const nickname = expression.trim().toLowerCase();
-	return nickname in NICKNAMES ? NICKNAMES[nickname] : expression;
+	return Object.hasOwn(NICKNAMES, nickname) ? NICKNAMES[nickname] : expression;
 }
