@@ -20,7 +20,8 @@ export function parseLine(line) {
 		return { kind: 'env' };
 	}
 
-	const fields = trimmed.split(/\s+/);
+	// Spaces and tabs only; see parseExpression() in describe/fields.js.
+	const fields = trimmed.split(/[ \t]+/);
 	if (fields[0].startsWith('@')) {
 		return {
 			kind: 'entry',

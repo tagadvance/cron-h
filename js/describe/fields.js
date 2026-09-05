@@ -113,7 +113,11 @@ function analyze(values, spec) {
 
 /** Parses a five field expression, or returns null if any field is unsupported. */
 export function parseExpression(expression) {
-	const fields = expression.trim().split(/\s+/);
+	// Cron separates fields with spaces and tabs only. JavaScript's \s also
+	// matches NBSP, the en/em spaces and the ideographic space, which are common
+	// in text copied out of a web page or a PDF and which a real crontab cannot
+	// contain. Splitting on them would describe a line cron is going to reject.
+	const fields = expression.replace(/^[ \t]+|[ \t]+$/g, '').split(/[ \t]+/);
 	if (fields.length !== SPECS.length) {
 		return null;
 	}
