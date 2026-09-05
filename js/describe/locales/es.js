@@ -77,7 +77,7 @@ export default {
 		},
 
 		unevenMinuteInterval: ({ step, first, last, days }, f) =>
-			`Cada ${f.number(step)} ${f.plural(step, MINUTES)}, del minuto ${f.number(first)} al ${f.number(last)} de cada hora, y de nuevo al comenzar la siguiente${allDay(days, f)}`,
+			`Cada ${f.number(step)} ${f.plural(step, MINUTES)}, del minuto ${f.number(first)} al ${f.number(last)} de cada hora, y de nuevo en el minuto ${f.number(first)} de la siguiente${allDay(days, f)}`,
 
 		minuteIntervalInHours: ({ step, hourStep, hourOffset, days }, f) => {
 			if (hourStep === 2) {
@@ -105,10 +105,15 @@ export default {
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`Cada ${f.number(step)} ${f.plural(step, HOURS)}, de ${hour(first, f)} a ${hour(last, f)} cada día, y de nuevo al día siguiente${on(days, f)}`,
 
-		monthlyOnDay: ({ time, monthDays: values }, f) =>
-			`Todos los meses ${monthDays(values, f)} a ${hour(time, f)}`,
+		monthlyOnDay: ({ time, monthDays: values, everyMonth }, f) =>
+			everyMonth
+				? `Todos los meses ${monthDays(values, f)} a ${hour(time, f)}`
+				: `${capitalize(monthDays(values, f))} de cada mes que lo tenga, a ${hour(time, f)}`,
 
-		yearlyOnDate: ({ time, date }, f) => `Todos los años el ${f.date(date)} a ${hour(time, f)}`,
+		yearlyOnDate: ({ time, date, everyYear }, f) =>
+			everyYear
+				? `Todos los años el ${f.date(date)} a ${hour(time, f)}`
+				: `Cada año bisiesto el ${f.date(date)} a ${hour(time, f)}`,
 
 		inMonths: ({ time, months, days }, f) =>
 			days

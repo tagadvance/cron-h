@@ -23,6 +23,14 @@ const on = (days, f) => (days ? `，${when(days, f)}` : '');
 
 const allDay = (days, f) => (days ? `，${when(days, f)}全天` : '');
 
+// 每 attaches to a single noun, so it distributes over only the first item of a
+// list. A list takes 每逢, which covers the whole of it; a group name such as
+// 工作日 is a single noun and keeps 每.
+const isGroup = (days) => sameDays(days, WEEKDAYS) || sameDays(days, WEEKEND);
+
+const every = (days, f) =>
+	days.length === 1 || isGroup(days) ? `每${when(days, f)}` : `每逢${when(days, f)}`;
+
 const monthDays = (values, f) => f.list(values.map((day) => `${f.number(day)}号`));
 
 export default {
@@ -60,7 +68,7 @@ export default {
 		},
 
 		unevenMinuteInterval: ({ step, first, last, days }, f) =>
-			`每小时的第${f.number(first)}分钟至第${f.number(last)}分钟之间每${f.number(step)}分钟一次，然后在整点重新开始${allDay(days, f)}`,
+			`每小时的第${f.number(first)}分钟至第${f.number(last)}分钟之间每${f.number(step)}分钟一次，然后在下一小时的第${f.number(first)}分钟重新开始${allDay(days, f)}`,
 
 		minuteIntervalInHours: ({ step, hourStep, hourOffset, days }, f) => {
 			if (hourStep === 2) {
@@ -88,9 +96,13 @@ export default {
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`每天从${f.time(first)}至${f.time(last)}每${f.number(step)}小时一次，然后次日重新开始${on(days, f)}`,
 
-		monthlyOnDay: ({ time, monthDays: values }, f) => `每月${monthDays(values, f)}${f.time(time)}`,
+		monthlyOnDay: ({ time, monthDays: values, everyMonth }, f) =>
+			everyMonth
+				? `每月${monthDays(values, f)}${f.time(time)}`
+				: `每逢有${monthDays(values, f)}的月份，${monthDays(values, f)}${f.time(time)}`,
 
-		yearlyOnDate: ({ time, date }, f) => `每年${f.date(date)}${f.time(time)}`,
+		yearlyOnDate: ({ time, date, everyYear }, f) =>
+			everyYear ? `每年${f.date(date)}${f.time(time)}` : `每闰年${f.date(date)}${f.time(time)}`,
 
 		inMonths: ({ time, months, days }, f) =>
 			days
@@ -98,10 +110,10 @@ export default {
 				: `${f.months(months)}每天${f.time(time)}`,
 
 		dayOfMonthOrWeek: ({ time, monthDays: values, days }, f) =>
-			`每月${monthDays(values, f)}${f.time(time)}，以及每${when(days, f)}${f.time(time)}。` +
+			`每月${monthDays(values, f)}${f.time(time)}，以及${every(days, f)}${f.time(time)}。` +
 			`只要满足其中任意一个条件 cron 就会运行，并不需要同时满足`,
 
 		atTime: ({ time, days }, f) =>
-			days ? `每${when(days, f)}${f.time(time)}` : `每天${f.time(time)}`,
+			days ? `${every(days, f)}${f.time(time)}` : `每天${f.time(time)}`,
 	},
 };

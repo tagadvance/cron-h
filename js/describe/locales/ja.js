@@ -64,7 +64,7 @@ export default {
 		},
 
 		unevenMinuteInterval: ({ step, first, last, days }, f) =>
-			`毎時${f.number(first)}分から${f.number(last)}分まで${f.number(step)}分ごと、その後は正時に再開${allDay(days, f)}`,
+			`毎時${f.number(first)}分から${f.number(last)}分まで${f.number(step)}分ごと、その後は次の時間の${f.number(first)}分に再開${allDay(days, f)}`,
 
 		minuteIntervalInHours: ({ step, hourStep, hourOffset, days }, f) => {
 			if (hourStep === 2) {
@@ -73,7 +73,8 @@ export default {
 			return `${f.number(hourStep)}時間ごと、その時間内は${f.number(step)}分ごと${allDay(days, f)}`;
 		},
 
-		hourly: ({ minute, days }, f) => `毎時${f.number(minute)}分${allDay(days, f)}`,
+		hourly: ({ minute, days }, f) =>
+			minute === 0 ? `毎正時${allDay(days, f)}` : `毎時${f.number(minute)}分${allDay(days, f)}`,
 
 		hourInterval: ({ step, time, days }, f) => {
 			const from = time.hour === 0 && time.minute === 0 ? '' : `、${f.time(time)}から`;
@@ -89,10 +90,15 @@ export default {
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`毎日${f.time(first)}から${f.time(last)}まで${f.number(step)}時間ごと、その後は翌日に再開${on(days, f)}`,
 
-		monthlyOnDay: ({ time, monthDays: values }, f) =>
-			`毎月${monthDays(values, f)}の${f.time(time)}`,
+		monthlyOnDay: ({ time, monthDays: values, everyMonth }, f) =>
+			everyMonth
+				? `毎月${monthDays(values, f)}の${f.time(time)}`
+				: `${monthDays(values, f)}がある月の${monthDays(values, f)}の${f.time(time)}`,
 
-		yearlyOnDate: ({ time, date }, f) => `毎年${f.date(date)}の${f.time(time)}`,
+		yearlyOnDate: ({ time, date, everyYear }, f) =>
+			everyYear
+				? `毎年${f.date(date)}の${f.time(time)}`
+				: `うるう年ごとに${f.date(date)}の${f.time(time)}`,
 
 		inMonths: ({ time, months, days }, f) =>
 			days
@@ -100,7 +106,7 @@ export default {
 				: `${f.months(months)}の毎日${f.time(time)}`,
 
 		dayOfMonthOrWeek: ({ time, monthDays: values, days }, f) =>
-			`毎月${monthDays(values, f)}の${f.time(time)}、および毎週${when(days, f)}の${f.time(time)}。` +
+			`毎月${monthDays(values, f)}の${f.time(time)}、および${every(days, f)}の${f.time(time)}。` +
 			`cron はどちらか一方が一致した時点で実行され、両方が揃う必要はありません`,
 
 		atTime: ({ time, days }, f) =>

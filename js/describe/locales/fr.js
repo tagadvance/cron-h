@@ -76,7 +76,7 @@ export default {
 		},
 
 		unevenMinuteInterval: ({ step, first, last, days }, f) =>
-			`Toutes les ${f.number(step)} ${f.plural(step, MINUTES)}, de la minute ${f.number(first)} à la minute ${f.number(last)} de chaque heure, puis de nouveau au début de l’heure suivante${allDay(days, f)}`,
+			`Toutes les ${f.number(step)} ${f.plural(step, MINUTES)}, de la minute ${f.number(first)} à la minute ${f.number(last)} de chaque heure, puis de nouveau à la minute ${f.number(first)} de l’heure suivante${allDay(days, f)}`,
 
 		minuteIntervalInHours: ({ step, hourStep, hourOffset, days }, f) => {
 			if (hourStep === 2) {
@@ -104,10 +104,15 @@ export default {
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`Toutes les ${f.number(step)} ${f.plural(step, HOURS)}, de ${f.time(first)} à ${f.time(last)} chaque jour, puis de nouveau le lendemain${on(days, f)}`,
 
-		monthlyOnDay: ({ time, monthDays: values }, f) =>
-			`Tous les mois ${monthDays(values, f)} à ${f.time(time)}`,
+		monthlyOnDay: ({ time, monthDays: values, everyMonth }, f) =>
+			everyMonth
+				? `Tous les mois ${monthDays(values, f)} à ${f.time(time)}`
+				: `${capitalize(monthDays(values, f))} de chaque mois qui en compte un, à ${f.time(time)}`,
 
-		yearlyOnDate: ({ time, date }, f) => `Tous les ans le ${frenchDate(date, f)} à ${f.time(time)}`,
+		yearlyOnDate: ({ time, date, everyYear }, f) =>
+			everyYear
+				? `Tous les ans le ${frenchDate(date, f)} à ${f.time(time)}`
+				: `Chaque année bissextile le ${frenchDate(date, f)} à ${f.time(time)}`,
 
 		inMonths: ({ time, months, days }, f) =>
 			days

@@ -5,6 +5,12 @@
 
 const MINUTES = { one: 'минуту', few: 'минуты', many: 'минут', other: 'минут' };
 const HOURS = { one: 'час', few: 'часа', many: 'часов', other: 'часов' };
+
+// The determiner agrees too, and it is gendered: минута is feminine, час is
+// masculine. Steps ending in 1 — 21, 31, 41, 51 — take the singular, so
+// "Каждые 21 минуту" is wrong twice over.
+const EVERY_MINUTES = { one: 'Каждую', few: 'Каждые', many: 'Каждые', other: 'Каждые' };
+const EVERY_HOURS = { one: 'Каждый', few: 'Каждые', many: 'Каждые', other: 'Каждые' };
 const RUNS = { one: 'запуск', few: 'запуска', many: 'запусков', other: 'запусков' };
 
 const DATIVE = [
@@ -93,17 +99,17 @@ export default {
 
 		minuteInterval: ({ step, offset, days }, f) => {
 			const from = offset === 0 ? '' : `, начиная с ${f.number(offset)}-й минуты`;
-			return `Каждые ${f.number(step)} ${f.plural(step, MINUTES)}${from}${allDay(days, f)}`;
+			return `${f.plural(step, EVERY_MINUTES)} ${f.number(step)} ${f.plural(step, MINUTES)}${from}${allDay(days, f)}`;
 		},
 
 		unevenMinuteInterval: ({ step, first, last, days }, f) =>
-			`Каждые ${f.number(step)} ${f.plural(step, MINUTES)} с ${f.number(first)} по ${f.number(last)} минуту каждого часа, затем снова в начале часа${allDay(days, f)}`,
+			`${f.plural(step, EVERY_MINUTES)} ${f.number(step)} ${f.plural(step, MINUTES)} с ${f.number(first)} по ${f.number(last)} минуту каждого часа, затем снова на ${f.number(first)}-й минуте следующего${allDay(days, f)}`,
 
 		minuteIntervalInHours: ({ step, hourStep, hourOffset, days }, f) => {
 			if (hourStep === 2) {
-				return `Каждые ${f.number(step)} ${f.plural(step, MINUTES)}, в ${hourOffset === 0 ? 'чётные' : 'нечётные'} часы${allDay(days, f)}`;
+				return `${f.plural(step, EVERY_MINUTES)} ${f.number(step)} ${f.plural(step, MINUTES)}, в ${hourOffset === 0 ? 'чётные' : 'нечётные'} часы${allDay(days, f)}`;
 			}
-			return `Каждые ${f.number(hourStep)} ${f.plural(hourStep, HOURS)}, затем каждые ${f.number(step)} ${f.plural(step, MINUTES)} в течение этого часа${allDay(days, f)}`;
+			return `${f.plural(hourStep, EVERY_HOURS)} ${f.number(hourStep)} ${f.plural(hourStep, HOURS)}, затем каждые ${f.number(step)} ${f.plural(step, MINUTES)} в течение этого часа${allDay(days, f)}`;
 		},
 
 		hourly: ({ minute, days }, f) =>
@@ -113,22 +119,27 @@ export default {
 
 		hourInterval: ({ step, time, days }, f) => {
 			const from = time.hour === 0 && time.minute === 0 ? '' : `, начиная с ${f.time(time)}`;
-			return `Каждые ${f.number(step)} ${f.plural(step, HOURS)}${from}${allDay(days, f)}`;
+			return `${f.plural(step, EVERY_HOURS)} ${f.number(step)} ${f.plural(step, HOURS)}${from}${allDay(days, f)}`;
 		},
 
 		minuteIntervalInHourRange: ({ step, first, last, days }, f) =>
-			`Каждые ${f.number(step)} ${f.plural(step, MINUTES)} с ${f.time(first)} до ${f.time(last)}${on(days, f)}`,
+			`${f.plural(step, EVERY_MINUTES)} ${f.number(step)} ${f.plural(step, MINUTES)} с ${f.time(first)} до ${f.time(last)}${on(days, f)}`,
 
 		hourRange: ({ first, last, days }, f) =>
 			`Каждый час с ${f.time(first)} до ${f.time(last)}${on(days, f)}`,
 
 		unevenHourInterval: ({ step, first, last, days }, f) =>
-			`Каждые ${f.number(step)} ${f.plural(step, HOURS)} с ${f.time(first)} до ${f.time(last)} каждый день, затем снова на следующий день${on(days, f)}`,
+			`${f.plural(step, EVERY_HOURS)} ${f.number(step)} ${f.plural(step, HOURS)} с ${f.time(first)} до ${f.time(last)} каждый день, затем снова на следующий день${on(days, f)}`,
 
-		monthlyOnDay: ({ time, monthDays: values }, f) =>
-			`Каждый месяц ${monthDays(values, f)} в ${f.time(time)}`,
+		monthlyOnDay: ({ time, monthDays: values, everyMonth }, f) =>
+			everyMonth
+				? `Каждый месяц ${monthDays(values, f)} в ${f.time(time)}`
+				: `${capitalize(monthDays(values, f))} каждого месяца, где оно есть, в ${f.time(time)}`,
 
-		yearlyOnDate: ({ time, date }, f) => `Каждый год ${f.date(date)} в ${f.time(time)}`,
+		yearlyOnDate: ({ time, date, everyYear }, f) =>
+			everyYear
+				? `Каждый год ${f.date(date)} в ${f.time(time)}`
+				: `Каждый високосный год ${f.date(date)} в ${f.time(time)}`,
 
 		inMonths: ({ time, months, days }, f) =>
 			days

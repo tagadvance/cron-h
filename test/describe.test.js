@@ -8,7 +8,7 @@ const described = (expression) => describe(expression, { locale: 'en' });
 test('the schedules from the original spec', () => {
 	assert.equal(described('*/15 * * * *'), 'Every 15 minutes');
 	assert.equal(described('*/15 * * * SUN'), 'Every 15 minutes, all day Sunday');
-	assert.equal(described('*/15 */2 * * *'), 'Every 15 minutes, on even-numbered hours');
+	assert.equal(described('*/15 */2 * * *'), 'Every 15 minutes, during even-numbered hours');
 	assert.equal(described('0 3 * * 0'), 'Every Sunday at 3:00 AM');
 	assert.equal(described('0 */2 * * *'), 'Every 2 hours');
 	assert.equal(described('0 */6 * * *'), 'Every 6 hours');
@@ -25,7 +25,7 @@ test('every nickname', () => {
 test('a stride that does not divide its field evenly says so', () => {
 	assert.equal(
 		described('*/7 * * * *'),
-		'Every 7 minutes from :00 to :56 of each hour, then again on the hour',
+		'Every 7 minutes from :00 to :56 of each hour, then again at :00 of the next',
 	);
 	assert.equal(
 		described('0 */5 * * *'),
@@ -35,7 +35,7 @@ test('a stride that does not divide its field evenly says so', () => {
 
 test('a stride offset from the start of its field says so', () => {
 	assert.equal(described('5-59/15 * * * *'), 'Every 15 minutes, starting at :05');
-	assert.equal(described('*/15 1-23/2 * * *'), 'Every 15 minutes, on odd-numbered hours');
+	assert.equal(described('*/15 1-23/2 * * *'), 'Every 15 minutes, during odd-numbered hours');
 });
 
 test('weekday and weekend sets are named, not enumerated', () => {

@@ -33,7 +33,9 @@ function when(days, f) {
 	if (sameDays(days, WEEKEND)) {
 		return 'nos fins de semana';
 	}
-	const article = days.every((day) => MASCULINE.includes(day)) ? 'aos' : 'às';
+	// Portuguese defaults a mixed-gender list to the masculine, so only an
+	// all-feminine set takes "às".
+	const article = days.every((day) => !MASCULINE.includes(day)) ? 'às' : 'aos';
 	return `${article} ${f.list(f.weekdayNames(days).map(pluralize))}`;
 }
 
@@ -83,7 +85,7 @@ export default {
 		},
 
 		unevenMinuteInterval: ({ step, first, last, days }, f) =>
-			`A cada ${f.number(step)} ${f.plural(step, MINUTES)}, do minuto ${f.number(first)} ao ${f.number(last)} de cada hora, e de novo ao começar a seguinte${allDay(days, f)}`,
+			`A cada ${f.number(step)} ${f.plural(step, MINUTES)}, do minuto ${f.number(first)} ao ${f.number(last)} de cada hora, e de novo no minuto ${f.number(first)} da seguinte${allDay(days, f)}`,
 
 		minuteIntervalInHours: ({ step, hourStep, hourOffset, days }, f) => {
 			if (hourStep === 2) {
@@ -111,10 +113,15 @@ export default {
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`A cada ${f.number(step)} ${f.plural(step, HOURS)}, ${from(first, f)} ${at(last, f)} todos os dias, e de novo no dia seguinte${on(days, f)}`,
 
-		monthlyOnDay: ({ time, monthDays: values }, f) =>
-			`Todo mês ${monthDays(values, f)} ${at(time, f)}`,
+		monthlyOnDay: ({ time, monthDays: values, everyMonth }, f) =>
+			everyMonth
+				? `Todo mês ${monthDays(values, f)} ${at(time, f)}`
+				: `${capitalize(monthDays(values, f))} de cada mês que o tenha, ${at(time, f)}`,
 
-		yearlyOnDate: ({ time, date }, f) => `Todo ano em ${f.date(date)} ${at(time, f)}`,
+		yearlyOnDate: ({ time, date, everyYear }, f) =>
+			everyYear
+				? `Todo ano em ${f.date(date)} ${at(time, f)}`
+				: `Todo ano bissexto em ${f.date(date)} ${at(time, f)}`,
 
 		inMonths: ({ time, months, days }, f) =>
 			days

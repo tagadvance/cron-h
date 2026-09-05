@@ -27,6 +27,13 @@ function group(days) {
 
 // "all day Sunday" for schedules that repeat throughout the day, "Every Sunday"
 // for ones that fire at a point in time.
+// "every weekday", not "every Monday, Tuesday, Wednesday, Thursday, and
+// Friday". atTime used to be the only message that collapsed these.
+const eachDay = (days, f) => {
+	const named = group(days);
+	return named ? named.one : f.weekdays(days);
+};
+
 // A windowed schedule is not an all-day one, so it takes the plain clause.
 function on(days, f) {
 	if (!days) {
@@ -85,12 +92,12 @@ export default {
 		},
 
 		unevenMinuteInterval: ({ step, first, last, days }, f) =>
-			`Every ${f.number(step)} ${f.plural(step, MINUTES)} from ${past(first)} to ${past(last)} of each hour, then again on the hour${allDay(days, f)}`,
+			`Every ${f.number(step)} ${f.plural(step, MINUTES)} from ${past(first)} to ${past(last)} of each hour, then again at ${past(first)} of the next${allDay(days, f)}`,
 
 		minuteIntervalInHours: ({ step, hourStep, hourOffset, days }, f) => {
 			const every = `Every ${f.number(step)} ${f.plural(step, MINUTES)}`;
 			if (hourStep === 2) {
-				return `${every}, on ${hourOffset === 0 ? 'even' : 'odd'}-numbered hours${allDay(days, f)}`;
+				return `${every}, during ${hourOffset === 0 ? 'even' : 'odd'}-numbered hours${allDay(days, f)}`;
 			}
 			return `Every ${f.number(hourStep)} ${f.plural(hourStep, HOURS)}, then every ${f.number(step)} ${f.plural(step, MINUTES)} within that hour${allDay(days, f)}`;
 		},
@@ -114,21 +121,29 @@ export default {
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`Every ${f.number(step)} ${f.plural(step, HOURS)} from ${f.time(first)} to ${f.time(last)} each day, then again the next day${on(days, f)}`,
 
-		monthlyOnDay: ({ time, monthDays }, f) =>
-			`Every month on the ${f.list(monthDays.map((day) => ordinal(day, f)))} at ${f.time(time)}`,
+		monthlyOnDay: ({ time, monthDays, everyMonth }, f) => {
+			const on = f.list(monthDays.map((day) => ordinal(day, f)));
+			// The 29th, 30th and 31st do not come round every month.
+			return everyMonth
+				? `Every month on the ${on} at ${f.time(time)}`
+				: `On the ${on} of every month that has one, at ${f.time(time)}`;
+		},
 
-		yearlyOnDate: ({ time, date }, f) => `Every year on ${f.date(date)} at ${f.time(time)}`,
+		yearlyOnDate: ({ time, date, everyYear }, f) =>
+			everyYear
+				? `Every year on ${f.date(date)} at ${f.time(time)}`
+				: `Every leap year on ${f.date(date)} at ${f.time(time)}`,
 
 		inMonths: ({ time, months, days }, f) =>
 			days
-				? `Every ${f.weekdays(days)} in ${f.months(months)} at ${f.time(time)}`
+				? `Every ${eachDay(days, f)} in ${f.months(months)} at ${f.time(time)}`
 				: `Every day in ${f.months(months)} at ${f.time(time)}`,
 
 		// Said at length on purpose. Reading this as "Friday the 13th" is the
 		// single most common mistake people make with cron.
 		dayOfMonthOrWeek: ({ time, monthDays, days }, f) =>
 			`Every month on the ${f.list(monthDays.map((day) => ordinal(day, f)))} at ${f.time(time)}, ` +
-			`and also every ${f.weekdays(days)} at ${f.time(time)} — cron runs this when either matches, ` +
+			`and also every ${eachDay(days, f)} at ${f.time(time)} — cron runs this when either matches, ` +
 			`not only when both do`,
 
 		atTime: ({ time, days }, f) => {
