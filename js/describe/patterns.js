@@ -283,3 +283,8 @@ export function recognize(expression) {
 	}
 	return null;
 }
+
+// Exported for the completeness test, which asserts that a sweep of generated
+// expressions reaches every recognizer. A pattern no test can reach is a
+// pattern that can ship untranslated.
+export const PATTERN_COUNT = RECOGNIZERS.length + CALENDAR.length + 1; // + reboot
