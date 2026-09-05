@@ -30,6 +30,12 @@ const on = (days, f) => (days ? `, ${when(days, f)}` : '');
 
 const allDay = (days, f) => (days ? `, ${when(days, f)} todo el día` : '');
 
+// "el día 1" but "los días 1 y 15"; Spanish uses cardinals for dates.
+const monthDays = (values, f) =>
+	values.length === 1
+		? `el día ${f.number(values[0])}`
+		: `los días ${f.list(values.map((day) => f.number(day)))}`;
+
 export default {
 	code: 'es',
 	name: 'Español',
@@ -84,11 +90,28 @@ export default {
 			return `Cada ${f.number(step)} ${f.plural(step, HOURS)}${from}${allDay(days, f)}`;
 		},
 
+		minuteIntervalInHourRange: ({ step, first, last, days }, f) =>
+			`Cada ${f.number(step)} ${f.plural(step, MINUTES)} de ${hour(first, f)} a ${hour(last, f)}${on(days, f)}`,
+
 		hourRange: ({ first, last, days }, f) =>
 			`Cada hora de ${hour(first, f)} a ${hour(last, f)}${on(days, f)}`,
 
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`Cada ${f.number(step)} ${f.plural(step, HOURS)}, de ${hour(first, f)} a ${hour(last, f)} cada día, y de nuevo al día siguiente${on(days, f)}`,
+
+		monthlyOnDay: ({ time, monthDays: values }, f) =>
+			`Todos los meses ${monthDays(values, f)} a ${hour(time, f)}`,
+
+		yearlyOnDate: ({ time, date }, f) => `Todos los años el ${f.date(date)} a ${hour(time, f)}`,
+
+		inMonths: ({ time, months, days }, f) =>
+			days
+				? `En ${f.months(months)}, ${when(days, f)} a ${hour(time, f)}`
+				: `En ${f.months(months)}, todos los días a ${hour(time, f)}`,
+
+		dayOfMonthOrWeek: ({ time, monthDays: values, days }, f) =>
+			`Todos los meses ${monthDays(values, f)} a ${hour(time, f)}, y también ${when(days, f)} a ${hour(time, f)}: ` +
+			`cron lo ejecuta cuando se cumple cualquiera de las dos condiciones, no solo cuando se cumplen ambas`,
 
 		atTime: ({ time, days }, f) =>
 			days ? `${capitalize(when(days, f))} a ${hour(time, f)}` : `Todos los días a ${hour(time, f)}`

@@ -6,6 +6,9 @@
 const MINUTES = { one: 'minute', other: 'minutes' };
 const HOURS = { one: 'hour', other: 'hours' };
 
+// st/nd/rd/th, which Intl gives us the categories for but not the suffixes.
+const ORDINALS = { one: 'st', two: 'nd', few: 'rd', other: 'th' };
+
 const WEEKDAYS = [1, 2, 3, 4, 5];
 const WEEKEND = [0, 6];
 
@@ -41,6 +44,8 @@ function allDay(days, f) {
 }
 
 const past = (minute, f) => `:${String(minute).padStart(2, '0')}`;
+
+const ordinal = (value, f) => `${f.number(value)}${ORDINALS[f.ordinal(value)] ?? 'th'}`;
 
 export default {
 	code: 'en',
@@ -97,11 +102,31 @@ export default {
 			return `Every ${f.number(step)} ${f.plural(step, HOURS)}${from}${allDay(days, f)}`;
 		},
 
+		minuteIntervalInHourRange: ({ step, first, last, days }, f) =>
+			`Every ${f.number(step)} ${f.plural(step, MINUTES)} from ${f.time(first)} to ${f.time(last)}${on(days, f)}`,
+
 		hourRange: ({ first, last, days }, f) =>
 			`Every hour from ${f.time(first)} to ${f.time(last)}${on(days, f)}`,
 
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`Every ${f.number(step)} ${f.plural(step, HOURS)} from ${f.time(first)} to ${f.time(last)} each day, then again the next day${on(days, f)}`,
+
+		monthlyOnDay: ({ time, monthDays }, f) =>
+			`Every month on the ${f.list(monthDays.map((day) => ordinal(day, f)))} at ${f.time(time)}`,
+
+		yearlyOnDate: ({ time, date }, f) => `Every year on ${f.date(date)} at ${f.time(time)}`,
+
+		inMonths: ({ time, months, days }, f) =>
+			days
+				? `Every ${f.weekdays(days)} in ${f.months(months)} at ${f.time(time)}`
+				: `Every day in ${f.months(months)} at ${f.time(time)}`,
+
+		// Said at length on purpose. Reading this as "Friday the 13th" is the
+		// single most common mistake people make with cron.
+		dayOfMonthOrWeek: ({ time, monthDays, days }, f) =>
+			`Every month on the ${f.list(monthDays.map((day) => ordinal(day, f)))} at ${f.time(time)}, ` +
+			`and also every ${f.weekdays(days)} at ${f.time(time)} — cron runs this when either matches, ` +
+			`not only when both do`,
 
 		atTime: ({ time, days }, f) => {
 			if (!days) {

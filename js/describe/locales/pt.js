@@ -36,6 +36,11 @@ const on = (days, f) => (days ? `, ${when(days, f)}` : '');
 
 const allDay = (days, f) => (days ? `, ${when(days, f)} o dia todo` : '');
 
+const monthDays = (values, f) =>
+	values.length === 1
+		? `no dia ${f.number(values[0])}`
+		: `nos dias ${f.list(values.map((day) => f.number(day)))}`;
+
 export default {
 	code: 'pt',
 	name: 'Português',
@@ -90,11 +95,28 @@ export default {
 			return `A cada ${f.number(step)} ${f.plural(step, HOURS)}${start}${allDay(days, f)}`;
 		},
 
+		minuteIntervalInHourRange: ({ step, first, last, days }, f) =>
+			`A cada ${f.number(step)} ${f.plural(step, MINUTES)}, ${from(first, f)} ${at(last, f)}${on(days, f)}`,
+
 		hourRange: ({ first, last, days }, f) =>
 			`A cada hora, ${from(first, f)} ${at(last, f)}${on(days, f)}`,
 
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`A cada ${f.number(step)} ${f.plural(step, HOURS)}, ${from(first, f)} ${at(last, f)} todos os dias, e de novo no dia seguinte${on(days, f)}`,
+
+		monthlyOnDay: ({ time, monthDays: values }, f) =>
+			`Todo mês ${monthDays(values, f)} ${at(time, f)}`,
+
+		yearlyOnDate: ({ time, date }, f) => `Todo ano em ${f.date(date)} ${at(time, f)}`,
+
+		inMonths: ({ time, months, days }, f) =>
+			days
+				? `Em ${f.months(months)}, ${when(days, f)} ${at(time, f)}`
+				: `Em ${f.months(months)}, todos os dias ${at(time, f)}`,
+
+		dayOfMonthOrWeek: ({ time, monthDays: values, days }, f) =>
+			`Todo mês ${monthDays(values, f)} ${at(time, f)}, e também ${when(days, f)} ${at(time, f)}: ` +
+			`o cron executa quando qualquer uma das duas condições ocorre, não apenas quando ambas ocorrem`,
 
 		atTime: ({ time, days }, f) =>
 			days ? `${capitalize(when(days, f))} ${at(time, f)}` : `Todos os dias ${at(time, f)}`

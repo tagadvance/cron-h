@@ -25,6 +25,17 @@ const on = (days, f) => (days ? `, ${when(days, f)}` : '');
 
 const allDay = (days, f) => (days ? `, ${when(days, f)} toute la journée` : '');
 
+// The first of the month is "1er"; every other day is a plain cardinal.
+const frenchDay = (day, f) => (day === 1 ? '1er' : f.number(day));
+
+const monthDays = (values, f) =>
+	values.length === 1
+		? `le ${frenchDay(values[0], f)}`
+		: `les ${f.list(values.map((day) => frenchDay(day, f)))}`;
+
+// Intl renders the date as "1 janvier"; French wants "1er janvier".
+const frenchDate = (date, f) => (date.day === 1 ? f.date(date).replace(/^1\b/, '1er') : f.date(date));
+
 export default {
 	code: 'fr',
 	name: 'Français',
@@ -79,11 +90,28 @@ export default {
 			return `Toutes les ${f.number(step)} ${f.plural(step, HOURS)}${from}${allDay(days, f)}`;
 		},
 
+		minuteIntervalInHourRange: ({ step, first, last, days }, f) =>
+			`Toutes les ${f.number(step)} ${f.plural(step, MINUTES)} de ${f.time(first)} à ${f.time(last)}${on(days, f)}`,
+
 		hourRange: ({ first, last, days }, f) =>
 			`Toutes les heures de ${f.time(first)} à ${f.time(last)}${on(days, f)}`,
 
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`Toutes les ${f.number(step)} ${f.plural(step, HOURS)}, de ${f.time(first)} à ${f.time(last)} chaque jour, puis de nouveau le lendemain${on(days, f)}`,
+
+		monthlyOnDay: ({ time, monthDays: values }, f) =>
+			`Tous les mois ${monthDays(values, f)} à ${f.time(time)}`,
+
+		yearlyOnDate: ({ time, date }, f) => `Tous les ans le ${frenchDate(date, f)} à ${f.time(time)}`,
+
+		inMonths: ({ time, months, days }, f) =>
+			days
+				? `En ${f.months(months)}, ${when(days, f)} à ${f.time(time)}`
+				: `En ${f.months(months)}, tous les jours à ${f.time(time)}`,
+
+		dayOfMonthOrWeek: ({ time, monthDays: values, days }, f) =>
+			`Tous les mois ${monthDays(values, f)} à ${f.time(time)}, et aussi ${when(days, f)} à ${f.time(time)} : ` +
+			`cron s’exécute dès que l’une des deux conditions est remplie, pas seulement quand les deux le sont`,
 
 		atTime: ({ time, days }, f) =>
 			days ? `${capitalize(when(days, f))} à ${f.time(time)}` : `Tous les jours à ${f.time(time)}`

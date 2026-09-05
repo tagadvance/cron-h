@@ -26,6 +26,11 @@ const IDS = [
 	'hourInterval',
 	'hourRange',
 	'unevenHourInterval',
+	'minuteIntervalInHourRange',
+	'monthlyOnDay',
+	'yearlyOnDate',
+	'inMonths',
+	'dayOfMonthOrWeek',
 	'atTime'
 ];
 
@@ -38,6 +43,11 @@ const SAMPLES = [
 	'30 * * * *',
 	'0 */2 * * *',
 	'0 9-17 * * *',
+	'*/15 9-17 * * *',
+	'0 0 1 * *',
+	'0 0 1 1 *',
+	'5 0 * 8 *',
+	'0 0 13 * FRI',
 	'0 */5 * * *',
 	'0 3 * * 0',
 	'*/15 * * * SUN',
@@ -97,7 +107,7 @@ test('descriptions differ between locales rather than silently falling back', ()
 });
 
 test('the fallback is translated once the bundle is loaded', async () => {
-	const unrecognized = '15 14 1 * *';
+	const unrecognized = '*/15 * 1 * *';
 	assert.equal(recognize(unrecognized), null, 'this test is only meaningful for an unrecognized schedule');
 
 	// Before the bundle arrives every language gets the English fallback.

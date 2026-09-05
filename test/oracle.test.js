@@ -89,6 +89,57 @@ const CLAIMS = {
 		}
 	},
 
+	minuteIntervalInHourRange: (dates, { step, first, last }) => {
+		assertEveryGap(byDay(dates), step * MINUTE, 'an even interval inside the window');
+		for (const date of dates) {
+			assert.ok(date.getUTCHours() >= first.hour && date.getUTCHours() <= last.hour);
+			assert.equal(date.getUTCMinutes() % step, first.minute % step);
+		}
+	},
+
+	monthlyOnDay: (dates, { time, monthDays }) => {
+		for (const date of dates) {
+			assert.ok(monthDays.includes(date.getUTCDate()), `${date.toISOString()} is not an allowed day`);
+			assert.equal(date.getUTCHours(), time.hour);
+			assert.equal(date.getUTCMinutes(), time.minute);
+		}
+	},
+
+	yearlyOnDate: (dates, { time, date: on }) => {
+		for (const date of dates) {
+			assert.equal(date.getUTCMonth() + 1, on.month);
+			assert.equal(date.getUTCDate(), on.day);
+			assert.equal(date.getUTCHours(), time.hour);
+			assert.equal(date.getUTCMinutes(), time.minute);
+		}
+	},
+
+	inMonths: (dates, { time, months }) => {
+		for (const date of dates) {
+			assert.ok(months.includes(date.getUTCMonth() + 1), `${date.toISOString()} is not an allowed month`);
+			assert.equal(date.getUTCHours(), time.hour);
+			assert.equal(date.getUTCMinutes(), time.minute);
+		}
+	},
+
+	// The whole point of this descriptor: cron fires when *either* field
+	// matches. A run on the 13th need not be a Friday, and a Friday need not be
+	// the 13th, so the claim is a disjunction and is asserted as one.
+	dayOfMonthOrWeek: (dates, { time, monthDays, days }) => {
+		let byDate = 0;
+		let byWeekday = 0;
+		for (const date of dates) {
+			const matchesDate = monthDays.includes(date.getUTCDate());
+			const matchesWeekday = days.includes(date.getUTCDay());
+			assert.ok(matchesDate || matchesWeekday, `${date.toISOString()} matches neither field`);
+			byDate += matchesDate ? 1 : 0;
+			byWeekday += matchesWeekday ? 1 : 0;
+		}
+		// If every run satisfied both, the wording would be describing an AND.
+		assert.ok(byDate > 0 && byWeekday > 0, 'both fields should produce runs');
+		assert.ok(byDate + byWeekday > dates.length, 'the two sets should overlap only occasionally');
+	},
+
 	// A window closes overnight whether or not any day clause is present, so
 	// this one always measures within a day.
 	hourRange: (dates, { first, last }) => {
@@ -134,6 +185,15 @@ const CORPUS = [
 	'0 */7 * * *',
 	'0 9-17 * * *',
 	'30 9-17 * * MON-FRI',
+	'*/15 9-17 * * *',
+	'*/20 8-18 * * MON-FRI',
+	'0 0 1 * *',
+	'0 0 1,15 * *',
+	'15 14 1 * *',
+	'0 0 1 1 *',
+	'5 0 * 8 *',
+	'0 9 * 8 MON',
+	'0 0 13 * FRI',
 	'0 3 * * *',
 	'0 3 * * 0',
 	'0 9 * * MON-FRI',
@@ -157,7 +217,9 @@ for (const expression of CORPUS) {
 		check(dates, descriptor, segment(dates, descriptor));
 
 		// Whatever days the wording restricts the schedule to, cron must agree.
-		if (descriptor.days) {
+		// dayOfMonthOrWeek is exempt: its runs are deliberately not confined to
+		// the listed weekdays, and its own checker asserts the disjunction.
+		if (descriptor.days && descriptor.id !== 'dayOfMonthOrWeek') {
 			for (const date of dates) {
 				assert.ok(descriptor.days.includes(date.getUTCDay()), `${date.toISOString()} is not an allowed day`);
 			}

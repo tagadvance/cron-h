@@ -23,6 +23,8 @@ const allDay = (days, f) => (days ? `、${when(days, f)}終日` : '');
 
 const every = (days, f) => (sameDays(days, WEEKDAYS) || sameDays(days, WEEKEND) ? when(days, f) : `毎週${when(days, f)}`);
 
+const monthDays = (values, f) => f.list(values.map((day) => `${f.number(day)}日`));
+
 export default {
 	code: 'ja',
 	name: '日本語',
@@ -74,11 +76,28 @@ export default {
 			return `${f.number(step)}時間ごと${from}${allDay(days, f)}`;
 		},
 
+		minuteIntervalInHourRange: ({ step, first, last, days }, f) =>
+			`${f.time(first)}から${f.time(last)}まで${f.number(step)}分ごと${on(days, f)}`,
+
 		hourRange: ({ first, last, days }, f) =>
 			`${f.time(first)}から${f.time(last)}まで毎時${on(days, f)}`,
 
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`毎日${f.time(first)}から${f.time(last)}まで${f.number(step)}時間ごと、その後は翌日に再開${on(days, f)}`,
+
+		monthlyOnDay: ({ time, monthDays: values }, f) =>
+			`毎月${monthDays(values, f)}の${f.time(time)}`,
+
+		yearlyOnDate: ({ time, date }, f) => `毎年${f.date(date)}の${f.time(time)}`,
+
+		inMonths: ({ time, months, days }, f) =>
+			days
+				? `${f.months(months)}の${every(days, f)}の${f.time(time)}`
+				: `${f.months(months)}の毎日${f.time(time)}`,
+
+		dayOfMonthOrWeek: ({ time, monthDays: values, days }, f) =>
+			`毎月${monthDays(values, f)}の${f.time(time)}、および毎週${when(days, f)}の${f.time(time)}。` +
+			`cron はどちらか一方が一致した時点で実行され、両方が揃う必要はありません`,
 
 		atTime: ({ time, days }, f) => (days ? `${every(days, f)}の${f.time(time)}` : `毎日${f.time(time)}`)
 	}

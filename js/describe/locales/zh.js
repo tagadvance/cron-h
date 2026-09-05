@@ -22,6 +22,8 @@ const on = (days, f) => (days ? `，${when(days, f)}` : '');
 
 const allDay = (days, f) => (days ? `，${when(days, f)}全天` : '');
 
+const monthDays = (values, f) => f.list(values.map((day) => `${f.number(day)}号`));
+
 export default {
 	code: 'zh',
 	name: '中文',
@@ -76,11 +78,28 @@ export default {
 			return `每${f.number(step)}小时${from}${allDay(days, f)}`;
 		},
 
+		minuteIntervalInHourRange: ({ step, first, last, days }, f) =>
+			`${f.time(first)}到${f.time(last)}之间每${f.number(step)}分钟${on(days, f)}`,
+
 		hourRange: ({ first, last, days }, f) =>
 			`${f.time(first)}到${f.time(last)}之间每小时${on(days, f)}`,
 
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`每天从${f.time(first)}至${f.time(last)}每${f.number(step)}小时一次，然后次日重新开始${on(days, f)}`,
+
+		monthlyOnDay: ({ time, monthDays: values }, f) =>
+			`每月${monthDays(values, f)}${f.time(time)}`,
+
+		yearlyOnDate: ({ time, date }, f) => `每年${f.date(date)}${f.time(time)}`,
+
+		inMonths: ({ time, months, days }, f) =>
+			days
+				? `${f.months(months)}的${when(days, f)}${f.time(time)}`
+				: `${f.months(months)}每天${f.time(time)}`,
+
+		dayOfMonthOrWeek: ({ time, monthDays: values, days }, f) =>
+			`每月${monthDays(values, f)}${f.time(time)}，以及每${when(days, f)}${f.time(time)}。` +
+			`只要满足其中任意一个条件 cron 就会运行，并不需要同时满足`,
 
 		atTime: ({ time, days }, f) => (days ? `每${when(days, f)}${f.time(time)}` : `每天${f.time(time)}`)
 	}

@@ -38,6 +38,27 @@ const on = (days, f) => (days ? `, ${when(days, f)}` : '');
 
 const allDay = (days, f) => (days ? `, ${when(days, f)} весь день` : '');
 
+// Intl names months in the nominative, but "в августе" needs the
+// prepositional. There is no API for that, so the twelve words live here.
+const PREPOSITIONAL = [
+	'январе',
+	'феврале',
+	'марте',
+	'апреле',
+	'мае',
+	'июне',
+	'июле',
+	'августе',
+	'сентябре',
+	'октябре',
+	'ноябре',
+	'декабре'
+];
+
+const inMonthNames = (values, f) => f.list(values.map((month) => PREPOSITIONAL[month - 1]));
+
+const monthDays = (values, f) => `${f.list(values.map((day) => `${f.number(day)}-го`))} числа`;
+
 export default {
 	code: 'ru',
 	name: 'Русский',
@@ -92,11 +113,28 @@ export default {
 			return `Каждые ${f.number(step)} ${f.plural(step, HOURS)}${from}${allDay(days, f)}`;
 		},
 
+		minuteIntervalInHourRange: ({ step, first, last, days }, f) =>
+			`Каждые ${f.number(step)} ${f.plural(step, MINUTES)} с ${f.time(first)} до ${f.time(last)}${on(days, f)}`,
+
 		hourRange: ({ first, last, days }, f) =>
 			`Каждый час с ${f.time(first)} до ${f.time(last)}${on(days, f)}`,
 
 		unevenHourInterval: ({ step, first, last, days }, f) =>
 			`Каждые ${f.number(step)} ${f.plural(step, HOURS)} с ${f.time(first)} до ${f.time(last)} каждый день, затем снова на следующий день${on(days, f)}`,
+
+		monthlyOnDay: ({ time, monthDays: values }, f) =>
+			`Каждый месяц ${monthDays(values, f)} в ${f.time(time)}`,
+
+		yearlyOnDate: ({ time, date }, f) => `Каждый год ${f.date(date)} в ${f.time(time)}`,
+
+		inMonths: ({ time, months, days }, f) =>
+			days
+				? `В ${inMonthNames(months, f)} ${when(days, f)} в ${f.time(time)}`
+				: `В ${inMonthNames(months, f)} каждый день в ${f.time(time)}`,
+
+		dayOfMonthOrWeek: ({ time, monthDays: values, days }, f) =>
+			`Каждый месяц ${monthDays(values, f)} в ${f.time(time)}, а также ${when(days, f)} в ${f.time(time)}: ` +
+			`cron запускается, когда выполняется любое из двух условий, а не только когда оба сразу`,
 
 		atTime: ({ time, days }, f) =>
 			days ? `${capitalize(when(days, f))} в ${f.time(time)}` : `Каждый день в ${f.time(time)}`
