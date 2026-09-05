@@ -31,6 +31,13 @@ node bin/examples.js
 That rewrites all seven pages and `sitemap.xml`. Commit the output — it is
 served as-is, there is still no build step.
 
+The Open Graph card is generated the same way but needs a headless Chrome, so
+it is not part of the deploy:
+
+```
+node bin/og-image.js
+```
+
 ## Tests
 
 ```
